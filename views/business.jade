@@ -1,0 +1,117 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+				.container.container-alt
+					.block-header
+						h2=b.name
+							small=b.size+'/'+b.business_type
+					#profile-main.card
+						.pm-overview.c-overflow
+							.pmo-pic
+								.p-relative
+									a(href='')
+										img.img-responsive(src='/#{b.logo}', alt='')
+									.dropdown.pmop-message
+										if b.active == 1
+											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+												i.zmdi.zmdi-close
+										else
+											button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+												i.zmdi.zmdi-check
+									//a.pmop-edit(href='')
+										i.zmdi.zmdi-camera
+										span.hidden-xs Update Profile Picture
+								.pmo-stat
+									h2.m-0.c-white 0
+									| Promociones Totales
+							.pmo-block.pmo-contact.hidden-xs
+								h2 Contacto
+								ul
+									li
+										i.zmdi.zmdi-phone
+										p=b.phone
+									li
+										i.zmdi.zmdi-facebook-box
+										p=b.facebook
+									li
+										i.zmdi.zmdi-twitter
+										p=b.twitter
+									li
+										i.zmdi.zmdi-pin
+										address.m-b-0.ng-binding
+											p=b.street+' '+b.external_number+' '+b.suburb+' '+b.postal_code+' '+b.city
+									br
+						.pm-body.clearfix
+							ul.tab-nav.tn-justified
+								li.active
+									a(href='#') Acerca de
+								
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-equalizer.m-r-10
+										|  Descripción del Descuento
+								.pmbb-body.p-l-30
+									.pmbb-view
+										p=b.discount_description
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-account.m-r-10
+										|   Información Básica
+								.pmbb-body.p-l-30
+									.pmbb-view
+										dl.dl-horizontal
+											dt R.F.C
+											dd=b.rfc
+										dl.dl-horizontal
+											dt Telefóno
+											dd=b.phone
+										dl.dl-horizontal
+											dt Empresa de Egresado
+											if b.graduated == 1
+												dd Sí
+											else
+												dd No
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-phone.m-r-10
+										|  Información de Contacto
+								.pmbb-body.p-l-30
+									.pmbb-view
+										dl.dl-horizontal
+											dt Nombre del Contacto
+											dd=b.name_attendant+' '+b.lastname+' '+b.second_lastname
+										dl.dl-horizontal
+											dt Email
+											dd=b.email
+										dl.dl-horizontal
+											dt Teléfono
+											dd=b.phone_attendant
+										dl.dl-horizontal
+											dt Dirección
+											dd=b.address
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-file.m-r-10
+										|  Archivos
+								.pmbb-body.p-l-30
+									.pmbb-view
+										dl.dl-horizontal
+											dt Acta constitutiva
+											dd
+												a(href='/#{b.act}' target='_blank') Ver
+										dl.dl-horizontal
+											dt Comprobante de Domicilio
+											dd
+												a(href='/#{b.voucher}' target='_blank') Ver			
+										dl.dl-horizontal
+											dt ID Oficial
+											dd
+												a(href='/#{b.credential}' target='_blank') Ver	
+	include footer
+	script(src='/javascripts/js/business_controller.js')

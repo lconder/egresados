@@ -1,0 +1,41 @@
+extends layout
+block content
+	include bar
+		block cont
+				section#content
+					.container
+						.block-header
+							h2 Dashboard
+						.card
+							.card-header
+								h2 Stats
+									small Aquí se pueden visualizar algunos datos importantes de la plataforma de Egresados Ibero
+								br
+								br
+								.mini-charts
+									.row
+										.col-sm-4.col-md-4
+											.mini-charts-item.bgm-ibero2
+												.clearfix
+													.chart.stats-line
+													.count
+														small Alumnos Registrados
+														h2=C
+										.col-sm-4.col-md-4
+											.mini-charts-item.bgm-ibero3
+												.clearfix
+													.chart.stats-bar
+													.count
+														small Empresas Registradas
+														h2=Cb
+										.col-sm-4.col-md-4
+											.mini-charts-item.bgm-ibero2
+												.clearfix
+													.chart.stats-line
+													.count
+														small Promociones Activas
+														h2=Cp
+								
+
+	include footer
+	script(src='/javascripts/js/dashboard_controller.js')

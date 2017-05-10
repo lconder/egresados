@@ -1,0 +1,61 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container.container-alt
+					.block-header
+						h2 Promoción
+							small
+					#profile-main.card
+						.pm-overview.c-overflow
+							.pmo-pic
+								.p-relative
+									a(href='')
+										//img#qrcode.img-responsive(src='/images/round-logo.jpg', alt='')
+										#qrcode
+									.dropdown.pmop-message
+										if b.active == 1
+											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+												i.zmdi.zmdi-close
+										else
+											button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+												i.zmdi.zmdi-check
+								.pmo-stat
+									h2.m-0.c-white=b.count
+									| Veces consumida
+						.pm-body.clearfix
+							ul.tab-nav.tn-justified
+								li.active
+									a(href='#') Información de la promo
+								
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-equalizer.m-r-10
+										|  Nombre de la Promoción
+								.pmbb-body.p-l-30
+									.pmbb-view
+										p=b.name
+							.pmb-block
+								.pmbb-header
+									h2
+										i.zmdi.zmdi-account.m-r-10
+										|   Información
+								.pmbb-body.p-l-30
+									.pmbb-view
+										dl.dl-horizontal
+											dt Descripción
+											dd=b.description
+										dl.dl-horizontal
+											dt Inicia el
+											dd #{prettyDate(b.created_at)}
+										dl.dl-horizontal
+											dt Finaliza el
+											dd #{prettyDate(b.expired_at)}
+							
+	include footer
+	script.
+		var id_encrypt = !{JSON.stringify(b.encrypt)};
+	script(src='/javascripts/js/promotion_controller.js')

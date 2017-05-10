@@ -1,0 +1,57 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+					.container
+						.block-header
+							h2 Subir imagenes de establecimiento.
+						.card
+							.card-header
+								h2
+									small
+										| Por favor llena los campos.
+								br
+								br
+								form(action="/files/", method="POST", enctype="multipart/form-data")
+									.row
+										.col-sm-3
+											p.f-500.c-black.m-b-20 Logo
+											.fileinput.fileinput-new(data-provides='fileinput')
+												span.btn.btn-primary.btn-file.m-r-10
+													span.fileinput-new Seleccionar Archivo
+													span.fileinput-exists 
+													input#logo(type='file', name='logo', required)
+												span.fileinput-filename
+												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
+										.col-sm-3
+											p.f-500.c-black.m-b-20 Acta Constitutiva
+											.fileinput.fileinput-new(data-provides='fileinput')
+												span.btn.btn-primary.btn-file.m-r-10
+													span.fileinput-new Seleccionar Archivo
+													span.fileinput-exists 
+													input#act(type='file', name='act', required)
+												span.fileinput-filename
+												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
+										.col-sm-3
+											p.f-500.c-black.m-b-20 Comprobante de Domicilio
+											.fileinput.fileinput-new(data-provides='fileinput')
+												span.btn.btn-primary.btn-file.m-r-10
+													span.fileinput-new Seleccionar Archivo
+													span.fileinput-exists 
+													input#voucher(type='file', name='voucher', required)
+												span.fileinput-filename
+												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
+										.col-sm-3
+											p.f-500.c-black.m-b-20 Identificación oficial
+											.fileinput.fileinput-new(data-provides='fileinput')
+												span.btn.btn-primary.btn-file.m-r-10
+													span.fileinput-new Seleccionar Archivo
+													span.fileinput-exists 
+													input#credential(type='file', name='credential', required)
+												span.fileinput-filename
+												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
+									div(class="form-group")
+										button.btn.btn-warning(type="submit") Subir
+
+	include footer

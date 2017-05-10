@@ -1,0 +1,261 @@
+extends layout
+block content
+	include bar
+		block cont
+				section#content
+					.container
+						.block-header
+							h2 Agregar Establecimiento por primera vez
+						.card
+							.card-header
+								h2
+									small
+										| Por favor llena los campos.
+								br
+								br
+								form
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#business_name.form-control(type='text' name='business_name' required)
+												label.fg-label Nombre de la empresa
+											small#business_nameError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#rfc.form-control(type='text' name='rfc' required)
+												label.fg-label R.F.C.
+											small#rfcError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#phone.form-control(type='text' name='phone' required)
+												label.fg-label Teléfono
+											small#phoneError.help-block
+								br
+								small
+									| Dirección:								
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-pin
+											.fg-line
+												input#street.form-control(type='text' name='street' required)
+												label.fg-label Calle
+											small#streetError.help-block
+									.col-md-2
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-n-1-square
+											.fg-line
+												input#external_number.form-control.input-mask(type='text' name='external_number' required)
+												label.fg-label Número externo
+											small#external_numberError.help-block
+									.col-md-2
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-n-2-square
+											.fg-line
+												input#internal_number.form-control.input-mask(type='text' name='internal_number')
+												label.fg-label Número interno
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-map
+											.fg-line
+												input#postal_code.form-control.input-mask(type='text' name='postal_code' required)
+												label.fg-label Código Postal
+											small#postal_codeError.help-block
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-gps-dot
+											.fg-line
+												input#suburb.form-control(type='text' name='suburb' required)
+												label.fg-label Colonia
+											small#suburbError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-pin-drop
+											.fg-line
+												input#city.form-control.input-mask(type='text' name='city')
+												label.fg-label Ciudad
+											small#cityError.help-block
+									.col-md-4.m-b-25
+										.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-view-toc
+												select#state(name='state').selectpicker
+													option(value='0') Estado
+													for val in states
+														option(value='#{val.id}')=val.name
+										small#stateError.help-block
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#facebook.form-control(type='text' name='facebook')
+												label.fg-label Facebook de la empresa
+											small#facebookError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#twitter.form-control(type='text' name='twitter' )
+												label.fg-label Twitter de la empresa
+											small#twitterError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#website.form-control(type='text' name='website' )
+												label.fg-label Website
+											small#websiteError.help-block
+								br
+								br
+								.row
+									//.col-md-2.m-b-25
+										.input-group.form-group
+											.checkbox.m-b-15
+												label
+													input#external(type='checkbox', value='external', name='external')
+													i.input-helper
+													|Empresa externa
+									.col-md-4.m-b-25
+										.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-view-toc
+												select#business_type(name='business_type').selectpicker
+													option(value='0') Giro de la empresa
+													option(value='Agropecuarias') Agropecuarias
+													option(value='Mineras') Mineras
+													option(value='Servicio') Servicio
+													option(value='Industria') Industria
+													option(value='Comercio') Comercio
+										small#business_typeError.help-block
+									.col-md-4.m-b-25
+										.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-view-toc
+												select#categorie(name='categorie').selectpicker
+													option(value='0') Categoría de la Empresa
+										small#categorieError.help-block
+									.col-md-4.m-b-25
+										.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-view-toc
+												select#size(name='size').selectpicker
+													option(value='0') Tamaño de la empresa
+													option(value='Microempresa') Microempresa (menos de 10 trabajadores)
+													option(value='Pequeña') Pequeña (menos de 50 trabajadores)
+													option(value='Mediana') Mediana (de 50 a 250 empleados)
+													option(value='Grande') Grande (más de 250 empleados)
+										small#sizeError.help-block
+								br
+								br
+								.row
+									.col-md-6
+										.form-group
+											.fg-line
+												textarea#discount_description.form-control(rows='3', placeholder='Describe tu promoción...' name='discount_description')
+												small#discount_descriptionError.help-block
+									.col-md-4.m-b-25
+										.input-group.form-group
+											.checkbox.m-b-15
+												label
+													input#graduated(type='checkbox', value='graduated' name='graduated')
+													i.input-helper
+													h5 Empresa de egresado IBERO Puebla
+
+								small
+									| Datos de personal de contacto:
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#attendant_name.form-control(type='text' name='attendant_name' required)
+												label.fg-label Nombre
+											small#attendant_nameError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#attendant_lastname.form-control(type='text' name='attendant_lastname' required)
+												label.fg-label Apellido Materno
+											small#attendant_lastnameError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account
+											.fg-line
+												input#attendant_second_lastname.form-control(type='text' name='attendant_second_lastname' required)
+												label.fg-label Apelido paterno
+											small#attendant_second_lastnameError.help-block
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-email
+											.fg-line
+												input#email.form-control(type='email' name='email' required)
+												label.fg-label Email
+											small#emailError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-smartphone-android
+											.fg-line
+												input#mobile.form-control.input-mask(type='phone', name='mobile' required)
+												label.fg-label Celular
+											small#mobileError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-smartphone-android
+											.fg-line
+												input#address.form-control.input-mask(type='text', name='address' required)
+												label.fg-label Dirección
+											small#addressError.help-block
+								br
+								.row
+									.col-md-3
+									.col-md-3
+									.col-md-2
+									.col-md-2
+										button(onclick='clearForm()').btn.btn-danger.btn-icon-text
+											i.zmdi.zmdi-close
+											|  Limpiar		
+									.col-md-2				
+										button(onclick='postData()').btn.btn-primary.btn-icon-text
+											i.zmdi.zmdi-check
+											|  Aceptar
+	include footer
+	script(src='/javascripts/js/addBusiness_controller.js')
+		

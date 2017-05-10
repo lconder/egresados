@@ -1,0 +1,92 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+					.container
+						.block-header
+							h2 Agregar Promoción
+						.card
+							.card-header
+								h2
+									small
+										| Por favor llena los campos.
+								br
+								br
+								form
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-card-giftcard
+											.fg-line
+												input#name.form-control(type='text' name='name' required)
+												label.fg-label Nombre de la promoción
+											small#nameError.help-block
+									.col-md-4
+										.input-group.form-group
+											span.input-group-addon
+												i.zmdi.zmdi-calendar
+											.dtp-container
+												input#created_at.form-control.date-picker(type='text', name='created_at', placeholder='Fecha de Inicio')
+										small#created_atError.help-block
+									.col-md-4
+										.input-group.form-group
+											span.input-group-addon
+												i.zmdi.zmdi-calendar
+											.dtp-container
+												input#expired_date.form-control.date-picker(type='text', name='expired_date', placeholder='Fecha de Expiración')
+										small#expired_dateError.help-block
+								BR
+								.row
+									.col-md-12
+										.form-group
+											.fg-line
+												textarea#promo_description.form-control(rows='3', placeholder='Describe tu promoción...' name='promo_description')
+												small#promo_descriptionError.help-block
+								br
+								.row
+									.col-md-3
+									.col-md-3
+									.col-md-2
+									.col-md-2
+										button(onclick='clearForm()').btn.btn-danger.btn-icon-text
+											i.zmdi.zmdi-close
+											|  Limpiar		
+									.col-md-2				
+										button(onclick='postData()').btn.btn-primary.btn-icon-text
+											i.zmdi.zmdi-check
+											|  Aceptar
+						.card
+							.card-header
+								h2
+									| Seleccione las sucursales donde su promoción estara activa.
+									small
+										| Después pulse el botón aceptar.
+							.table-responsive
+								table#data-table-promotions.table.table-striped
+									thead
+										tr
+											th Nombre
+											th Dirección
+											th Opciones
+									tfoot
+										tr
+											th Nombre
+											th Dirección
+											th Opciones
+									tbody
+										each val in business
+											tr
+												td=val.name
+												td=val.address
+												td
+													.toggle-switch.toggle-switch-demo
+														label.ts-label(for='#{val.id}') Seleccionar :
+														input(type='checkbox', hidden='hidden' id='#{val.id}')
+														label.ts-helper(for='#{val.id}')				
+
+	include footer
+	script.
+		var business = !{JSON.stringify(business)}; 
+	script(src='/javascripts/js/addPromo_controller.js')

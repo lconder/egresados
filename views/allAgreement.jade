@@ -1,0 +1,77 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+				.container
+					.block-header
+						h2 	Todos los convenios
+					.card
+						.card-header
+							h2
+								| Elija una opción
+								small
+									| En este apartado podrá seleccionar a un alumno.
+						.table-responsive
+							table#data-table-agreements.table.table-striped
+								thead
+									tr
+										th Nombre
+										th Dirección
+										th Teléfono
+										th Status
+								tfoot
+									tr
+										th Nombre
+										th Dirección
+										th Teléfono
+										th Status
+								tbody
+									each val in data.agreements
+										tr
+											td
+												a(href='/business/'+val.id)=val.name
+											td=val.street+' '+val.external_number+' '+val.internal_number+' '+val.postal_code+' '+val.suburb+'. '+val.city+', '+val.state
+											td=val.phone
+											if val.active==1
+												td
+													| Activo
+											else
+												td
+													| Inactivo
+
+
+	include footer
+	script.
+		$(document).ready(function() {
+			var esp = {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			};
+			$('#data-table-agreements').DataTable({
+				responsive: true,
+				dom: 'Bfrtip',
+				buttons: [ 'excel','csv','pdf'],
+				"oLanguage": esp
+			});
+		});

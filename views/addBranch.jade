@@ -1,0 +1,71 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+					.container
+						.block-header
+							h2 Agregar nueva sucursal
+						.card
+							.card-header
+								h2
+									small
+										| Ingresa una dirección en el cuadro de texto, después da click en el mapa con la ubicación excata.
+								br
+								br
+								.row
+									.col-md-6
+										.input-group.fg-float
+											span.input-group-addon
+											.fg-line
+												input#address.form-control(type='text' name='address' required)
+												label.fg-label Ingresa para buscar en el mapa.
+									.col-md-6
+										button(onclick='getAddress()').btn.btn-info.btn-icon-text
+											i.zmdi.zmdi-search
+											|  Buscar
+
+								.row
+									.col-md-12
+										#map(style="height: 400px; position: relative; overflow: scroll;")
+						.card
+							.card-header
+								h2
+									small
+										| Requerimos los siguientes datos:
+								br
+								br
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-store
+											.fg-line
+												input#name.form-control(type='text' name='name' required)
+												label.fg-label Nombre
+											small#nameError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-my-location
+											.fg-line
+												input#address_d.form-control(type='text' name='address_d' required)
+												label.fg-label 
+											small#address_dError.help-block
+								br
+								.row
+									.col-md-3
+									.col-md-3
+									.col-md-2
+									.col-md-2
+										button(onclick='clearForm()').btn.btn-danger.btn-icon-text
+											i.zmdi.zmdi-close
+											|  Limpiar		
+									.col-md-2				
+										button(onclick='postData()').btn.btn-primary.btn-icon-text
+											i.zmdi.zmdi-check
+											|  Aceptar
+
+	include footer
+	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyA8jG3UDt6AsN3a-5PujDwtl6J042M4-es')
+	script(src='/javascripts/js/addBranch_controller.js')

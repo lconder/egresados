@@ -1,0 +1,87 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container
+					.block-header
+						h2 Listado de todos los alumnos
+
+					.card
+						.card-header
+							h2
+								| Elija una opción
+								small
+									| En este apartado podrá seleccionar a un alumno.
+						.table-responsive
+							table#data-table-students.table.table-striped
+								thead
+									tr
+										th Fecha de Registro
+										th Número de Cuenta
+										th Nombre
+										th Programa académico
+										th Email
+										th Teléfono
+										th Trabajo
+								tfoot
+									tr
+										th Fecha de Registro
+										th Número de Cuenta
+										th Nombre
+										th Programa académico
+										th Email
+										th Teléfono
+										th Trabajo
+								tbody
+									each val in students
+										tr
+											td #{prettyDate(val.created_at)}
+											td=val.mat
+											td
+												a(href='/student/'+val._id)=val.name+' '+val.lastname+' '+val.second_lastname
+											td=val.career
+											td=val.email
+											td=val.phone
+											if val.employed==1
+												td
+													| Empleado
+											else
+												td
+													| Sin empleo
+
+	include footer
+	script.
+		$(document).ready(function() {
+			var esp = {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			};
+			$('#data-table-students').DataTable({
+				responsive: true,
+				dom: 'Bfrtip',
+				buttons: [ 'excel','csv','pdf'],
+				"oLanguage": esp
+			});
+		});

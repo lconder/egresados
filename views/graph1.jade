@@ -1,0 +1,90 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container
+					.block-header
+						h2 Listado de todos los alumnos
+
+					.card
+						.card-header
+							h2
+								| TODAS LAS EMPRESAS
+								small
+									| En este apartado podrá visualizar a todas las empresas del resultado de la búsqueda.
+						.table-responsive
+							table#data-table-students.table.table-striped
+								thead
+									tr
+										th Fecha de Registro
+										th Número de Cuenta
+										th Nombre
+										th Programa Académico
+										th Email
+										th Número de usos
+										th Beneficios
+										th Nombre de la Empresa
+										th Giro de la empresa
+										th Nivel de puesto
+										th Puesto
+										th Mes de Inicio en el puesto
+										th Año de Inicio en el puesto
+										th Tamaño de la empresa
+
+
+								tfoot
+									tr
+										th Fecha de Registro
+										th Número de Cuenta
+										th Nombre
+										th Programa Académico
+										th Email
+										th Número de usos
+										th Beneficios
+										th Nombre de la Empresa
+										th Giro de la empresa
+										th Nivel de puesto
+										th Puesto
+										th Mes de Inicio en el puesto
+										th Año de Inicio en el puesto
+										th Tamaño de la empresa
+								tbody
+									each val in students
+										tr
+											td #{prettyDate(val.created_at)}
+											td=val.mat
+											td=val.name
+											td=val.career
+											td=val.email
+											td 1
+											td ...
+											td=val.business_name
+											td=val.business_type
+											td=val.position_level
+											td=val.position
+											td=val.month_start
+											td=val.year_start
+											td=val.business_size
+					//.card
+						.card-header
+							h2
+								| Gráfica de Barras
+								small
+									| 
+						.card-body.card-padding-sm
+							#bar-chart1
+					//.card
+						.card-header
+							h2
+								| Gráfica de Barras
+								small
+									| 
+						.card-body.card-padding-sm
+							#donut-chart1
+
+	include footer
+	script.
+		var students = !{JSON.stringify(students)}; 
+	script(src='/javascripts/js/graph_controller.js')

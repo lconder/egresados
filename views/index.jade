@@ -1,0 +1,82 @@
+extends layout
+
+block content
+	.login-content
+		// Login
+		#l-login.lc-block.toggled
+			.lcb-form
+				img(src='/images/logo.jpg', alt='Logo egresados', height='50', width='120')
+				.input-group.m-b-20
+					span.input-group-addon
+						i.zmdi.zmdi-account
+					.fg-line
+						input#user.form-control(type='text', placeholder='Usuario', required)
+				.input-group.m-b-20
+					span.input-group-addon
+						i.zmdi.zmdi-male
+					.fg-line
+						input#password.form-control(type='password', placeholder='Contraseña', required)
+				button#submit.btn.btn-login.btn-danger.btn-float(type='submit')
+					i.zmdi.zmdi-arrow-forward
+				small
+					.row
+						.col-md-12
+							h5
+								a(href='/business/add/' target='_blank') Registrar establecimiento.
+						//.col-md-6
+							a(href='http://intrauia.iberopuebla.mx/sincronizacion/contrasenia/recuperaContrasena.aspx' target='_blank') Recuperar contraseña (Sólo alumnos).
+			.lcb-navigation
+				#alert
+	include footer
+	script.
+		$( "#submit" ).click(function() 
+		{
+
+			var user = $("#user").val();
+			var password = $("#password").val();
+
+			if(user == '' || password==''){
+				console.log("por favor llenar todos los campos");
+				$('#alert').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>Por favor llena todos los campos</div>");
+			}else{
+				$('#alert').empty();
+				$.ajax({
+					type: 'POST',
+					url: '/login_web',
+					data: JSON.stringify({user: user, password: password}),
+					success: function(data) {
+
+						if(data.error == 1){
+							if(data.desc == "No existe el usuario"){
+								$('#alert').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>No existe el usuario, verifica.</div>");
+							}else if(data.desc == "error servidor"){
+								$('#alert').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>Ha ocurrido un error intentalo de nuevo, por favor.</div>");
+							}
+						}
+						else if(data.error == 0)
+						{
+							if(data.active==0){
+								swal("Convenio no activado", "El usuario y password con el que se intenta acceder se encuentra actualmente desactivado.")
+							}else{
+								$('#alert').html("<div class='alert alert-success alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>Inicio de sesión exitoso.</div>");
+								if(data.level==0){
+									window.location = '/dashboard';
+								}else{
+									if(data.level==1){
+										console.log("session business");
+										window.location = '/dashboard';
+									}
+								}
+							}
+
+
+
+							
+							
+						}
+					},
+					contentType: "application/json",
+					dataType: 'json'
+				});
+			}
+		});

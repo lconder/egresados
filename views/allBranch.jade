@@ -1,0 +1,107 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+					.container
+						.block-header
+							h2 Dashboard
+						.card
+							.card-header
+								h2 Todas las sucursales
+									small Aquí se pueden visualizar todas las sucursales en la plataforma
+								br
+								br
+							.card-body
+								ul.tab-nav.tn-justified.tn-icon(role='tablist')
+									li.active(role='presentation')
+										a.col-sx-4(href='#tab-1', aria-controls='tab-1', role='tab', data-toggle='tab')
+											i.zmdi.zmdi-pin.icon-tab
+									li(role='presentation')
+										a.col-xs-4(href='#tab-2', aria-controls='tab-2', role='tab', data-toggle='tab')
+											i.zmdi.zmdi-view-list.icon-tab
+								.tab-content.p-20
+									#tab-1.tab-pane.animated.fadeIn.in.active(role='tabpanel')
+										#map(style="height: 500px; position: relative; overflow: scroll;")
+									#tab-2.tab-pane.animated.fadeIn(role='tabpanel')
+										.table-responsive
+											table#data-table-students.table.table-striped
+												thead
+													tr
+														th Fecha de Registro
+														th Nombre de la Sucursal
+														th Dirección
+												tfoot
+													tr
+														th Fecha de Registro
+														th Nombre de la Sucursal
+														th Dirección	
+												tbody
+													each val in business
+														tr
+															td #{prettyDate(val.created_at)}
+															td=val.name
+															td=val.address
+	include footer
+	script.
+		$(document).ready(function() {
+			var esp = {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			};
+			$('#data-table-students').DataTable({
+				responsive: true,
+				dom: 'Bfrtip',
+				buttons: [ 'excel','csv','pdf'],
+				"oLanguage": esp
+			});
+		});
+
+	
+	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyA8jG3UDt6AsN3a-5PujDwtl6J042M4-es')
+	script.
+		var map; 
+		var business = !{JSON.stringify(business)};
+		$(document).ready(function(){
+			var map = new GMaps({
+				div: '#map',
+				lat: business[0].latitude,
+				lng:  business[0].longitude
+			});
+			for(i=0;i<business.length;i++){
+				map.addMarker({
+					lat: business[i].latitude,
+					lng: business[i].longitude,
+					title: business[i].address,
+					icon: '/images/marker.png',
+					infoWindow: {
+						content: '<h3>'+business[i].name+'</h3><p>'+business[i].address+'</p>'
+					},
+					click: function(e) {
+						console.log('You clicked in this marker');
+					}
+				});
+				console.log(business[i]);
+			}
+		});

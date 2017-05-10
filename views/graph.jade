@@ -1,0 +1,68 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container
+					.block-header
+						h2 Listado de todos los alumnos
+
+					.card
+						.card-header
+							h2
+								| TODAS LAS EMPRESAS
+								small
+									| En este apartado podrá visualizar a todas las empresas del resultado de la búsqueda.
+						.table-responsive
+							table#data-table-students.table.table-striped
+								thead
+									tr
+										th Fecha de Registro
+										th Nombre de la Empresa
+										th Giro de la Empresa
+										th Empresa de Egresado
+										th Teléfono
+										th Descripción del descuento
+								tfoot
+									tr
+										th Fecha de Registro
+										th Nombre de la Empresa
+										th Giro de la Empresa
+										th Empresa de Egresado
+										th Teléfono
+										th Descripción del descuento
+								tbody
+									each val in business
+										tr
+											td #{prettyDate(val.created_at)}
+											td=val.name
+											td=val.business_type
+											td
+												if val.graduated==1
+													| Sí
+												if val.graduated==0
+													| No
+											td=val.phone
+											td=val.discount_description
+					.card
+						.card-header
+							h2
+								| Gráfica de Barras
+								small
+									| 
+						.card-body.card-padding-sm
+							#bar-chart1
+					.card
+						.card-header
+							h2
+								| Gráfica de Pastel
+								small
+									| 
+						.card-body.card-padding-sm
+							#donut-chart1
+
+	include footer
+	script.
+		var business = !{JSON.stringify(business)}; 
+	script(src='/javascripts/js/graph_controller.js')

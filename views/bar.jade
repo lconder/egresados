@@ -1,0 +1,107 @@
+header#header.clearfix(data-ma-theme='ibero1')
+		ul.h-inner
+			li.hi-trigger.ma-trigger(data-ma-action='sidebar-open', data-ma-target='#sidebar')
+				.line-wrap
+					.line.top
+					.line.center
+					.line.bottom
+			li.hi-logo.hidden-xs
+				a(href='/dashboard') Egresados Ibero Puebla
+			li.pull-right
+				ul.hi-menu
+					li(data-ma-action='search-open')
+						a(href='')
+							i.him-icon.zmdi.zmdi-search
+					li.dropdown
+						a(data-toggle='dropdown', href='')
+							i.him-icon.zmdi.zmdi-more-vert
+						ul.dropdown-menu.dm-icon.pull-right
+							li.skin-switch.hidden-xs
+								span.ss-skin.bgm-ibero1(data-ma-action='change-skin', data-ma-skin='ibero1')
+								span.ss-skin.bgm-ibero2(data-ma-action='change-skin', data-ma-skin='ibero2')
+								span.ss-skin.bgm-ibero3(data-ma-action='change-skin', data-ma-skin='ibero3')
+							li.divider.hidden-xs
+							li.hidden-xs
+								a(data-ma-action='fullscreen', href='')
+									i.zmdi.zmdi-fullscreen
+									|  Pantalla Completa
+							
+		// Top Search Content
+		.h-search-wrap
+			.hsw-inner
+				i.hsw-close.zmdi.zmdi-arrow-left(data-ma-action='search-close')
+				input(type='text')
+	section#main
+		aside#sidebar.sidebar.c-overflow
+			.s-profile
+				a(href='', data-ma-action='profile-menu-toggle')
+					//.sp-pic
+						img(src='/images/user.png', alt='')
+					br
+					br
+					br
+					br
+					//.sp-info
+						| Username
+						i.zmdi.zmdi-caret-down
+				ul.main-menu
+					li
+						a(href='/profile')
+							i.zmdi.zmdi-account
+							|  Perfil
+					li
+						a(href='/logout')
+							i.zmdi.zmdi-time-restore
+							|  Cerrar Sesión
+			if levelUser==0
+				ul.main-menu
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-8tracks
+							|  Convenios
+						ul
+							li
+								a(href='/agreement/all') Ver Todos
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-store
+							|  Establecimientos
+						ul
+							li
+								a(href='/map') Ver todos
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-accounts
+							|  Egresados
+						ul
+							li
+								a(href='/student/all') Ver Todos
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-file
+							|  Reportes
+						ul
+							li
+								a(href='/report/') Nuevo
+			if levelUser==1
+				ul.main-menu
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-card-giftcard
+							|  Promociones
+						ul
+							li
+								a(href='/promotion_business/add/') Agregar
+							li
+								a(href='/promotion_business/all/') Ver Todas
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-store
+							|  Sucursales
+						ul
+							li
+								a(href='/branch/add/') Agregar
+							li
+								a(href='/branch/all/') Ver Todas
+		block cont
+			p

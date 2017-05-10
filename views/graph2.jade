@@ -1,0 +1,62 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container
+					.block-header
+						h2 Listado de todos las redenciones
+
+					.card
+						.card-header
+							h2
+								| REDENCIONES EN EMPRESAS
+								small
+									| En este apartado podrá visualizar las redenciones por empresas del resultado de la búsqueda.
+						.table-responsive
+							table#data-table-promos.table.table-striped
+								thead
+									tr
+										th Nombre de la Empresa
+										th Empresa de Egresado
+										th Giro de la Empresa
+										th Número de Visitas
+								tfoot
+									tr
+										th Nombre de la Empresa
+										th Empresa de Egresado
+										th Giro de la Empresa
+										th Número de Visitas
+								tbody
+									each val in data
+										tr
+											td=val.name
+											td
+												if val.graduated==1
+													| Sí
+												if val.graduated==0
+													| No
+											td=val.business_type
+											td=val.count
+					.card
+						.card-header
+							h2
+								| Gráfica de Barras
+								small
+									| 
+						.card-body.card-padding-sm
+							#bar-chart1
+					.card
+						.card-header
+							h2
+								| Gráfica de Barras
+								small
+									| 
+						.card-body.card-padding-sm
+							#bar-chart2
+
+	include footer
+	script.
+		var data = !{JSON.stringify(data)}; 
+	script(src='/javascripts/js/graph2_controller.js')

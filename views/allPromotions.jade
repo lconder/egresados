@@ -1,0 +1,96 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+				.container
+					.block-header
+						h2 	Todos las promociones
+					.card
+						.card-header
+							h2
+								| Elija una opción
+								small
+									| En este apartado podrá generar códigos QR así como activar y editar promociones.
+						.table-responsive
+							table#data-table-promotions.table.table-striped
+								thead
+									tr
+										th Nombre
+										th Sucursal/Dirección
+										th descripción
+										th # de veces consumida
+										th Opciones
+								tfoot
+									tr
+										th Nombre
+										th Sucursal/Dirección
+										th descripción
+										th # de veces consumida
+										th Opciones
+								tbody
+									each val in data.promos
+										tr
+											td=val.name
+											td=val.name_branch+' / '+val.address
+											td=val.description
+											td=val.count
+											td
+												button.btn.btn-success(onclick='makeQR(this)' id='#{val.encrypt}') Crear QR
+												&nbsp;
+												//a.btn.btn-info(href='/promotion/edit/'+val.id) Editar
+												&nbsp;
+												//if val.active==1
+													button.btn.btn-danger(onclick='deletePromotion(this)' id='#{val.id}') Pausar
+												//else
+													button.btn.btn-primary(onclick='deletePromotion(this)' id='#{val.id}') Activar
+	// Modal
+	#myModal1.modal.fade(role='dialog')
+		.modal-dialog
+			// Modal content
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal') ×
+					h4.modal-title QR Generado.
+				.modal-body
+					.row
+						.col-md-12
+							#qrcode
+				.modal-footer
+					button.btn.btn-danger(type='button', data-dismiss='modal') Cerrar
+
+	include footer
+	script(src='/javascripts/js/allPromo_controller.js')
+	script.
+		$(document).ready(function() {
+			var esp = {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			};
+			$('#data-table-promotions').DataTable({
+				responsive: true,
+				dom: 'Bfrtip',
+				buttons: [ 'excel','csv','pdf'],
+				"oLanguage": esp
+			});
+		});

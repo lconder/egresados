@@ -1,0 +1,52 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+					.container
+						.block-header
+							h2 Reportes
+						.card
+							.card-header
+								h2
+									small
+										| Ingresa una fecha de inicio y de fin para buscar así como un criterio de búsqueda.
+								br
+								br
+								form(method='POST', action='/report/')
+									.row
+										.col-md-4
+											.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-calendar
+												.dtp-container
+													input#init_date.form-control.date-picker(type='text', name='init_date', placeholder='Fecha de Inicio' required)
+											small#created_atError.help-block
+										.col-md-4
+											.input-group.form-group
+												span.input-group-addon
+													i.zmdi.zmdi-calendar
+												.dtp-container
+													input#finish_date.form-control.date-picker(type='text', name='finish_date', placeholder='Fecha de Expiración' required)
+											small#expired_dateError.help-block
+										.col-md-4.m-b-25
+											.input-group.form-group
+													span.input-group-addon
+														i.zmdi.zmdi-view-toc
+													select#search(name='search' required).selectpicker
+														option(value='') Buscar en...
+														option(value='1') Empresas
+														option(value='2') Egresados
+														option(value='3') Promociones
+											small#business_typeError.help-block
+									br
+									.row
+										.col-md-3
+										.col-md-3
+										.col-md-2
+										.col-md-2
+										.col-md-2				
+											button(type='submit').btn.btn-primary.btn-icon-text
+												i.zmdi.zmdi-check
+												|  Aceptar										
+	include footer
