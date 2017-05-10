@@ -15,6 +15,7 @@ function postData(){
 	var website = $("#website").val();
 	var graduated = $('#graduated').is(':checked');
 	var business_type = $("#business_type").val();
+	var categorie = $("#categorie").val();
 	var size = $("#size").val();
 	var discount_description = $("#discount_description").val();
 	var attendant_name = $("#attendant_name").val();
@@ -210,6 +211,7 @@ function postData(){
 			"website" : website,
 			"graduated" : graduated,
 			"business_type" : business_type,
+			"categorie" : categorie,
 			"size" : size,
 			"discount_description" : discount_description,
 			"attendant_name" : attendant_name,
@@ -265,8 +267,39 @@ function clearForm(){
 	console.log("Clear Form");
 }
 
+function getDataCategories(id){
+	
+	$.getJSON("/categories/"+id, function(data) {
+		$('#categorie').empty();
+		console.log(data);
+		$.each(data, function(){
+				$("#categorie").append('<option value="'+ this.id +'">'+ this.name +'</option>')
+			});
+		$('#categorie').selectpicker('refresh');
+	});
+}
+
 function fillCategories(business_type){
-	alert(business_type);
+	switch(business_type){
+		case "Agropecuarias":
+			getDataCategories(4);
+			break;
+		case "Mineras":
+			getDataCategories(5);
+			break;
+		case "Servicio":
+			getDataCategories(1);
+			break;
+		case "Industria":
+			getDataCategories(2);
+			break;
+		case "Comercio":
+			getDataCategories(3);
+			break;
+		default: break;
+	}
+
+
 }
 
 $(document).ready(function(){
@@ -283,7 +316,7 @@ $(document).ready(function(){
 	$("#business_type").change(function(){
 		var str = "";
 		$("#business_type option:selected").each(function(){
-			str += $(this).text() + " ";
+			str += $(this).text()+"";
 		});
 		fillCategories(str);
 	});
