@@ -4,11 +4,17 @@ var sha1 = require('sha1')
 var moment = require('moment')
 var async = require('async')
 var shortid = require('shortid');
+var FCM = require('fcm-push');
+var serverKey = 'AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5';
+var fcm = new FCM(serverKey);
 var router = express.Router();
 
 router.post('/', function(req, res, next){
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
+
+	sendPush(req.body.name, req.body.promo_description);
+
 	if(req.session.id_business != null)
 	{
 		var date_expired = req.body.expired_date.split("/");
@@ -110,4 +116,28 @@ router.get('/all', function(req, res, next){
 		}
 	});
 })
+
+
+function sendPush(title, body){
+	var message = {
+	    to: 'dPhSpJ1PZpQ:APA91bERVJdzBgKuya7ldpKJs9XfSkg8G9Fej0MeWuanuz8vHYJUtazIelpTNdTqfMv7dTDWyg1UlyNGolK2dmtJrmfnlkALMHMJTM4WnrflFMooaNqguC55BK5nUcey7nDjWSNGN-Qy',
+	    collapse_key: 'your_collapse_key', 
+	    data: {
+	        your_custom_data_key: 'your_custom_data_value'
+	    },
+	    notification: {
+	        title: title,
+	        body: body
+	    }
+	};
+
+	fcm.send(message, function(err,response){  
+	    if(err) {
+	        console.log("Something has gone wrong !");
+	    } else {
+	        console.log("Successfully sent with resposne :",response);
+	    }
+	});
+
+}
 module.exports = router;
