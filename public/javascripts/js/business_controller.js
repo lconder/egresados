@@ -3,13 +3,11 @@ function activate(but){
 	var id = but.name;
 	var object_post;
 	if(status==0){
-		console.log("Se activará");
 		object_post = {
 			"status": 1,
 			"id": id
 		};
 	}else if(status==1){
-		console.log("Se desactivará");
 		object_post = {
 			"status": 0,
 			"id": id

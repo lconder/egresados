@@ -39,9 +39,9 @@ block content
 												button.btn.btn-success(onclick='makeQR(this)' id='#{val.encrypt}') Crear QR
 												&nbsp;
 												if val.active==1
-													button.btn.btn-danger(onclick='deletePromotion(this)' id='#{val.id}') Pausar
+													button.btn.btn-danger(onclick='deletePromotion(this)' id='#{val.encrypt}' name='#{val.active}') Pausar
 												else
-													button.btn.btn-primary(onclick='deletePromotion(this)' id='#{val.id}') Activar
+													button.btn.btn-primary(onclick='deletePromotion(this)' id='#{val.encrypt}' name='#{val.active}') Activar
 	// Modal
 	#myModal1.modal.fade(role='dialog')
 		.modal-dialog
@@ -59,36 +59,3 @@ block content
 
 	include footer
 	script(src='/javascripts/js/allPromo_controller.js')
-	script.
-		$(document).ready(function() {
-			var esp = {
-				"sProcessing":     "Procesando...",
-				"sLengthMenu":     "Mostrar _MENU_ registros",
-				"sZeroRecords":    "No se encontraron resultados",
-				"sEmptyTable":     "Ningún dato disponible en esta tabla",
-				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-				"sInfoPostFix":    "",
-				"sSearch":         "Buscar:",
-				"sUrl":            "",
-				"sInfoThousands":  ",",
-				"sLoadingRecords": "Cargando...",
-				"oPaginate": {
-					"sFirst":    "Primero",
-					"sLast":     "Último",
-					"sNext":     "Siguiente",
-					"sPrevious": "Anterior"
-				},
-				"oAria": {
-					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-				}
-			};
-			$('#data-table-promotions').DataTable({
-				responsive: true,
-				dom: 'Bfrtip',
-				buttons: [ 'excel','csv','pdf'],
-				"oLanguage": esp
-			});
-		});

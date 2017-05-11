@@ -254,7 +254,6 @@ router.post('/', function(req, res, next){
 });
 
 router.post('/activate/', function(req, res, next){
-	console.log(req.body);
 	var data = {"error":1};
 	var id = req.body.id;
 	var status = req.body.status;

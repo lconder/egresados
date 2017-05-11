@@ -7,7 +7,7 @@ router.get('/:mat', function(req, res, next){
 	console.log("credential by Id");
 	var connection = mysql.createConnection(info_connection);
 	var data = {"error": 1};
-	connection.query("SELECT name, lastname, second_lastname, mat, photo, career  from student WHERE id=?",[req.params.mat], function(err, rows, fields)
+	connection.query("SELECT name, lastname, second_lastname, mat, photo, career, active   from student WHERE id=?",[req.params.mat], function(err, rows, fields)
 	{
 		
 		if(err){

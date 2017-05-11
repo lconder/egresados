@@ -15,14 +15,17 @@ router.get('/:id', function(req, res, next){
 			{
 				data["error"] = 0;
 				data["promotion"] = rows[0];
-				res.json(data);
+			}else{
+				data["error"] = 1;
+				data["description"] = "No promotions found";
 			}
 		}
+		res.json(data);
 	});
 });
 
 router.post('/:id', function(req, res, next){
-	console.log(req.body);
+	//console.log(req.body);
 
 	var data = {"error": 1, "promotion":""};
 	var connection = mysql.createConnection(info_connection);
@@ -71,6 +74,30 @@ function postDataUserPromo(student, promotion, cb){
 		}
 	});
 }
+
+router.put('/activate/', function(req, res, next){
+	var data = {"error":1};
+	console.log(req.body);
+	var id = req.body.id;
+	var status = req.body.status;
+	var connection = mysql.createConnection(info_connection);
+	connection.query("UPDATE branch_promotions SET active = ? WHERE encrypt = ?", [status,id], function(err, result){
+		console.log(err, result);
+		if(err)
+			res.json(err);
+		else{
+			if(result.affectedRows==1){
+				data["error"]=0;
+				data["updated"]=true;
+				connection.end(function(err){console.log("connection end...")});
+				res.json(data);
+			}else{
+				res.json(data);
+			}	
+		}
+		
+	});
+});
 
 router.get('/edit/:id/', function(req, res, next){
 	var connection = mysql.createConnection(info_connection);
