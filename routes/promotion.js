@@ -7,7 +7,7 @@ var router = express.Router();
 router.get('/:id', function(req, res, next){
 	var data = {"error": 1, "promotion":""};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=?", [req.params.id], function(err, rows, fields){
+	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=?", [req.params.id,1], function(err, rows, fields){
 		if(err){
 			res.json({"err":1, "desc": err});
 		}else{

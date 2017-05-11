@@ -38,11 +38,9 @@ block content
 											td
 												button.btn.btn-success(onclick='makeQR(this)' id='#{val.encrypt}') Crear QR
 												&nbsp;
-												//a.btn.btn-info(href='/promotion/edit/'+val.id) Editar
-												&nbsp;
-												//if val.active==1
+												if val.active==1
 													button.btn.btn-danger(onclick='deletePromotion(this)' id='#{val.id}') Pausar
-												//else
+												else
 													button.btn.btn-primary(onclick='deletePromotion(this)' id='#{val.id}') Activar
 	// Modal
 	#myModal1.modal.fade(role='dialog')
