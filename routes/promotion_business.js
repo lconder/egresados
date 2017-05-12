@@ -120,7 +120,7 @@ router.get('/all', function(req, res, next){
 
 function sendPush(title, body){
 	var message = {
-	    to: 'dPhSpJ1PZpQ:APA91bERVJdzBgKuya7ldpKJs9XfSkg8G9Fej0MeWuanuz8vHYJUtazIelpTNdTqfMv7dTDWyg1UlyNGolK2dmtJrmfnlkALMHMJTM4WnrflFMooaNqguC55BK5nUcey7nDjWSNGN-Qy',
+	    to: 'c4fLqGRc8PU:APA91bGrokQdAcKnHBd3r67i6c6g0OXh9xFnG-qGvw5iKEvnIUwEl-o9b3fZYErMI7wAwy4erHVOxKtpsEdr1bpfg8hOY3VQYEeK_vFXHcfm7NIekH0EUM1PqBKfX7JMLphRH0SAVnv3',
 	    collapse_key: 'your_collapse_key', 
 	    data: {
 	        your_custom_data_key: 'your_custom_data_value'
