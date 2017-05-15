@@ -305,10 +305,10 @@ function fillCategories(business_type){
 $(document).ready(function(){
 	swal({
 		title: '¡Bienvenido!',
-		html: '<h5>Este es el registro de un nuevo negocio te invitamos a tener preparados los siguientes documentos:</h5><br><br>-Logo<br><br>-Acta constitutiva de la empresa<br><br>-Comprobante de domicilio<br><br>-Copia de IFE del encargado<br><br><h5>En formato PNG o JPG. </h5>',
+		html: '<h5>Este es el registro de un nuevo negocio, te invitamos a tener preparados los siguientes documentos:</h5><br><br>-Logo<br><br>-Acta constitutiva de la empresa<br><br>-Comprobante de domicilio<br><br>-Copia de IFE del encargado<br><br><h5>En formato PNG o JPG. </h5>',
 		imageUrl: '/images/logo.jpg',
 		imageWidth: 300,
-		imageHeight: 130,
+		imageHeight: 115,
 		animation: false
 	})
 

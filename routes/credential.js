@@ -11,7 +11,7 @@ router.get('/:mat', function(req, res, next){
 	{
 		
 		if(err){
-			throw err;
+			res.json(err);
 			connection.end(function(err){console.log("connection end...")});
 		}
 		else{
@@ -34,13 +34,6 @@ router.get('/:mat', function(req, res, next){
 
 router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
-	console.log(req.body);
-	/*email: 708509@iberopuebla.mx,
-	streetNumber: Calle 99 poniente No. 9512,
-	suburb: Jardin,
-	postal_code: 72474,
-	phone: 2222222222,
-	mobile: 4444444444*/
 
 	var data = {"error": 1};
 	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.idUser];
@@ -59,10 +52,6 @@ router.put('/', function(req, res, next){
 		
 		res.json(data);	
 	});
-
-
-	
-
 });
 
 module.exports = router;

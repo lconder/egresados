@@ -25,7 +25,6 @@ router.get('/:id', function(req, res, next){
 });
 
 router.post('/:id', function(req, res, next){
-	//console.log(req.body);
 
 	var data = {"error": 1, "promotion":""};
 	var connection = mysql.createConnection(info_connection);

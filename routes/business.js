@@ -6,6 +6,8 @@ var async = require('async');
 var generateDocx = require('generate-docx');
 var fs = require('fs');
 var moment = require('moment');
+var shortid = require('shortid');
+var sha1 = require('sha1')
 
 var transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -85,52 +87,21 @@ router.get('/all/', function(req, res, next) {
     
   });
 });
-
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.get('/add/', function(req, res, next) {
 	console.log("Render view to add a new business");
-	var states = [
-			{id: 1, name: "Aguascalientes"},
-			{id: 2, name: "Baja California"},
-			{id: 3, name: "Baja California Sur"},
-			{id: 4, name: "Campeche"},
-			{id: 5, name: "Chiapas"},
-			{id: 6, name: "Chihuahua"},
-			{id: 7, name: "Coahuila"},
-			{id: 8, name: "Colima"},
-			{id: 9, name: "Ciudad de México"},
-			{id: 10, name: "Durango"},
-			{id: 11, name: "Guanajuato"},
-			{id: 12, name: "Guerrero"},
-			{id: 13, name: "Hidalgo"},
-			{id: 14, name: "Jalisco"},
-			{id: 15, name: "México"},
-			{id: 16, name: "Michoacan"},
-			{id: 17, name: "Morelos"},
-			{id: 18, name: "Nayarit"},
-			{id: 19, name: "Nuevo León"},
-			{id: 20, name: "Oaxaca"},
-			{id: 21, name: "Puebla"},
-			{id: 22, name: "Queretaro"},
-			{id: 23, name: "Quintana Roo"},
-			{id: 24, name: "San Luis Potosi"},
-			{id: 25, name: "Sinaloa"},
-			{id: 26, name: "Sonora"},
-			{id: 27, name: "Tabasco"},
-			{id: 28, name: "Tamaulipas"},
-			{id: 29, name: "Tlaxcala"},
-			{id: 30, name: "Veracruz"},
-			{id: 31, name: "Yucatán"},
-			{id: 32, name: "Zacatecas"}];
-	res.render('addBusiness', {title:'Agregar Establecimiento', states: states});
+	var connection = mysql.createConnection(info_connection);
+	connection.query("SELECT id_state as id, name FROM state;", function(err, rows, fields)
+	{
+		res.render('addBusiness', {title:'Agregar Establecimiento', states: rows});	
+	});
+	
 });
-
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.post('/', function(req, res, next){
 	console.log("Create a new Business");
-	var data = {
-		"error":1,
-		"business": ""
-	};
-
+	var data = {"error":1,"business": ""};
+	var password = shortid.generate();
 	var options = {
 		template: {
 			filePath: 'public/templates/convenio.docx',
@@ -150,11 +121,11 @@ router.post('/', function(req, res, next){
 		}
 	};
 
-	console.log(req.body);
 	var business = {
 		id: null,
 		created_at: new Date(),
 		name: req.body.business_name,
+		password: sha1(password),
 		rfc: req.body.rfc,
 		phone: req.body.phone,
 		facebook: req.body.facebook,
@@ -164,6 +135,7 @@ router.post('/', function(req, res, next){
 		discount_description: req.body.discount_description,
 		size: req.body.size,
 		business_type: req.body.business_type,
+		categorie: req.body.categorie,
 		logo: "",
 		act: "",
 		credential: "",
@@ -243,6 +215,22 @@ router.post('/', function(req, res, next){
 									console.log('Message sent: ' + info.response);
 								}
 							});
+
+
+							transporter.sendMail({
+								from: 'conderodriguez.luis@outlook.com',
+								to: req.body.email,
+								subject: 'Bienvenido a Egresados Ibero',
+								text: "Te adjuntamos tu password "+password
+							}, function(error, info){
+								if(error){
+									console.log(error);
+								}else{
+									console.log('Message sent: ' + info.response);
+								}
+							});
+
+
 							connection.end(function(err){console.log("connection end...")});
 							res.json(data);		
 						}
@@ -252,7 +240,7 @@ router.post('/', function(req, res, next){
 		}
 	});
 });
-
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.post('/activate/', function(req, res, next){
 	var data = {"error":1};
 	var id = req.body.id;
@@ -267,7 +255,7 @@ router.post('/activate/', function(req, res, next){
 		}
 	});
 });
-
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.get('/:id/', function(req, res, next){
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id],function(err, rows, fields)

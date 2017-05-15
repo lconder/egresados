@@ -11,20 +11,12 @@ var multer  = require('multer');
 
 
 global.info_connection = {
-  host:"54.201.84.242",
+  host:"54.244.63.115",
   port: "3306",
   user:"lconder",//iqbccomm_lconder
   password:"0112358",//_!#MB5P@6LJ-    u9u8G0U8ty
   database:"iqbccomm_ibero"
 };
-
-/*global.info_connection = {
-  host:"69.162.72.218",
-  port: "3306",
-  user:"iqbccomm_polanco",//iqbccomm_lconder
-  password:"_!#MB5P@6LJ-",//_!#MB5P@6LJ-    u9u8G0U8ty
-  database:"iqbccomm_ibero"
-};*/
 
 
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
@@ -46,6 +38,7 @@ var report = require('./routes/report');
 var categories = require('./routes/categories');
 var state = require('./routes/state');
 var device = require('./routes/device');
+var settings = require('./routes/settings');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -85,6 +78,7 @@ app.use('/report', report);
 app.use('/categories', categories);
 app.use('/state', state);
 app.use('/device', device);
+app.use('/settings', settings);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

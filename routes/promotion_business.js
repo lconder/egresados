@@ -38,7 +38,7 @@ router.post('/', function(req, res, next){
 			}else{
 				if(result.affectedRows==1){
 					var id = result.insertId;
-					var encrypt = sha1(id);
+					//var encrypt = sha1(id);
 					var branchs = req.body.branch;
 					var c=0;
 					async.each(branchs, function(item, cb){
