@@ -29,6 +29,7 @@ router.post('/', function(req, res, next){
 					rs = JSON.parse(body);
 					console.log("RS:");
 					console.log(rs);
+					console.log("-------------");
 					user_data = rs.LoginEgresadoResult.usuario;
 					if(rs.LoginEgresadoResult.respuesta.codigo == 101){
 						res.json({"error":1, "desc":"No existe el usuario"});
