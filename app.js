@@ -13,8 +13,8 @@ var multer  = require('multer');
 global.info_connection = {
   host:"54.244.63.115",
   port: "3306",
-  user:"lconder",//iqbccomm_lconder
-  password:"0112358",//_!#MB5P@6LJ-    u9u8G0U8ty
+  user:"lconder",
+  password:"0112358",
   database:"iqbccomm_ibero"
 };
 

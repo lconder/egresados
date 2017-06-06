@@ -21,6 +21,7 @@ router.post('/', function(req, res, next){
 			.then(business => {
 				
 				req.session.level = 1 ;// 1 = Business
+				req.session.id_business = business.id;
 				data.error = 0
 				data.level = 1
 				console.log(data);
@@ -96,7 +97,7 @@ function getAdmin(user, password){
 function getBusiness(user, password){
 
 	var connection = mysql.createConnection(info_connection);
-	var sql = "SELECT count(*) as contador FROM business WHERE rfc=? AND password=?"
+	var sql = "SELECT count(*) as contador, id FROM business WHERE rfc=? AND password=?"
 	return new Promise(function(resolve, reject){
 		connection.query(sql, [user, password], function(err, rows, fields){
 			connection.end(function(err){console.log("conexión finalizada obteniendo el negocio")});
@@ -105,7 +106,7 @@ function getBusiness(user, password){
 			}else if(rows[0].contador == 0){
 				return reject("no se ha encontrado ningún usuario")
 			}
-			resolve(rows[0].contador)
+			resolve(rows[0])
 		})
 	})
 }
