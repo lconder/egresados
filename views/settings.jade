@@ -151,11 +151,11 @@ block content
 														i.zmdi.zmdi-view-toc
 													select#business_type(name='business_type').selectpicker
 														option(value='0') Giro de la empresa
-														option(value='Agropecuarias') Agropecuarias
-														option(value='Mineras') Mineras
-														option(value='Servicio') Servicio
-														option(value='Industria') Industria
-														option(value='Comercio') Comercio
+														for val in business_type
+															if (val.value == business.business_type)
+																option(value='#{val.value}' selected)=val.value
+															else
+																option(value='#{val.value}' )=val.value
 											small#business_typeError.help-block
 										.col-md-4.m-b-25
 											.input-group.form-group
@@ -163,6 +163,9 @@ block content
 														i.zmdi.zmdi-view-toc
 													select#categorie(name='categorie').selectpicker
 														option(value='0') Categoría de la Empresa
+														for val in categories
+															if (val.id == business.categorie)
+																option(value='#{val.id}' selected)=val.name
 											small#categorieError.help-block
 										.col-md-4.m-b-25
 											.input-group.form-group
@@ -170,10 +173,11 @@ block content
 														i.zmdi.zmdi-view-toc
 													select#size(name='size').selectpicker
 														option(value='0') Tamaño de la empresa
-														option(value='Microempresa') Microempresa (menos de 10 trabajadores)
-														option(value='Pequeña') Pequeña (menos de 50 trabajadores)
-														option(value='Mediana') Mediana (de 50 a 250 empleados)
-														option(value='Grande') Grande (más de 250 empleados)
+														for val in size_business
+															if (val.value == business.size)
+																option(value='#{val.value}' selected)=val.name
+															else
+																option(value='#{val.value}' )=val.name
 											small#sizeError.help-block
 									br
 									br
@@ -187,7 +191,10 @@ block content
 											.input-group.form-group
 												.checkbox.m-b-15
 													label
-														input#graduated(type='checkbox', value='graduated' name='graduated')
+														if business.graduated == 1
+															input#graduated(type='checkbox', value='graduated' name='graduated' checked)
+														else
+															input#graduated(type='checkbox', value='graduated' name='graduated')
 														i.input-helper
 														h5 Empresa de egresado IBERO Puebla
 										.col-md-4
@@ -195,7 +202,7 @@ block content
 												span.input-group-addon
 													i.zmdi.zmdi-lock
 												.fg-line
-													input#password.form-control(type='text' name='password')
+													input#password.form-control(type='password' name='password')
 													label.fg-label Password
 												small#passwordError.help-block
 
@@ -245,7 +252,7 @@ block content
 												span.input-group-addon
 													i.zmdi.zmdi-smartphone-android
 												.fg-line
-													input#mobile.form-control.input-mask(type='phone', name='mobile' value='#{business.phone}' required)
+													input#mobile.form-control.input-mask(type='phone', name='mobile' value='#{business.mobile}' required)
 													label.fg-label Celular
 												small#mobileError.help-block
 										.col-md-4
@@ -259,7 +266,9 @@ block content
 									br
 									.row
 										.col-md-3
+											input#id_business(type='hidden' value='#{business.id}')
 										.col-md-3
+											input#id_attendant(type='hidden' value='#{business.attendant_id}')
 										.col-md-2
 										.col-md-2
 											button(onclick='clearForm()').btn.btn-danger.btn-icon-text
@@ -271,3 +280,4 @@ block content
 												|  Aceptar
 
 	include footer
+	script(src='/javascripts/js/settings_controller.js')

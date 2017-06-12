@@ -100,16 +100,8 @@ router.get('/all', function(req, res, next){
 	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){
     
 		if(!err){
-			if(rows.length != 0)
-			{
-				data["error"]=0;
-				data["promos"]=rows;
-				connection.end(function(err){console.log("connection end...")});
+			connection.end(function(err){console.log("connection end...")});
 				res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data});
-			}else{
-				connection.end(function(err){console.log("connection end...")});
-				data["promos"] = "No promos found";
-			}
 		}else{
 			connection.end(function(err){console.log("connection end...")});
 			res.json(data);
