@@ -10,12 +10,12 @@ var shortid = require('shortid');
 var sha1 = require('sha1')
 
 var transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
+	host: 'smtp.zoho.com',
 	port: 465,
 	secure: true,
 	auth: {
-		user: 'brotherowsky@gmail.com',
-		pass: 'novidosN0!'
+		user: 'contacto@ufind.com.mx',
+		pass: 'mf9AT7CumGMS4vpU'
 		}
 	})
 
