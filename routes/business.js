@@ -10,12 +10,11 @@ var shortid = require('shortid');
 var sha1 = require('sha1')
 
 var transporter = nodemailer.createTransport({
-	host: 'smtp.zoho.com',
+	host: 'atenea.hosting-mexico.net',
 	port: 465,
-	secure: true,
 	auth: {
-		user: 'contacto@ufind.com.mx',
-		pass: 'mf9AT7CumGMS4vpU'
+			user: 'test@iqbc.com.mx',
+			pass: 'u9u8G0U8ty'
 		}
 	})
 
@@ -334,7 +333,7 @@ function sendEmailtoAdmin(){
 
 	return new Promise(function(resolve, reject){
 		transporter.sendMail({
-			from: 'contacto@ufind.com.mx',
+			from: 'test@iqbc.com.mx',
 			to: 'brotherowsky@gmail.com',
 			subject: 'Nuevo establecimiento registrado',
 			text: 'Se ha ingresado un nuevo convenio ve a tu panel de control para poder activarlo',
@@ -357,7 +356,7 @@ function sendEmailToAttendant(email, password){
 	return new Promise(function(resolve, reject){
 
 		transporter.sendMail({
-			from: 'contacto@ufind.com.mx',
+			from: 'test@iqbc.com.mx',
 			to: email,
 			subject: 'Bienvenido a Egresados Ibero',
 			text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"
