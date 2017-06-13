@@ -1,6 +1,5 @@
 function submitForm(){
 
-
 	var user = $("#user").val();
 	var password = $("#password").val();
 	console.log($.trim(user))

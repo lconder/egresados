@@ -11,20 +11,20 @@ router.post('/', function(req, res, next){
 	var user = req.body.user;
 	var password = sha1(req.body.password);
 	var data = {};
-	
+	console.log(user, password)
 
 	getAdmin(user, password)
-	.then(user => {
+	.then(admin => {
 
-		if(user < 1){
-			getBusiness(user, password)
+		if(admin < 1){
+			console.log(user, password)
+			testBusiness(user, password)
 			.then(business => {
-				
+
 				req.session.level = 1 ;// 1 = Business
 				req.session.id_business = business.id;
 				data.error = 0
 				data.level = 1
-				console.log(data);
 				res.json(data)
 			})
 			.catch(error => {
@@ -48,12 +48,14 @@ router.post('/', function(req, res, next){
 	
 });
 
+
+
 function getAdmin(user, password){
 
 	var connection = mysql.createConnection(info_connection);
-	var sql = "SELECT count(*) as contador FROM user WHERE user=? AND password=? AND admin=?"
+	var sqlA = "SELECT count(*) as contador FROM user WHERE user=? AND password=? AND admin=?"
 	return new Promise(function(resolve, reject){
-		connection.query(sql, [user, password, 1], function(err, rows, fields){
+		connection.query(sqlA, [user, password, 1], function(err, rows, fields){
 			connection.end(function(err){console.log("conexión finalizada obteniendo el admin")});
 			if(err){
 				return reject(err)
@@ -70,6 +72,7 @@ function getBusiness(user, password){
 	var sql = "SELECT count(*) as contador, id FROM business WHERE rfc=? AND password=?"
 	return new Promise(function(resolve, reject){
 		connection.query(sql, [user, password], function(err, rows, fields){
+			console.log(rows[0])
 			connection.end(function(err){console.log("conexión finalizada obteniendo el negocio")});
 			if(err){
 				return reject(err)

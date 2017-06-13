@@ -58,6 +58,7 @@ router.get('/dashboard', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
 	req.session.level = null;
+	req.session.id_business = null;
 	res.render('index', { title: 'Ibero App'});
 });
 
