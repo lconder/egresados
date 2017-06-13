@@ -83,6 +83,13 @@ function postData(){
 		$("#postal_codeError").html("");
 	}
 
+	if(isValidPC(postal_code)==false){
+		$("#postal_codeError").css('color','red');
+		$("#postal_codeError").html("Ingresa un código postal válido (5 dígitos y sólo números)");
+	}else{
+		$("#postal_codeError").html("");
+	}
+
 	if($.trim(suburb).length==0){
 		$("#suburbError").css('color','red');
 		$("#suburbError").html("La colonia es requerida");
@@ -186,7 +193,7 @@ function postData(){
 		 $.trim(discount_description).length==0 || $.trim(attendant_name).length==0 ||
 		  $.trim(attendant_lastname).length==0 || $.trim(attendant_lastname).length==0 ||
 		   $.trim(attendant_second_lastname).length==0 || $.trim(email).length==0 || $.trim(mobile).length==0 || 
-		    $.trim(address).length==0  || !isValidPhone(mobile) || !isValidPhone(phone) || !isValidEmailAddress(email) ||
+		    $.trim(address).length==0  || !isValidPhone(mobile) || !isValidPC(postal_code) || !isValidPhone(phone) || !isValidEmailAddress(email) ||
 		  	 size==0 || business_type==0 || $.trim(suburb).length==0 || state==0 || $.trim(city).length==0){
 		band = false;
 	}else{
@@ -284,6 +291,16 @@ function isValidPhone(phone) {
 	var pattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 	return pattern.test(phone);
 };
+
+function isValidPC(postal_code){
+	var pattern = /^([0-9])*$/;
+	if(postal_code.length==5){
+		return pattern.test(postal_code)
+	}else{
+		return false
+	}
+
+}
 
 
 
