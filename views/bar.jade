@@ -105,5 +105,12 @@ header#header.clearfix(data-ma-theme='ibero1')
 								a(href='/branch/add/') Agregar
 							li
 								a(href='/branch/all/') Ver Todas
+			if levelUser==3
+				ul.main-menu
+					li
+						a(href='http://www.iberopuebla.mx/avisosPrivacidad.asp' target='_blank')
+							i.zmdi.zmdi-attachment-alt
+							|  Términos y condiciones
+
 		block cont
 			p

@@ -94,7 +94,7 @@ router.get('/add/', function(req, res, next) {
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT id_state as id, name FROM state;", function(err, rows, fields)
 	{
-		res.render('addBusiness', {title:'Agregar Establecimiento', states: rows});	
+		res.render('addBusiness', {title:'Agregar Establecimiento', states: rows, levelUser: 3});	
 	});
 	
 });
