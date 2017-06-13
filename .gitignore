@@ -58,3 +58,4 @@ typings/
 .env
 
 public/files_business
+public/templates/agreement.docx
