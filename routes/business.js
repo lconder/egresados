@@ -174,19 +174,23 @@ router.post('/', function(req, res, next){
 			addAttendant(attendant)
 			.then(id_attendant =>{ 
 
+				console.log("encargado creado")
 				business.attendant_id = id_attendant
 				addBusiness(business)
 				.then(id_business => {
 
+					console.log("negocio creado")
 					req.session.id_business = id_business
 					generateDoc(options)
 					.then(doc_created => {
 						
 						if(doc_created.ok==1){
 
+							console.log("doc creado")
 							Promise.all([sendEmailtoAdmin(), sendEmailToAttendant(req.body.email, password)])
 							.then(values => {
 								console.log(values)
+								console.log("correos enviados")
 								res.json({
 									'error': 0,
 									'description': "Negocio y encargado creados con éxito, correos enviados",
