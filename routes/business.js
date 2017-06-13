@@ -166,35 +166,51 @@ router.post('/', function(req, res, next){
 		address: req.body.address
 	}
 
-	addAttendant(attendant)
-	.then(id_attendant =>{ 
+	checkRFC(req.body.rfc)
+	.then(contador_rfc => {
 
-		business.attendant_id = id_attendant
-		addBusiness(business)
-		.then(id_business => {
+		if(contador_rfc==0){
 
-			req.session.id_business = id_business
-			generateDoc(options)
-			.then(doc_created => {
-				
-				if(doc_created.ok==1){
+			addAttendant(attendant)
+			.then(id_attendant =>{ 
 
-					Promise.all([sendEmailtoAdmin(), sendEmailToAttendant(req.body.email, password)])
-					.then(values => {
-						console.log(values)
-						res.json({
-							'error': 0,
-							'description': "Negocio y encargado creados con éxito, correos enviados",
-							'business': {'created': true}
-						})
+				business.attendant_id = id_attendant
+				addBusiness(business)
+				.then(id_business => {
+
+					req.session.id_business = id_business
+					generateDoc(options)
+					.then(doc_created => {
+						
+						if(doc_created.ok==1){
+
+							Promise.all([sendEmailtoAdmin(), sendEmailToAttendant(req.body.email, password)])
+							.then(values => {
+								console.log(values)
+								res.json({
+									'error': 0,
+									'description': "Negocio y encargado creados con éxito, correos enviados",
+									'business': {'created': true}
+								})
+							})
+						}
 					})
-				}
-			})
-			.catch(error => { res.json({'error':1, 'description':error, 'level': "created doc" }) })
-		})
-		.catch(error => { res.json({'error':1, 'description':error, 'level': "business"  }) })
-	 })
+					.catch(error => { res.json({'error':1, 'description':error, 'level': "created doc" }) })
+				})
+				.catch(error => { res.json({'error':1, 'description':error, 'level': "business"  }) })
+			 })
+			.catch(error => { res.json({'error':1, 'description':error, 'level': "attendant"  }) })
+
+		}else{
+
+			res.json({'error': 1, 'description': 'ya existe el RFC', 'code_error': 1})
+
+		}
+
+	})
 	.catch(error => { res.json({'error':1, 'description':error, 'level': "attendant"  }) })
+
+	
 
 })
 
@@ -350,6 +366,26 @@ function sendEmailToAttendant(email, password){
 
 }
 
+function checkRFC(rfc){
+
+
+	return new Promise(function(resolve, reject){
+
+		var connection = mysql.createConnection(info_connection);
+		connection.query("SELECT count(*) as contador FROM business WHERE rfc=?", [rfc],function(err, rows, fields)
+		{
+			if(err){
+				console.log(err)
+				connection.end(function(err){console.log("connection end...")});			
+				return reject(err)
+			}
+			else{
+				connection.end(function(err){console.log("connection end...")});
+				resolve(rows[0].contador)
+			}
+	 	});
+	})
+}
 
 
 

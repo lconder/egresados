@@ -231,7 +231,28 @@ function postData(){
 		};
 		console.log(business);
 
-		rfc = {'rfc': rfc}
+		$.ajax({
+			type: 'POST',
+			url: '/business/',
+			data: JSON.stringify(business),
+			success: function(data) {
+				console.log(data);
+				if(data.error == 0 && data.business.created == true){
+					swal({title:"Negocio dado de alta de manera exitosa.", text:"Ahora procederemos a la carga de tus archivos.",type:"success"}).then(
+					function(result) {
+						window.location.href = "/files";
+					});
+				}else{
+					if(data.error==1 && data.code_error==1){
+						swal("El RFC ingresado ya existe")
+					}
+				}
+			},
+			contentType: "application/json",
+			dataType: 'json'
+		});
+
+		/*rfc = {'rfc': rfc}
 
 		$.ajax({
 			type: 'POST',
@@ -241,24 +262,7 @@ function postData(){
 				console.log(data);
 				if(data.error == 0 && data.count == 0){
 
-					$.ajax({
-						type: 'POST',
-						url: '/business/',
-						data: JSON.stringify(business),
-						success: function(data) {
-							console.log(data);
-							if(data.error == 0 && data.business.created == true){
-								swal({title:"Negocio dado de alta de manera exitosa.", text:"Ahora procederemos a la carga de tus archivos.",type:"success"}).then(
-								function(result) {
-									window.location.href = "/files";
-								});
-							}else{
-								
-							}
-						},
-						contentType: "application/json",
-						dataType: 'json'
-					});
+					
 					
 				}else{
 					swal("Este RFC ya se encuentra registrado")
@@ -266,7 +270,7 @@ function postData(){
 			},
 			contentType: "application/json",
 			dataType: 'json'
-		});
+		});*/
 		
 
 		
