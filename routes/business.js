@@ -334,7 +334,7 @@ function sendEmailtoAdmin(){
 
 	return new Promise(function(resolve, reject){
 		transporter.sendMail({
-			from: 'conderodriguez.luis@outlook.com',
+			from: 'contacto@ufind.com.mx',
 			to: 'brotherowsky@gmail.com',
 			subject: 'Nuevo establecimiento registrado',
 			text: 'Se ha ingresado un nuevo convenio ve a tu panel de control para poder activarlo',
