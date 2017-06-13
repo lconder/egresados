@@ -16,7 +16,7 @@ router.get('/', function(req, res, next){
 		states = rows
 		connection.query("SELECT  b.*, s.name as attendant_name, s.lastname as attendant_lastname, s.second_lastname as attendant_second_lastname,s.address as address, s.email as email, s.phone as mobile FROM iqbccomm_ibero.business b INNER JOIN iqbccomm_ibero.attendant s ON (b.attendant_id = s.id) WHERE b.id = ?", req.session.id_business,function(err, rows, fields)
 		{	
-			business = rows[0]
+			business = rows[0] //<- error 
 			connection.query("SELECT  id_categories as id, name  FROM categories", req.session.id_business,function(err, rows, fields)
 			{	
 				categories = rows

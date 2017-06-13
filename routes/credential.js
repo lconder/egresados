@@ -2,7 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
 
-
+//----------------------------API-------------------------------------------------//
 router.get('/:mat', function(req, res, next){
 	console.log("credential by Id");
 	var connection = mysql.createConnection(info_connection);
@@ -31,7 +31,7 @@ router.get('/:mat', function(req, res, next){
  	});
 });
 
-
+//----------------------------API-------------------------------------------------//
 router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
 

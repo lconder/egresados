@@ -45,37 +45,7 @@ router.post('/', function(req, res, next){
 		data.desc = error
 		res.json(data)
 	})
-
-	/*if(user=="admin" && password == sha1("admin"))
-	{
-		console.log("admin");
-		
-	}else{
-		console.log("No admin");
-		connection.query("SELECT * FROM business WHERE rfc=? AND password=?", [user, password], function(err, rows, fields){
-			if(err){
-				console.log(err);
-				connection.end(function(err){console.log("connection end...")});
-				res.json({"err":1, "desc": err});
-				res.json(data);
-			}else{
-				if(rows.length != 0){
-					req.session.level = 1 ;// 1 = Business
-					req.session.id_business = rows[0].id;			
-					data["error"] = 0;
-					data["level"] = 1;
-					if(rows[0].active==0){
-						data["active"]=0;
-					}
-					connection.end(function(err){console.log("connection end...")});
-					res.json(data);
-				}else{
-					connection.end(function(err){console.log("connection end...")});
-					console.log(rows);
-				}
-			}
-		});
-	}*/
+	
 });
 
 function getAdmin(user, password){

@@ -9,14 +9,17 @@ var serverKey = 'AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlN
 var fcm = new FCM(serverKey);
 var router = express.Router();
 
+
 router.post('/', function(req, res, next){
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
 
-	sendPush(req.body.name, req.body.promo_description);
+	
 
 	if(req.session.id_business != null)
 	{
+		sendPush(req.body.name, req.body.promo_description);
+		
 		var date_expired = req.body.expired_date.split("/");
 		var date_created = req.body.created_at.split("/");
 		var promo = {
@@ -92,16 +95,14 @@ router.get('/add', function(req, res, next){
 
 
 router.get('/all', function(req, res, next){
-	var data = {
-		"error": 1,
-		"promos":""
-	};
+	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){
     
 		if(!err){
 			connection.end(function(err){console.log("connection end...")});
-				res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data});
+			data.promos = rows
+			res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data})
 		}else{
 			connection.end(function(err){console.log("connection end...")});
 			res.json(data);

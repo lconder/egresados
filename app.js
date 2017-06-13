@@ -24,9 +24,9 @@ global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
-var login_test = require('./routes/login_test');
 var login_web = require('./routes/login_web');
 var business = require('./routes/business');
+var business_test = require('./routes/business_test');
 var agreement = require('./routes/agreement');
 var student = require('./routes/student');
 var files = require('./routes/files');
@@ -40,6 +40,7 @@ var categories = require('./routes/categories');
 var state = require('./routes/state');
 var device = require('./routes/device');
 var settings = require('./routes/settings');
+var rfc = require('./routes/rfc');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -64,8 +65,8 @@ app.use(cookieSession({name: "session",keys: ["key-1","key-2"]}));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
-app.use('/login_test', login_test);
 app.use('/login_web', login_web);
+app.use('/business_test', business_test);
 app.use('/business', business);
 app.use('/create', business);
 app.use('/agreement', agreement);
@@ -81,6 +82,7 @@ app.use('/categories', categories);
 app.use('/state', state);
 app.use('/device', device);
 app.use('/settings', settings);
+app.use('/rfc', rfc);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

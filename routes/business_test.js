@@ -14,92 +14,8 @@ var transporter = nodemailer.createTransport({
 	auth: {
 		user: 'brotherowsky@gmail.com',
 		pass: 'novidosN0!'
-		}
-	})
-
-//----------------------------API-------------------------------------------------
-router.get('/', function(req, res, next) {
-	console.log("Get All Business")
-	var data = {
-		"error": 1,
-		"business":""
-	};
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM business", function(err, rows, fields){
-		if(err)
-			res.json(data);
-		else{
-			if(rows.length != 0)
-			{
-				data["error"] = 0;
-				business = rows;
-				
-				var c=0;
-				async.each(business, function(item, cb){
-					connection.query("SELECT * FROM branch WHERE business_id=?",[item.id], function(err, rows, fields){
-						if(err)
-							console.log(err);
-						console.log(rows);
-						business[c].branch = rows;
-						c++;	
-						cb();
-					});
-					
-					
-				}, function(err){
-					if(err)
-						console.log(err);
-					connection.end(function(err){console.log("connection end...")});
-					data["business"] = business;
-					res.json(data);
-				});
-				
-			}else{
-				data["business"] = "No business was found!";
-				connection.end(function(err){console.log("connection end...")});
-				res.json(data);
-			}	
-		}
-	});
-});
-
-
-
-//----------------------------API-------------------------------------------------
-
-router.get('/all/', function(req, res, next) {
-	console.log("Get All Business and render view");
-	var data = {
-		"error": 1,
-		"business":""
-	};
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.* , s.email as email FROM business b INNER JOIN attendant s ON ( b.attendant_id = s.id ) ", function(err, rows, fields){
-    if(err)
-    {	
-    	connection.end(function(err){console.log("connection end...")});
-    	//res.json(data);
-    }
-    else{
-    	connection.end(function(err){console.log("connection end...")});
-    	res.render('allBusiness', {title:'Establecimientos registrados', business: rows, levelUser: req.session.level});	
-    }
-    
-  });
-});
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-router.get('/add/', function(req, res, next) {
-	console.log("Render view to add a new business");
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT id_state as id, name FROM state;", function(err, rows, fields)
-	{
-		res.render('addBusiness', {title:'Agregar Establecimiento', states: rows});	
-	});
-	
-});
-
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+	}
+})
 
 router.post('/', function(req, res, next){
 
@@ -197,45 +113,6 @@ router.post('/', function(req, res, next){
 	.catch(error => { res.json({'error':1, 'description':error, 'level': "attendant"  }) })
 
 })
-
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
-router.post('/activate/', function(req, res, next){
-	var data = {"error":1};
-	var id = req.body.id;
-	var status = req.body.status;
-	var connection = mysql.createConnection(info_connection);
-	connection.query("UPDATE business SET active = ? WHERE id = ?", [status,id], function(err, result){
-		if(result.affectedRows==1){
-			data["error"]=0;
-			data["updated"]=true;
-			connection.end(function(err){console.log("connection end...")});
-			res.json(data);
-		}
-	});
-});
-
-
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
-router.get('/:id/', function(req, res, next){
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id],function(err, rows, fields)
-	{
-		if(err){
-			console.log(err);
-			connection.end(function(err){console.log("connection end...")});
-			res.json(data);
-		}
-		else{
-			console.log(rows[0]);
-			connection.end(function(err){console.log("connection end...")});
-			res.render('business', {title: "Vista de negocio", b:rows[0],  levelUser: req.session.level});	
-		}
- 	});
-});
-
-
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
-
 
 
 function addAttendant(attendant){
@@ -349,8 +226,6 @@ function sendEmailToAttendant(email, password){
 	})
 
 }
-
-
 
 
 module.exports = router;

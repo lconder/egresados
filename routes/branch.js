@@ -43,9 +43,10 @@ router.get('/all', function(req, res, next){
 		if(err){
 			console.log(err);
 			connection.end(function(err){console.log("connection end...")});
+			//page error
 		}
 		else{
-			res.render('allBranch', {title: "Todas las sucursales", business: rows,levelUser: req.session.level});
+			res.render('allBranch', {title: "Todas las sucursales", business: rows, levelUser: req.session.level});
 		}
  	});
 

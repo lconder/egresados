@@ -193,6 +193,7 @@ function postData(){
 		band=true;
 	}
 
+
 	if(band){
 		console.log("band true");
 		var business = {
@@ -223,22 +224,45 @@ function postData(){
 		};
 		console.log(business);
 
+		rfc = {'rfc': rfc}
+
 		$.ajax({
 			type: 'POST',
-			url: '/business/',
-			data: JSON.stringify(business),
+			url: '/rfc/',
+			data: JSON.stringify(rfc),
 			success: function(data) {
 				console.log(data);
-				if(data.error == 0 && data.business.created == true){
-					swal({title:"Negocio dado de alta de manera exitosa.", text:"Ahora procederemos a la carga de tus archivos.",type:"success"}).then(
-					function(result) {
-						window.location.href = "/files";
+				if(data.error == 0 && data.count == 0){
+
+					$.ajax({
+						type: 'POST',
+						url: '/business/',
+						data: JSON.stringify(business),
+						success: function(data) {
+							console.log(data);
+							if(data.error == 0 && data.business.created == true){
+								swal({title:"Negocio dado de alta de manera exitosa.", text:"Ahora procederemos a la carga de tus archivos.",type:"success"}).then(
+								function(result) {
+									window.location.href = "/files";
+								});
+							}else{
+								
+							}
+						},
+						contentType: "application/json",
+						dataType: 'json'
 					});
+					
+				}else{
+					swal("Este RFC ya se encuentra registrado")
 				}
 			},
 			contentType: "application/json",
 			dataType: 'json'
 		});
+		
+
+		
 
 	}else{
 		console.log("band is false");
@@ -298,9 +322,9 @@ function fillCategories(business_type){
 			break;
 		default: break;
 	}
-
-
 }
+
+
 
 $(document).ready(function(){
 	swal({

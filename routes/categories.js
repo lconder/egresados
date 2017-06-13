@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var router = express.Router();
 var async = require('async');
 
+//----------------------------API-------------------------------------------------//
 router.get('/', function(req, res, next){
 	console.log('Get categories');
 	var connection = mysql.createConnection(info_connection);
@@ -16,6 +17,8 @@ router.get('/', function(req, res, next){
 	});
 });
 
+
+//----------------------------API-------------------------------------------------//
 router.get('/:id', function(req, res, next){
 	console.log('Get categories by id');
 	var connection = mysql.createConnection(info_connection);
@@ -30,11 +33,10 @@ router.get('/:id', function(req, res, next){
 });
 
 
-
-//----------------------------API-------------------------------------------------
+//----------------------------API-------------------------------------------------//
 router.get('/business/:id/', function(req, res, next) {
-	console.log("Get All Business from state")
-	var data = {"error": 1,"business":""};
+	 
+	var data = {'error': 1, 'business':""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT * FROM business WHERE categorie=?", [req.params.id],function(err, rows, fields){
 		if(err)

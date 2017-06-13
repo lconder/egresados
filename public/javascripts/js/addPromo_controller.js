@@ -4,6 +4,30 @@ function postData(){
 	var created_at = $("#created_at").val();
 	var promo_description = $("#promo_description").val();
 	var branch = [];
+	var band = false
+
+
+	var date_created = created_at.split("/");
+	var date_expired = expired_date.split("/");
+	
+
+	dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+	de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
+	today = new Date()
+
+	if((dc.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (dc.getTime() > today.getTime()))
+	{
+		if((de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (de.getTime() > today.getTime()))
+		{
+			console.log("true")
+			band = true
+		}else{
+			swal("La fecha de fin no es válida")
+		}
+	}else{
+		swal("La fecha de inicio no es válida")
+	}
+
 
 	for(var i=0; i<business.length; i++){
 		if($('#'+business[i].id).is(":checked")){
@@ -11,7 +35,7 @@ function postData(){
 		}
 	}
 
-	if(branch.length!=0){
+	if(branch.length!=0 || band){
 		
 
 		var promo = {
@@ -48,6 +72,11 @@ function postData(){
 }
 
 $(document).ready(function() {
+
+			$(function () {
+                $('#created_at').datetimepicker({minDate: moment()});
+            });
+			
 			var esp = {
 				"sProcessing":     "Procesando...",
 				"sLengthMenu":     "Mostrar _MENU_ registros",
@@ -76,4 +105,7 @@ $(document).ready(function() {
 				responsive: true,
 				"oLanguage": esp
 			});
-		});
+
+			
+
+});
