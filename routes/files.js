@@ -86,7 +86,7 @@ router.post('/', function(req, res, next){
 			{id: 31, name: "Yucatán"},
 			{id: 32, name: "Zacatecas"}];
 			req.session.id_business = null;
-			res.render('addBusiness', {title:'Agregar Establecimiento', states: states});
+			res.render('addBusiness', {title:'Agregar Establecimiento', states: states, levelUser:3});
 			console.log("data updated");
 		}
 	});

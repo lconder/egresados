@@ -2,8 +2,6 @@ function submitForm(){
 
 	var user = $("#user").val();
 	var password = $("#password").val();
-	console.log($.trim(user))
-	console.log($.trim(password))
 
 	if($.trim(user).length==0 || $.trim(password).length==0){
 		console.log("por favor,  llena todos los campos");
@@ -15,7 +13,7 @@ function submitForm(){
 			url: '/login_web',
 			data: JSON.stringify({user: user, password: password}),
 			success: function(data) {
-
+				console.log(data)
 				if(data.error == 1){
 					if(data.desc == "no se ha encontrado ningún usuario"){
 						$('#alert').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>No existe el usuario o el password es incorrecto, verifica.</div>");

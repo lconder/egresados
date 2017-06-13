@@ -16,14 +16,17 @@ router.post('/', function(req, res, next){
 	getAdmin(user, password)
 	.then(admin => {
 
+		console.log("admin "+admin)
 		if(admin < 1){
 			console.log(user, password)
-			testBusiness(user, password)
+			getBusiness(user, password)
 			.then(business => {
 
+				console.log(business)
 				req.session.level = 1 ;// 1 = Business
 				req.session.id_business = business.id;
 				data.error = 0
+				data.active = business.active
 				data.level = 1
 				res.json(data)
 			})
@@ -56,6 +59,7 @@ function getAdmin(user, password){
 	var sqlA = "SELECT count(*) as contador FROM user WHERE user=? AND password=? AND admin=?"
 	return new Promise(function(resolve, reject){
 		connection.query(sqlA, [user, password, 1], function(err, rows, fields){
+			console.log(rows[0])
 			connection.end(function(err){console.log("conexión finalizada obteniendo el admin")});
 			if(err){
 				return reject(err)
@@ -69,7 +73,7 @@ function getAdmin(user, password){
 function getBusiness(user, password){
 
 	var connection = mysql.createConnection(info_connection);
-	var sql = "SELECT count(*) as contador, id FROM business WHERE rfc=? AND password=?"
+	var sql = "SELECT count(*) as contador, id, active FROM business WHERE rfc=? AND password=?"
 	return new Promise(function(resolve, reject){
 		connection.query(sql, [user, password], function(err, rows, fields){
 			console.log(rows[0])

@@ -6,7 +6,12 @@ header#header.clearfix(data-ma-theme='ibero1')
 					.line.center
 					.line.bottom
 			li.hi-logo.hidden-xs
-				a(href='/dashboard') Egresados Ibero Puebla
+				if levelUser==3
+					a(href='/') Egresados Ibero Puebla
+				if levelUser==1
+					a(href='/') Egresados Ibero Puebla
+				if levelUser==0
+					a(href='/dashboard') Egresados Ibero Puebla
 			li.pull-right
 				ul.hi-menu
 					li(data-ma-action='search-open')

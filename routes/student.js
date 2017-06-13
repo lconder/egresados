@@ -41,10 +41,11 @@ router.get('/all/', function(req, res, next){
 	connection.query("SELECT * FROM student", function(err, rows, fields){
     
 		if(!err){
+			data.students = rows
 			connection.end(function(err){console.log("connection end...")});
 			res.render('allStudent', {title: "Todos los alumnos", students: data.students, levelUser: req.session.level });
 		}else{
-			res.json(data);
+			res.json(data);// page error
 			connection.end(function(err){console.log("connection end...")});
 		}
   });
