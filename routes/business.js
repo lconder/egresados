@@ -357,7 +357,7 @@ function sendEmailToAttendant(email, password){
 	return new Promise(function(resolve, reject){
 
 		transporter.sendMail({
-			from: 'conderodriguez.luis@outlook.com',
+			from: 'contacto@ufind.com.mx',
 			to: email,
 			subject: 'Bienvenido a Egresados Ibero',
 			text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"
