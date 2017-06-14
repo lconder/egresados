@@ -15,11 +15,11 @@ block content
 										img.img-responsive(src='/#{b.logo}', alt='')
 									.dropdown.pmop-message
 										if b.active == 1
-											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
-												i.zmdi.zmdi-close
-										else
 											button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
 												i.zmdi.zmdi-check
+										else
+											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+												i.zmdi.zmdi-close
 									//a.pmop-edit(href='')
 										i.zmdi.zmdi-camera
 										span.hidden-xs Update Profile Picture

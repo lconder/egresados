@@ -32,7 +32,8 @@ $(document).ready(function(){
       barColors: ['#9a8b7d'],
       xkey: 'y',
       ykeys: ['a'],
-      labels: ['Valor', 'Series B']
+      labels: ['Valor', 'Series B'],
+      yLabelFormat: function(y){ return y != Math.round(y)?'':y; }
     });
 
 
@@ -73,7 +74,7 @@ $(document).ready(function(){
             $('#data-table-students').DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
-                buttons: [ 'excel'],
+                buttons: [ 'excel', 'pdf', 'csv'],
                 "oLanguage": esp
             });
 });

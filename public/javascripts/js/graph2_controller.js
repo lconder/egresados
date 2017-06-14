@@ -79,7 +79,7 @@ $(document).ready(function(){
             $('#data-table-promos').DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
-                buttons: [ 'excel'],
+                buttons: [ 'excel', 'pdf', 'csv'],
                 "oLanguage": esp
             });
 });

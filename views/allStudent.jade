@@ -39,8 +39,7 @@ block content
 										tr
 											td #{prettyDate(val.created_at)}
 											td=val.mat
-											td
-												a(href='/student/'+val._id)=val.name+' '+val.lastname+' '+val.second_lastname
+											td=val.name+' '+val.lastname+' '+val.second_lastname
 											td=val.career
 											td=val.email
 											td=val.phone
