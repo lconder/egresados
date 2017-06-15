@@ -8,15 +8,17 @@ var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 //var formidable = require('express-formidable');
 var multer  = require('multer');
-
+var config = require('./config.json')
 
 global.info_connection = {
-  host:"54.244.63.115",
-  port: "3306",
-  user:"lconder",
-  password:"0112358",
-  database:"iqbccomm_ibero"
+  host: config.host_database,
+  port: config.port_database,
+  user: config.user_database,
+  password: config.password_database,
+  database: config.database
 };
+
+
 
 
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';

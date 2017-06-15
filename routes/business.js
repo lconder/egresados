@@ -7,20 +7,26 @@ var generateDocx = require('generate-docx');
 var fs = require('fs');
 var moment = require('moment');
 var shortid = require('shortid');
-var sha1 = require('sha1')
+var sha1 = require('sha1');
+var config = require('../config');
+
+
 
 var transporter = nodemailer.createTransport({
-	host: 'atenea.hosting-mexico.net',
-	port: 465,
+	host: config.host_mail,
+	port: config.port_mail,
 	auth: {
-			user: 'test@iqbc.com.mx',
-			pass: 'u9u8G0U8ty'
+			user: config.user_mail,
+			pass: config.password_mail
 		}
 	})
 
 //----------------------------API-------------------------------------------------
 router.get('/', function(req, res, next) {
 	console.log("Get All Business")
+
+	console.log(config)
+
 	var data = {
 		"error": 1,
 		"business":""

@@ -1,0 +1,14 @@
+{
+	
+	"host_database": "54.244.63.115",
+	"port_database" : "3306",
+	"user_database" : "lconder",
+	"password_database": "0112358",
+  	"database" : "iqbccomm_ibero",
+
+  	"host_mail": "atenea.hosting-mexico.net",
+	"port_mail": "465",
+	"user_mail": "test@iqbc.com.mx",
+	"password_mail": "u9u8G0U8ty"
+
+}
