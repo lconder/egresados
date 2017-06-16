@@ -235,6 +235,7 @@ function postData(){
 			type: 'POST',
 			url: '/business/',
 			data: JSON.stringify(business),
+			
 			success: function(data) {
 				console.log(data);
 				if(data.error == 0 && data.business.created == true){
@@ -306,11 +307,6 @@ function isValidPC(postal_code){
 
 }
 
-
-
-function clearForm(){
-	console.log("Clear Form");
-}
 
 function getDataCategories(id){
 	
