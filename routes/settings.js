@@ -16,7 +16,7 @@ router.get('/', function(req, res, next){
 		states = rows
 		connection.query("SELECT  b.*, s.name as attendant_name, s.lastname as attendant_lastname, s.second_lastname as attendant_second_lastname,s.address as address, s.email as email, s.phone as mobile FROM iqbccomm_ibero.business b INNER JOIN iqbccomm_ibero.attendant s ON (b.attendant_id = s.id) WHERE b.id = ?", req.session.id_business,function(err, rows, fields)
 		{	
-			business = rows[0] //<- error 
+			business = rows[0]
 			connection.query("SELECT  id_categories as id, name  FROM categories", req.session.id_business,function(err, rows, fields)
 			{	
 				categories = rows
@@ -46,6 +46,7 @@ router.put('/password/', function(req, res, next){
 router.put('/', function(req, res, next){
 	var data = {"error":1};
 	console.log(req.body);
+
 	var id_business = req.body.id_business;
 	var id_attendant = req.body.id_attendant;
 	
@@ -76,43 +77,117 @@ router.put('/', function(req, res, next){
 	address= req.body.address
 	id_attendant= req.body.id_attendant
 
-	var connection = mysql.createConnection(info_connection);
-	var query = 'UPDATE business SET name=?, rfc=?, facebook=?, twitter=?, website=?, graduated=?, discount_description=?, size=?, business_type=?, categorie=?, street=?, external_number=?, internal_number=?, postal_code=?, suburb=?, city=?, state=?, phone=?  WHERE id=?'
-	connection.query(query, [name, rfc, facebook, twitter, website, graduated, discount_description, size, business_type, categorie, street, external_number, internal_number, postal_code, suburb, city, state, phone, id_business], function(err, result){
-		console.log(err, result);
-		if(err){
-					connection.end(function(err){console.log("connection end...")});
-					res.json(err);
-				}
-		else{
-			if(result.affectedRows==1){
-				query = 'UPDATE attendant SET name=?, lastname=?, second_lastname=?, email=?, phone=?, address=? WHERE id=?'
-				connection.query(query, [attendant_name, attendant_lastname, attendant_second_lastname, email, mobile, address, id_attendant], function(err, result){
-				console.log(err, result);
-				if(err){
-					connection.end(function(err){console.log("connection end...")});
-					res.json(err);
-				}
-				else{
-					if(result.affectedRows==1){
-						data["error"]=0;
-						data["updated"]=true;
-						connection.end(function(err){console.log("connection end...")});
-						res.json(data);
-					}else{
-						connection.end(function(err){console.log("connection end...")});
-						res.json(data);
-					}	
-				}
-				
-			});
-			}else{
-				connection.end(function(err){console.log("connection end...")});
-				res.json(data);
-			}	
+	var businessPost = [name, rfc, facebook, twitter, website, graduated, discount_description, size, business_type, categorie, street, external_number, internal_number, postal_code, suburb, city, state, phone, id_business];
+	var attendantPost = [attendant_name, attendant_lastname, attendant_second_lastname, email, mobile, address, id_attendant]
+
+	checkRFC(rfc)
+	.then(contador => {
+
+		console.log(contador)
+		if(contador <= 1){
+
+			updateBusiness(businessPost)
+			.then(business_edited => {
+
+				updateAttendant(attendantPost)
+				.then(attendant_edited => {
+					res.json({'error' : 0, 'updated' : true})
+				})
+				.catch(error => { res.json({'error':1, 'description':error, 'level': "updatedAttendant"}) })
+
+			})
+			.catch(error => { res.json({'error':1, 'description':error, 'level': "updatedBusiness"}) })
+
+		}else{
+
+			res.json({'error': 1, 'description': 'ya existe el RFC', 'code_error': 1})
+
 		}
-		
-	});
+	})
+	.catch(error => { res.json({'error':1, 'description':error, 'level': "rfc"  }) })
+	
 });
+
+function updateAttendant(attendant){
+
+	return new Promise(function(resolve, reject){
+
+		var connection = mysql.createConnection(info_connection);
+		var query = 'UPDATE attendant SET name=?, lastname=?, second_lastname=?, email=?, phone=?, address=? WHERE id=?'
+		connection.query(query, attendant, function(err, result){
+
+			console.log(err, result)
+			if(err){
+				connection.end(function(err){console.log("connection end.")});
+				reject(err)
+			}else{
+				if(result.affectedRows==1){
+					connection.end(function(err){console.log("connection end..")});
+					resolve(result.insertId)
+				}else{
+					connection.end(function(err){console.log("connection end...")});
+					reject("Error actualizando encargado")
+				}
+			}
+		});
+	})
+}
+
+
+function updateBusiness(business){
+
+
+	return new Promise(function(resolve, reject){
+
+		var connection = mysql.createConnection(info_connection);
+		var query = 'UPDATE business SET name=?, rfc=?, facebook=?, twitter=?, website=?, graduated=?, discount_description=?, size=?, business_type=?, categorie=?, street=?, external_number=?, internal_number=?, postal_code=?, suburb=?, city=?, state=?, phone=?  WHERE id=?';
+		connection.query(query, business, function(err, result){
+
+			console.log(err, result)
+			if(err){
+				connection.end(function(err){console.log("connection end.")});
+				reject(err)
+			}else{
+				if(result.affectedRows==1){
+					connection.end(function(err){console.log("connection end..")});
+					resolve(result.insertId)
+				}else{
+					connection.end(function(err){console.log("connection end...")});
+					reject("Error actualizando negocio")
+				}
+			}
+		})
+	})
+	
+
+
+
+}
+
+function checkRFC(rfc){
+
+
+	return new Promise(function(resolve, reject){
+
+		var connection = mysql.createConnection(info_connection);
+		connection.query("SELECT count(*) as contador FROM business WHERE rfc=?", [rfc],function(err, rows, fields)
+		{
+			if(err){
+				console.log(err)
+				connection.end(function(err){console.log("connection end...")});			
+				return reject(err)
+			}
+			else{
+				connection.end(function(err){console.log("connection end...")});
+				resolve(rows[0].contador)
+			}
+	 	});
+	})
+}
+
+
+
+
+
 
 module.exports = router;

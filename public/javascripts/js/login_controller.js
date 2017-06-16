@@ -32,7 +32,7 @@ function submitForm(){
 						}else{
 							if(data.level==1){
 								console.log("session business");
-								window.location = '/dashboard';
+								window.location = '/settings';
 							}
 						}
 					}

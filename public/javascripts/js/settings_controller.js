@@ -1,3 +1,11 @@
+$.validate({
+	lang: 'es',
+	onSuccess : function() {
+		postData();
+		return false;
+	}
+});
+
 function postData(){
 
 	var	business_name = $("#business_name").val();
@@ -29,195 +37,7 @@ function postData(){
 	var password = $("#password").val();
 	var band = false;
 
-	if($.trim(business_name).length==0){
-		$("#business_nameError").css('color','red');
-		$("#business_nameError").html("El nombre de la empresa es requerido");
-	}else{
-		$("#business_nameError").html("");
-	}
-
-	if($.trim(rfc).length==0){
-		$("#rfcError").css('color','red');
-		$("#rfcError").html("El R.F.C. de la empresa es requerido");
-	}else{
-		$("#rfcError").html("");
-	}
-
-	if(isValidRFC(rfc)==false){
-		$("#rfcError").css('color','red');
-		$("#rfcError").html("Ingresa un RFC válido (XEX010101000)");
-	}else{
-		$("#rfcError").html("");
-	}
-
-
-	if($.trim(phone).length==0){
-		$("#phoneError").css('color','red');
-		$("#phoneError").html("El teléfono es requerido");
-	}else{
-		$("#phoneError").html("");
-	}
-
-	if(isValidPhone(phone)==false){
-		$("#phoneError").css('color','red');
-		$("#phoneError").html("Ingresa un número válido (10 dígitos sin espacios)");
-	}else{
-		$("#phoneError").html("");
-	}
-
-	if($.trim(external_number).length==0){
-		$("#external_numberError").css('color','red');
-		$("#external_numberError").html("El número exterior es requerido");
-	}else{
-		$("#external_numberError").html("");
-	}
-
-	if($.trim(street).length==0){
-		$("#streetError").css('color','red');
-		$("#streetError").html("La calle es requerida");
-	}else{
-		$("#streetError").html("");
-	}
-
-	if($.trim(postal_code).length==0){
-		$("#postal_codeError").css('color','red');
-		$("#postal_codeError").html("El código postal es requerido");
-	}else{
-		$("#postal_codeError").html("");
-	}
-
-	if($.trim(suburb).length==0){
-		$("#suburbError").css('color','red');
-		$("#suburbError").html("La colonia es requerida");
-	}else{
-		$("#suburbError").html("");
-	}
-
-	if($.trim(city).length==0){
-		$("#cityError").css('color','red');
-		$("#cityError").html("La ciudad es requerida");
-	}else{
-		$("#cityError").html("");
-	}
-
-	if(state==0){
-		$("#stateError").css('color','red');
-		$("#stateError").html("El estado es requerido");
-	}else{
-		$("#stateError").html("");
-	}
-
-	if($.trim(discount_description).length==0){
-		$("#discount_descriptionError").css('color','red');
-		$("#discount_descriptionError").html("Por favor, escribe una breve descripción");
-	}else{
-		$("#discount_descriptionError").html("");
-	}
-
-	if($.trim(attendant_name).length==0){
-		$("#attendant_nameError").css('color','red');
-		$("#attendant_nameError").html("El nombre del encargado es necesario");
-	}else{
-		$("#attendant_nameError").html("");
-	}
-
-	if($.trim(attendant_lastname).length==0){		
-		$("#attendant_lastnameError").css('color','red');
-		$("#attendant_lastnameError").html("El apellido paterno del encargado es necesario");
-	}else{
-		$("#attendant_lastnameError").html("");
-	}
-
-	if($.trim(attendant_second_lastname).length==0){
-		$("#attendant_second_lastnameError").css('color','red');
-		$("#attendant_second_lastnameError").html("El apellido materno del encargado es necesario");
-	}else{
-		$("#attendant_second_lastnameError").html("");
-	}
-
-	if($.trim(email).length==0){
-		$("#emailError").css('color','red');
-		$("#emailError").html("El email del encargado es necesario");
-	}else{
-		$("#emailError").html("");
-	}
-
-	if(isValidEmailAddress(email)==false){
-		$("#emailError").css('color','red');
-		$("#emailError").html("Ingresa un email válido");
-	}else{
-		$("#emailError").html("");
-	}
-
-	if($.trim(mobile).length==0){
-		$("#mobileError").css('color','red');
-		$("#mobileError").html("El celular del encargado es necesario");
-	}else{
-		$("#mobileError").html("");
-	}
-
-	if(isValidPhone(mobile)==false){
-		$("#mobileError").css('color','red');
-		$("#mobileError").html("Ingresa un celular válido (10 dígitos sin espacios)");
-	}else{		
-		$("#mobileError").html("");
-	}
-
-	if($.trim(address).length==0){
-		$("#addressError").css('color','red');
-		$("#addressError").html("La dirección del encargado es necesaria");
-	}else{
-		$("#addressError").html("");
-	}
-	
-	if(size==0){
-		$("#sizeError").css('color','red');
-		$("#sizeError").html("Selecciona una opcion válida");
-	}else{
-		$("#sizeError").html("");
-	}
-
-	if(business_type==0){
-		$("#business_typeError").css('color','red');
-		$("#business_typeError").html("Selecciona una opcion válida");
-	}else{
-		$("#business_typeError").html("");
-	}
-
-	if($.trim(business_name).length==0 || $.trim(rfc).length==0 || $.trim(phone).length==0 || 
-		$.trim(street).length==0 || $.trim(external_number).length==0 || $.trim(postal_code).length==0 ||
-		 $.trim(discount_description).length==0 || $.trim(attendant_name).length==0 ||
-		  $.trim(attendant_lastname).length==0 || $.trim(attendant_lastname).length==0 ||
-		   $.trim(attendant_second_lastname).length==0 || $.trim(email).length==0 || $.trim(mobile).length==0 || 
-		    $.trim(address).length==0  || !isValidPhone(mobile) || !isValidPhone(phone) || !isValidEmailAddress(email) ||
-		  	 size==0 || business_type==0 || $.trim(suburb).length==0 || state==0 || $.trim(city).length==0 || isValidRFC(rfc)==false){
-		band = false;
-	}else{
-		band=true;
-	}
-
-	if($.trim(password).length!=0){
-
-		var updatePass = {
-			'password': password,
-			'id_business': id_business
-		}
-
-		$.ajax({
-			type: 'PUT',
-			url: '/settings/password/',
-			data: JSON.stringify(updatePass),
-			success: function(data) {
-				console.log(data);
-			},
-			contentType: "application/json",
-			dataType: 'json'
-		});
-	}
-
-	if(band){
-		console.log("band true");
-		var business = {
+	var business = {
 			"business_name" : business_name,
 			"rfc" : rfc,
 			"phone" : phone,
@@ -247,10 +67,41 @@ function postData(){
 		};
 		console.log(business);
 
+
+	if($.trim(password).length!=0){
+
+		console.log("Se actualizará el password")
+		var updatePass = {
+			'password': password,
+			'id_business': id_business
+		}
+
 		$.ajax({
+			type: 'PUT',
+			url: '/settings/password/',
+			data: JSON.stringify(updatePass),
+			beforeSend: function(){
+				swal('Espere...');
+				swal.showLoading();
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			contentType: "application/json",
+			dataType: 'json'
+		});
+	}
+
+
+
+	$.ajax({
 			type: 'PUT',
 			url: '/settings/',
 			data: JSON.stringify(business),
+			beforeSend: function(){
+				swal('Espere...');
+				swal.showLoading();
+			},
 			success: function(data) {
 				console.log(data);
 				if(data.error == 0 && data.updated == true){
@@ -258,15 +109,19 @@ function postData(){
 					function(result) {
 						window.location.href = "/settings";
 					});
+				}else{
+					if(data.error==1 && data.code_error==1){
+						swal("El RFC ingresado ya existe")
+					}
 				}
 			},
 			contentType: "application/json",
 			dataType: 'json'
 		});
 
-	}else{
-		console.log("band is false");
-	}
+
+	
+
 }
 
 

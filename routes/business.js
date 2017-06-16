@@ -219,7 +219,7 @@ router.post('/', function(req, res, next){
 		}
 
 	})
-	.catch(error => { res.json({'error':1, 'description':error, 'level': "attendant"  }) })
+	.catch(error => { res.json({'error':1, 'description':error, 'level': "rfc"  }) })
 
 	
 
