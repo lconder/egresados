@@ -7,7 +7,7 @@
   	"database" : "iqbccomm_ibero",
 
   	"host_mail": "atenea.hosting-mexico.net",
-	"port_mail": "465",
+	"port_mail": 465,
 	"user_mail": "test@iqbc.com.mx",
 	"password_mail": "u9u8G0U8ty"
 
