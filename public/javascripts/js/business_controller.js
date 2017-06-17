@@ -13,6 +13,7 @@ function activate(but){
 			"id": id
 		};
 	}
+	
 	$.ajax({
 		type: 'POST',
 		url: '/business/activate/',

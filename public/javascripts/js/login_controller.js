@@ -46,7 +46,40 @@ function submitForm(){
 	return false
 }
 
-$( '#submit' ).click(function() {submitForm()});
+
+function resetPass(){
+
+	var rfc = $("#reset").val();
+
+	if($.trim(rfc)==0){
+		swal('Ingresa un RFC para realizar la búsqueda')
+	}else{
+		$.ajax({
+			type: 'POST',
+			url: '/password/',
+			data: JSON.stringify({'rfc' : rfc}),
+			success: function(data) {
+				console.log(data)
+				if(data.error==0 && data.updated==1){
+					swal({title:"Se ha modificado el password", text:"Se ha enviado un correo con el nuevo password.",type:"success"})
+					.then(
+						function(result) {
+							location.reload();
+						});
+				}else{
+					swal({title:"No se ha encontrado el usuario", text:"Verifica que el RFC ingresado sea correcto.",type:"error"})
+				}
+			},
+			contentType: "application/json",
+			dataType: 'json'
+		});
+	}
+
+}
+
+$( '#submit' ).click(function(){ submitForm() });
+
+$( '#password_reset' ).click(function(){ resetPass() });
 
 document.onkeydown = function () {
     if (window.event.keyCode == '13') {

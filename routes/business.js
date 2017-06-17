@@ -10,8 +10,6 @@ var shortid = require('shortid');
 var sha1 = require('sha1');
 var config = require('../config');
 
-
-
 var transporter = nodemailer.createTransport({
 	host: config.host_mail,
 	port: config.port_mail,
@@ -339,7 +337,7 @@ function sendEmailtoAdmin(){
 
 	return new Promise(function(resolve, reject){
 		transporter.sendMail({
-			from: 'test@iqbc.com.mx',
+			from: config.user_mail,
 			to: 'brotherowsky@gmail.com',
 			subject: 'Nuevo establecimiento registrado',
 			text: 'Se ha ingresado un nuevo convenio ve a tu panel de control para poder activarlo',
@@ -362,7 +360,7 @@ function sendEmailToAttendant(email, password){
 	return new Promise(function(resolve, reject){
 
 		transporter.sendMail({
-			from: 'test@iqbc.com.mx',
+			from: config.user_mail,
 			to: email,
 			subject: 'Bienvenido a Egresados Ibero',
 			text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"

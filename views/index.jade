@@ -26,5 +26,24 @@ block content
 								a(href='/business/add/' target='_blank') Registrar establecimiento.
 			.lcb-navigation
 				#alert
+					a(href='', data-ma-action='login-switch', data-ma-block='#l-forget-password')
+						i ?
+						span Olvide mi contraseña
+
+		#l-forget-password.lc-block
+			.lcb-form
+				p.text-left
+					| Ingresa tu correo electrónico o R.F.C para que podamos adjuntarte tu nuevo password.
+				.input-group.m-b-20
+					span.input-group-addon
+						i.zmdi.zmdi-email
+					.fg-line
+						input#reset.form-control(type='text', placeholder='Email')
+				button#password_reset.btn.btn-login.btn-success.btn-float(type='button')
+					i.zmdi.zmdi-check
+			.lcb-navigation
+				a(href='', data-ma-action='login-switch', data-ma-block='#l-login')
+					i.zmdi.zmdi-long-arrow-right
+					span Inicio de Sesión
 	include footer
 	script(src='/javascripts/js/login_controller.js')
