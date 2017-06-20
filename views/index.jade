@@ -11,19 +11,22 @@ block content
 						span.input-group-addon
 							i.zmdi.zmdi-account
 						.fg-line
-							input#user.form-control(type='text', placeholder='Usuario', required)
+							input#user.form-control(type='text', placeholder='Usuario/RFC', required)
 					.input-group.m-b-20
 						span.input-group-addon
-							i.zmdi.zmdi-male
+							i.zmdi.zmdi-lock
 						.fg-line
 							input#password.form-control(type='password', placeholder='Contraseña', required)
 					button#submit.btn.btn-login.btn-danger.btn-float(type='button')
 						i.zmdi.zmdi-arrow-forward
 				small
 					.row
-						.col-md-12
+						.col-md-6
 							h5
-								a(href='/business/add/' target='_blank') Registrar establecimiento.
+								a(href='/business/add/' target='_blank') Registrar Convenio
+						.col-md-6
+							h5
+								a(href='#' onclick='openHelp()') Ayuda
 			.lcb-navigation
 				#alert
 					a(href='', data-ma-action='login-switch', data-ma-block='#l-forget-password')
@@ -46,4 +49,6 @@ block content
 					i.zmdi.zmdi-long-arrow-right
 					span Inicio de Sesión
 	include footer
+	script.
+		var files = '!{JSON.stringify(files)}'; 
 	script(src='/javascripts/js/login_controller.js')

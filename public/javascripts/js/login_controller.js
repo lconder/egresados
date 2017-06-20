@@ -86,3 +86,28 @@ document.onkeydown = function () {
         submitForm();
     }
 }
+
+$( document ).ready(function() {
+	
+	if(files==1){
+		swal({title:"Se ha agregado tu convenio", text:"Hemos enviado un correo con tu contraseña, ahora puedes iniciar sesión, recuerda que tu usuario es tu RFC.",type:"success"})
+	}
+});
+
+function openHelp(){
+
+	swal({
+		title: '<h3>Ayuda</h3>',
+		type: 'info',
+		html:
+			"<br><h4>Si eres un usuario registrado</h4>" +
+			"<p>Ingresa con tu <b>RFC</b> y la contraseña que se te envío vía correo electrónico, si has olvidado tu contraseña puedes recuperarla en el botón que tiene el signo de interrogación.</p>" +
+			"<br><h4>Si aún no te has registrado</h4> " +
+			"<p>Puedes hacerlo dando click aquí: <a href='/business/add' target='_blank' >Registrar Convenio</a>. </p>",
+		showCloseButton: true,
+		confirmButtonText:
+			'<i class="fa fa-thumbs-up"></i> ¡Entendido!'
+	})
+
+	return false;
+}
