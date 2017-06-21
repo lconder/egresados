@@ -29,7 +29,8 @@ block content
 								a(href='#' onclick='openHelp()') Ayuda
 			.lcb-navigation
 				#alert
-					a(href='', data-ma-action='login-switch', data-ma-block='#l-forget-password')
+				#forgot
+					a(href='', data-ma-action='login-switch', data-ma-block='#l-forget-password' onclick='changeStatus(1)')
 						i ?
 						span Olvide mi contraseña
 
@@ -45,7 +46,7 @@ block content
 				button#password_reset.btn.btn-login.btn-success.btn-float(type='button')
 					i.zmdi.zmdi-check
 			.lcb-navigation
-				a(href='', data-ma-action='login-switch', data-ma-block='#l-login')
+				a(href='', data-ma-action='login-switch', data-ma-block='#l-login' onclick='changeStatus(0)')
 					i.zmdi.zmdi-long-arrow-right
 					span Inicio de Sesión
 	include footer

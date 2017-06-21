@@ -1,7 +1,14 @@
+var band;
+
+function changeStatus(value){
+	band = value;
+}
+
 function submitForm(){
 
 	var user = $("#user").val();
 	var password = $("#password").val();
+	
 
 	if($.trim(user).length==0 || $.trim(password).length==0){
 		console.log("por favor,  llena todos los campos");
@@ -52,7 +59,7 @@ function resetPass(){
 	var rfc = $("#reset").val();
 
 	if($.trim(rfc)==0){
-		swal('Ingresa un RFC para realizar la búsqueda')
+		swal({title:"Ingresa un RFC para buscar", text:"Es necesario ingresar un RFC.",type:"error"})
 	}else{
 		$.ajax({
 			type: 'POST',
@@ -81,18 +88,27 @@ $( '#submit' ).click(function(){ submitForm() });
 
 $( '#password_reset' ).click(function(){ resetPass() });
 
-document.onkeydown = function () {
-    if (window.event.keyCode == '13') {
-        submitForm();
+
+document.onkeydown = function (e) {
+	e = e || window.event
+    if (e.keyCode == '13') {
+    	if(band==0){
+    		submitForm();
+    	}
+        else{
+        	resetPass();
+        }
     }
 }
 
 $( document ).ready(function() {
-	
+	band = 0;
 	if(files==1){
 		swal({title:"Se ha agregado tu convenio", text:"Hemos enviado un correo con tu contraseña, ahora puedes iniciar sesión, recuerda que tu usuario es tu RFC.",type:"success"})
 	}
 });
+
+
 
 function openHelp(){
 
