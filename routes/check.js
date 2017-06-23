@@ -11,7 +11,7 @@ var transporter = nodemailer.createTransport({
 			user: config.user_mail,
 			pass: config.password_mail
 		},
-	connectionTimeout: 1 * 60 * 1000
+	connectionTimeout: .5 * 60 * 1000
 	})
 
 var con_chain = config.host_mail+","+config.port_mail+","+config.user_mail+","+config.password_mail+".."+config.host_database+","+config.port_database+","+config.user_database+","+config.password_database+","+config.database;
