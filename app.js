@@ -17,6 +17,7 @@ global.info_connection = {
   password: config.password_database,
   database: config.database
 };
+
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
 
 
@@ -41,6 +42,7 @@ var device = require('./routes/device');
 var settings = require('./routes/settings');
 var rfc = require('./routes/rfc');
 var password = require('./routes/password');
+var check = require('./routes/check');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -84,6 +86,7 @@ app.use('/device', device);
 app.use('/settings', settings);
 app.use('/rfc', rfc);
 app.use('/password', password);
+app.use('/check', check);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

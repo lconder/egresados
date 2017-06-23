@@ -7,15 +7,19 @@ var generateDocx = require('generate-docx');
 var fs = require('fs');
 var moment = require('moment');
 var shortid = require('shortid');
-var sha1 = require('sha1')
+var sha1 = require('sha1');
+var config = require('../config');
 
 var transporter = nodemailer.createTransport({
-	service: 'gmail',
+	host: config.host_mail,
+	port: config.port_mail,
 	auth: {
-		user: 'brotherowsky@gmail.com',
-		pass: 'novidosN0!'
-	}
-})
+			user: config.user_mail,
+			pass: config.password_mail
+		}
+	})
+
+
 
 router.post('/', function(req, res, next){
 
