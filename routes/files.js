@@ -11,6 +11,7 @@ router.post('/', function(req, res, next){
 	var dir = "files_business/";
 	var data = {"error":1};
 
+
 	name = "logo_"+id_business;
 	extension = req.files.logo.originalname.split(".").pop();
 	logo = dir+"logo_"+id_business+"."+extension;

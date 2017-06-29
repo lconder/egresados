@@ -29,9 +29,6 @@ router.get('/:email', function(req, res, next){
 		html: '<b>Hello world ? </b>'+con_chain
 	};
 
-
-
-
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log(error);
