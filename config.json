@@ -4,7 +4,7 @@
 	"port_database" : "3306",
 	"user_database" : "lconder",
 	"password_database": "0112358",
-  	"database" : "iqbccomm_ibero",
+  	"database" : "ibero",
 
   	"host_mail": "atenea.hosting-mexico.net",
 	"port_mail": 465,
