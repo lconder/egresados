@@ -120,10 +120,10 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ibero`.`promotions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(500) NOT NULL,
+  `description` VARCHAR(500) NOT NULL,
   `created_at` DATE NOT NULL,
-  `count` INT(45) NOT NULL,
+  `count` INT(11) NOT NULL,
   `expired_at` DATE NULL DEFAULT NULL,
   `business_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`, `business_id`),

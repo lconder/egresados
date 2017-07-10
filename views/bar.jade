@@ -95,15 +95,6 @@ header#header.clearfix(data-ma-theme='ibero1')
 				ul.main-menu
 					li.sub-menu
 						a(href='', data-ma-action='submenu-toggle')
-							i.zmdi.zmdi-card-giftcard
-							|  Promociones
-						ul
-							li
-								a(href='/promotion_business/add/') Agregar
-							li
-								a(href='/promotion_business/all/') Ver Todas
-					li.sub-menu
-						a(href='', data-ma-action='submenu-toggle')
 							i.zmdi.zmdi-store
 							|  Sucursales
 						ul
@@ -111,6 +102,15 @@ header#header.clearfix(data-ma-theme='ibero1')
 								a(href='/branch/add/') Agregar
 							li
 								a(href='/branch/all/') Ver Todas
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-card-giftcard
+							|  Promociones
+						ul
+							li
+								a(href='/promotion_business/add/') Agregar
+							li
+								a(href='/promotion_business/all/') Ver Todas
 			if levelUser==3
 				ul.main-menu
 					li
