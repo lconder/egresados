@@ -104,7 +104,7 @@ document.onkeydown = function (e) {
 $( document ).ready(function() {
 	band = 0;
 	if(files==1){
-		swal({title:"Se ha agregado tu convenio", text:"Hemos enviado un correo con tu contraseña, ahora puedes iniciar sesión, recuerda que tu usuario es tu RFC.",type:"success"})
+		swal({title:"Se ha agregado tu convenio", text:"Hemos enviado un correo con tu contraseña, ahora puedes iniciar sesión, recuerda que tu usuario es tu RFC. En ocasiones el correo llega a la bandeja de Correo No Deseado, verifica ahí",type:"success"})
 	}
 });
 

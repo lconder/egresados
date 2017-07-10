@@ -363,7 +363,8 @@ function sendEmailToAttendant(email, password){
 			from: config.user_mail,
 			to: email,
 			subject: 'Bienvenido a Egresados Ibero',
-			text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"
+			html: '<b>	Estimado empresario </b><br><br><b>	Se ha completado la activación de su registro.</b><br><br><b>	Su password es: '+password+' </b><br><br><b>Agradeceremos guarde su usuario (es su RFC) y contraseña para futuros ingresos a la app.</b><br><br><b>	Para cualquier duda o aclaración favor de contactar: </b><br><br><b>Oficina de Atención Tecnológica</b><br><br><b> <a href="mailto:oat@iberopuebla.mx" target="_top">oat@iberopuebla.mx</a> </b><br><br><b>	Tel. 372 3000 ext. 19155 </b><br><br>'
+			//text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"
 		}, function(error, info){
 			if(error){
 				reject(error)
