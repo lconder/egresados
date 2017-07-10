@@ -26,6 +26,6 @@
 $('#data-table-students').DataTable({
     responsive: true,
     dom: 'Bfrtip',
-    buttons: [ 'excel', 'pdf', 'csv'],
+    buttons: [ 'excel', 'pdf'],
     "oLanguage": esp
 });

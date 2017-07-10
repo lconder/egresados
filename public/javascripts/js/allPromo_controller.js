@@ -66,7 +66,7 @@ $(document).ready(function() {
 	$('#data-table-promotions').DataTable({
 		responsive: true,
 		dom: 'Bfrtip',
-		buttons: [ 'excel','csv','pdf'],
+		buttons: [ 'excel', 'pdf'],
 		"oLanguage": esp
 	});
 });
