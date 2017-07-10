@@ -37,54 +37,58 @@ block content
 											.dtp-container
 												input#expired_date.form-control.date-picker(type='text', name='expired_date', placeholder='Fecha de Expiración')
 										small#expired_dateError.help-block
-								BR
+								br
 								.row
 									.col-md-12
 										.form-group
 											.fg-line
 												textarea#promo_description.form-control(rows='3', placeholder='Describe tu promoción...' name='promo_description')
 												small#promo_descriptionError.help-block
-								br
-								.row
-									.col-md-3
-									.col-md-3
-									.col-md-2
-									.col-md-2
-										button(onclick='clearForm()').btn.btn-danger.btn-icon-text
-											i.zmdi.zmdi-close
-											|  Limpiar		
-									.col-md-2				
-										button(onclick='postData()').btn.btn-primary.btn-icon-text
-											i.zmdi.zmdi-check
-											|  Aceptar
 						.card
 							.card-header
 								h2
 									| Seleccione las sucursales donde su promoción estará activa.
 									small
 										| Después pulse el botón aceptar.
-							.table-responsive
-								table#data-table-promotions.table.table-striped
-									thead
-										tr
-											th Nombre
-											th Dirección
-											th Opciones
-									tfoot
-										tr
-											th Nombre
-											th Dirección
-											th Opciones
-									tbody
-										each val in business
-											tr
-												td=val.name
-												td=val.address
-												td
-													.toggle-switch.toggle-switch-demo
-														label.ts-label(for='#{val.id}') Seleccionar :
-														input(type='checkbox', hidden='hidden' id='#{val.id}')
-														label.ts-helper(for='#{val.id}')				
+							.row
+								.col-md-12
+									.table-responsive
+										table#data-table-promotions.table.table-striped
+											thead
+												tr
+													th Nombre
+													th Dirección
+													th Opciones
+											tfoot
+												tr
+													th Nombre
+													th Dirección
+													th Opciones
+											tbody
+												each val in business
+													tr
+														td=val.name
+														td=val.address
+														td
+															.toggle-switch.toggle-switch-demo
+																label.ts-label(for='#{val.id}') Seleccionar :
+																input(type='checkbox', hidden='hidden' id='#{val.id}')
+																label.ts-helper(for='#{val.id}')
+							br
+							.row
+								.col-md-3
+								.col-md-3
+								.col-md-2
+								.col-md-2
+									button(onclick='clearForm()').btn.btn-danger.btn-icon-text
+										i.zmdi.zmdi-close
+										|  Limpiar		
+								.col-md-2				
+									button(onclick='postData()').btn.btn-primary.btn-icon-text
+										i.zmdi.zmdi-check
+										|  Aceptar	
+							br
+
 
 	include footer
 	script.
