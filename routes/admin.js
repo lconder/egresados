@@ -26,10 +26,24 @@ router.get('/add', function(req, res, next){
 
 });
 
+router.put('/', function(req, res, next){
+
+	deleteAdmin(req.body.id)
+	.then(admin => {
+		res.json({'error':0, 'updated': true})
+	})
+	.catch(error => {
+		res.json({'error':1, 'updated': false})
+	})
+
+
+});
+
 router.post('/', function(req, res, next){
-	console.log("post admin");
+
 	console.log(req.body);
 	password = req.body.password;
+
 	var admin = {
 		'user' : req.body.name,
 		'password' : sha1(password),
@@ -55,10 +69,10 @@ router.post('/', function(req, res, next){
 function getAdmins(){
 
 	var connection = mysql.createConnection(info_connection);
-	var sql = "SELECT * FROM user";
+	var sql = "SELECT * FROM user WHERE admin=?";
 	return new Promise(function (resolve, reject){
 
-		connection.query(sql,  function(err, rows, fields){
+		connection.query(sql, 1,function(err, rows, fields){
 			console.log(rows)
 			connection.end(function(err){console.log("conexión finalizada obteniendo los administradores")});
 			if(err){
@@ -68,6 +82,31 @@ function getAdmins(){
 		})
 
 	});
+}
+
+function deleteAdmin(id){
+
+	var connection = mysql.createConnection(info_connection);
+	sql = 'DELETE FROM user WHERE id= ?';
+
+	return new Promise(function(resolve, reject){
+
+		connection.query(sql, id, function(err, results, fields){
+			console.log(err, results)
+			if(err){
+				connection.end(function(err){console.log("connection end.")});
+				return reject(err)
+			}else{
+				if(results.affectedRows==1){
+					connection.end(function(err){console.log("connection end..")});
+					resolve(results.affectedRows)
+				}else{
+					connection.end(function(err){console.log("connection end...")});
+					return reject("Error eliminando administrador")
+				}
+			}
+		})
+	})
 }
 
 

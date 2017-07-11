@@ -44,29 +44,4 @@ function postData(){
 
 }
 
-function deleteAdmin(but){
-	
-	var id = but.id;
-	
-	object_post = {
-		"id": id
-	};
 
-
-	$.ajax({
-		type: 'PUT',
-		url: '/admin/',
-		data: JSON.stringify(object_post),
-		success: function(data) {
-			if(data.error==0 && data.updated==true){
-				swal({title:"Se ha eliminado el administrador.", text:"Se ha actualizado el estado de esta sección.",type:"success"}).then(
-					function(result) {
-						location.reload();
-					});
-			}
-			//swal("Convenio no activado", "El usuario y password con el que se intenta acceder se encuentra actualmente desactivado.")
-		},
-		contentType: "application/json",
-		dataType: 'json'
-	});
-}
