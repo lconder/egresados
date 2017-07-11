@@ -1,0 +1,43 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+					.container
+						.block-header
+							h2 Agregar Administrador
+						.card
+							.card-header
+								h2
+									small
+										| Por favor llena los campos.
+								br
+								br
+								form
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-account-add
+											.fg-line
+												input#name.form-control(type='text' name='name' required)
+												label.fg-label Nombre del administrador
+											small#nameError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-lock-outline
+											.fg-line
+												input#password.form-control(type='password' name='password' required)
+												label.fg-label Password del administrador
+											small#passwordError.help-block
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-lock-outline
+											.fg-line
+												input#password_repeat.form-control(type='password' name='password_repeat' required)
+												label.fg-label Repite el password
+											small#password_repeatError.help-block
+
+	include footer

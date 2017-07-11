@@ -34,13 +34,19 @@ function submitForm(){
 						swal("Convenio no activado", "El usuario y password con el que se intenta acceder se encuentra actualmente desactivado.")
 					}else{
 						$('#alert').html("<div class='alert alert-success alert-dismissable'><button type='button' class='close' data-dismiss='alert'>&times;</button>Inicio de sesión exitoso.</div>");
-						if(data.level==0){
-							window.location = '/dashboard';
-						}else{
-							if(data.level==1){
-								console.log("session business");
+						
+						switch(data.level){
+
+							case 0:
+								window.location = '/dashboard';
+								break;
+							case 1:
 								window.location = '/settings';
-							}
+								break;
+							case 4: 
+								window.location = '/admin'
+								break;
+
 						}
 					}
 				}

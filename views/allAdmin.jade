@@ -1,0 +1,30 @@
+extends layout
+block content
+	include bar
+		block cont
+			section#content
+				.container
+					.block-header
+						h2 	Todos los administradores
+					.card
+						.card-header
+							h2
+								| 
+								small
+									| En este apartado podrás ver a todos los administradores
+						.table-responsive
+							table#data-table-admins.table.table-striped
+								thead
+									tr
+										th Nickname
+										th Opciones
+								tfoot
+									tr
+										th Nickname
+										th Opciones
+								tbody
+									each val in admins
+										tr
+											td=val.user
+											td=val.user
+	include footer

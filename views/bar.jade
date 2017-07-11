@@ -8,6 +8,8 @@ header#header.clearfix(data-ma-theme='ibero1')
 			li.hi-logo.hidden-xs
 				if levelUser==3
 					a(href='/') Egresados Ibero Puebla
+				if levelUser==4
+					a(href='/admin') Egresados Ibero Puebla
 				if levelUser==1
 					a(href='/') Egresados Ibero Puebla
 				if levelUser==0
@@ -117,6 +119,17 @@ header#header.clearfix(data-ma-theme='ibero1')
 						a(href='http://www.iberopuebla.mx/avisosPrivacidad.asp' target='_blank')
 							i.zmdi.zmdi-attachment-alt
 							|  Términos y condiciones
+			if levelUser==4
+				ul.main-menu
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-accounts-alt
+							|  Administradores
+						ul
+							li
+								a(href='/admin/add/') Agregar
+							li
+								a(href='/admin/all/') Ver Todos
 
 		block cont
 			p

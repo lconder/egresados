@@ -43,6 +43,7 @@ var settings = require('./routes/settings');
 var rfc = require('./routes/rfc');
 var password = require('./routes/password');
 var check = require('./routes/check');
+var admin = require('./routes/admin');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -87,6 +88,7 @@ app.use('/settings', settings);
 app.use('/rfc', rfc);
 app.use('/password', password);
 app.use('/check', check);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

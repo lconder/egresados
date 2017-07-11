@@ -9,6 +9,7 @@ router.post('/', function(req, res, next){
 		"token": req.body.token,
 		"id_student": req.body.id_student
 	};
+	
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
 
