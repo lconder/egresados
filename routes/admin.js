@@ -1,5 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
+var sha1 = require('sha1');
 var router = express.Router();
 
 
@@ -26,9 +27,29 @@ router.get('/add', function(req, res, next){
 });
 
 router.post('/', function(req, res, next){
+	console.log("post admin");
+	console.log(req.body);
+	password = req.body.password;
+	var admin = {
+		'user' : req.body.name,
+		'password' : sha1(password),
+		'nickname' : req.body.name,
+		'admin' : 1,
+		'superadmin' : 0
+	};
+	
+	createAdmin(admin)
+	.then(admin => {
+		res.json({
+			'error': 0,
+			'description': "Admin creado con éxito",
+			'admin': {'created': true}
+		})
+			
+	})
+	.catch(error => {
 
-	//res.render('allAdmin', { title: 'Todos los administradores' , levelUser: req.session.level});
-
+	})
 });
 
 function getAdmins(){
@@ -47,6 +68,34 @@ function getAdmins(){
 		})
 
 	});
+}
+
+
+function createAdmin(admin){
+
+
+	var connection = mysql.createConnection(info_connection);
+
+	return new Promise(function(resolve, reject){
+
+		connection.query("INSERT INTO user SET ?", admin, function(err, result){
+			console.log(err, result)
+			if(err){
+				connection.end(function(err){console.log("connection end.")});
+				reject(err)
+			}else{
+				if(result.affectedRows==1){
+					connection.end(function(err){console.log("connection end..")});
+					resolve(result.insertId)
+				}else{
+					connection.end(function(err){console.log("connection end...")});
+					reject("Error creando administrador")
+				}
+			}
+
+		})
+
+	})
 }
 
 module.exports = router;

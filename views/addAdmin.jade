@@ -13,31 +13,47 @@ block content
 										| Por favor llena los campos.
 								br
 								br
-								form
-								.row
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-account-add
-											.fg-line
-												input#name.form-control(type='text' name='name' required)
-												label.fg-label Nombre del administrador
-											small#nameError.help-block
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-lock-outline
-											.fg-line
-												input#password.form-control(type='password' name='password' required)
-												label.fg-label Password del administrador
-											small#passwordError.help-block
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-lock-outline
-											.fg-line
-												input#password_repeat.form-control(type='password' name='password_repeat' required)
-												label.fg-label Repite el password
-											small#password_repeatError.help-block
+								form(action='#'  method='post' id='form_admin')
+									.row
+										.col-md-4
+											.input-group.fg-float
+												span.input-group-addon
+													i.zmdi.zmdi-account-add
+												.fg-line
+													input#name.form-control(type='text' name='name' data-validation='required')
+													label.fg-label Nombre del administrador
+												small#nameError.help-block
+										.col-md-4
+											.input-group.fg-float
+												span.input-group-addon
+													i.zmdi.zmdi-lock-outline
+												.fg-line
+													input#password.form-control(type='password' name="pass_confirmation"  data-validation="strength" data-validation-strength="2")
+													label.fg-label Password del administrador
+												small#passwordError.help-block
+										.col-md-4
+											.input-group.fg-float
+												span.input-group-addon
+													i.zmdi.zmdi-lock-outline
+												.fg-line
+													input#password_repeat.form-control(type='password' name="pass" data-validation="confirmation" )
+													label.fg-label Repite el password
+												small#password_repeatError.help-block
+												small#addressError.help-block
+									br
+									.row
+										.col-md-3
+										.col-md-3
+										.col-md-2
+										.col-md-2
+											button(type='reset').btn.btn-danger.btn-icon-text
+												i.zmdi.zmdi-close
+												|  Limpiar		
+										.col-md-2				
+											button(type='submit').btn.btn-primary.btn-icon-text
+												i.zmdi.zmdi-check
+												|  Aceptar
 
 	include footer
+	script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js')
+	script(src='/javascripts/js/addAdmin_controller.js')
