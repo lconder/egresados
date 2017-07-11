@@ -26,5 +26,6 @@ block content
 									each val in admins
 										tr
 											td=val.user
-											td=val.user
+											td
+												button.btn.btn-danger(onclick='deleteAdmin(this)' id='#{val.id}' name='#{val.nickname}') Eliminar
 	include footer

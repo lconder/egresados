@@ -35,11 +35,15 @@ function postData(){
 						window.location.href = "/admin/";
 					});
 				}else{
-					swal("Ocurrió un error inespedrado")
+					swal("Ocurrió un error inesperado")
 				}
 			},
 			contentType: "application/json",
 			dataType: 'json'
 		});
+
+}
+
+function deleteAdmin(b){
 
 }
