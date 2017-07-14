@@ -5,7 +5,8 @@ var moment = require('moment')
 var async = require('async')
 var shortid = require('shortid');
 var FCM = require('fcm-push');
-var serverKey = 'AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5';
+var config = require('../config');
+var serverKey = config.serverKey;
 var fcm = new FCM(serverKey);
 var router = express.Router();
 
@@ -112,25 +113,44 @@ router.get('/all', function(req, res, next){
 
 
 function sendPush(title, body){
-	var message = {
-	    to: 'dh136KWZBbw:APA91bHkSRylKpYl-ZKCystHL9WU3krVJMG1eycON6dpLG5a2EYZF4yct2J9GJaVA4AHAfbw6X_fpJKM20ParZqsgQZkZ7BaasZdSL0d0iGBkPauU-9cDuMy5Xdkz4W9pZXbrPCisnMe',
-	    collapse_key: 'your_collapse_key', 
-	    data: {
-	        your_custom_data_key: 'your_custom_data_value'
-	    },
-	    notification: {
-	        title: title,
-	        body: body
-	    }
-	};
 
-	fcm.send(message, function(err,response){  
-	    if(err) {
-	        console.log("Something has gone wrong !");
-	    } else {
-	        console.log("Successfully sent with resposne :",response);
-	    }
-	});
+
+	var connection = mysql.createConnection(info_connection);
+	connection.query("SELECT * FROM devices",function(err, rows, fields)
+	{
+		var business = [];
+		if(err){
+			console.log(err);
+			connection.end(function(err){console.log("connection end...")});
+			//page error
+		}
+		else{
+			for (var i = rows.length - 1; i >= 0; i--) {
+				console.log(rows[i].token)
+				var message = {
+				    to: 'dh136KWZBbw:APA91bHkSRylKpYl-ZKCystHL9WU3krVJMG1eycON6dpLG5a2EYZF4yct2J9GJaVA4AHAfbw6X_fpJKM20ParZqsgQZkZ7BaasZdSL0d0iGBkPauU-9cDuMy5Xdkz4W9pZXbrPCisnMe',
+				    collapse_key: 'your_collapse_key', 
+				    data: {
+				        your_custom_data_key: 'your_custom_data_value'
+				    },
+				    notification: {
+				        title: title,
+				        body: body
+				    }
+				};
+
+				fcm.send(message, function(err,response){  
+				    if(err) {
+				        console.log("Something has gone wrong !");
+				    } else {
+				        console.log("Successfully sent with response :",response);
+				    }
+				});
+			};
+		}
+ 	});
+
+	
 
 }
 module.exports = router;

@@ -9,5 +9,7 @@
   	"host_mail": "atenea.hosting-mexico.net",
 	"port_mail": 465,
 	"user_mail": "test@iqbc.com.mx",
-	"password_mail": "u9u8G0U8ty"
+	"password_mail": "u9u8G0U8ty",
+
+	"serverKey": "AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5"
 }
