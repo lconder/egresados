@@ -128,7 +128,7 @@ function sendPush(title, body){
 			for (var i = rows.length - 1; i >= 0; i--) {
 				console.log(rows[i].token)
 				var message = {
-				    to: 'dh136KWZBbw:APA91bHkSRylKpYl-ZKCystHL9WU3krVJMG1eycON6dpLG5a2EYZF4yct2J9GJaVA4AHAfbw6X_fpJKM20ParZqsgQZkZ7BaasZdSL0d0iGBkPauU-9cDuMy5Xdkz4W9pZXbrPCisnMe',
+				    to: rows[i].token,//'dh136KWZBbw:APA91bHkSRylKpYl-ZKCystHL9WU3krVJMG1eycON6dpLG5a2EYZF4yct2J9GJaVA4AHAfbw6X_fpJKM20ParZqsgQZkZ7BaasZdSL0d0iGBkPauU-9cDuMy5Xdkz4W9pZXbrPCisnMe',
 				    collapse_key: 'your_collapse_key', 
 				    data: {
 				        your_custom_data_key: 'your_custom_data_value'
@@ -141,7 +141,7 @@ function sendPush(title, body){
 
 				fcm.send(message, function(err,response){  
 				    if(err) {
-				        console.log("Something has gone wrong !");
+				        console.log("Something has gone wrong !", err);
 				    } else {
 				        console.log("Successfully sent with response :",response);
 				    }
