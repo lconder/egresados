@@ -2,6 +2,15 @@ var map;
 var latitude;
 var longitude;
 
+$.validate({
+	form : '#form_branch',
+	lang: 'es',
+	onSuccess : function() {
+		postData()
+		return false;
+	}
+});
+
 function addMarker(lati, longi){
 	map.addMarker({
 		lat: lati,
@@ -27,6 +36,19 @@ $(document).ready(function(){
 $('#address').change(function(e){
 	getAddress();
 });
+
+
+$('#icon-info').addClass('animated wobble');
+
+$('#icon-info').click(function(){
+	swal({
+		title: '<b>Sucursal Única</b>',
+		type: 'info',
+		html:
+			'Si tu empresa tiene sólo una <b>sucursal</b>, debes de darla de alta aquí para que aparezca en nuestras apps móviles',
+		showCloseButton: true
+	})
+})
 
 function newMap(lat, lng){
 	console.log(lat,lng);
@@ -91,7 +113,7 @@ function postData(){
 		url: '/branch/',
 		data: JSON.stringify(branch),
 		success: function(data) {
-			swal({title:"Sucursal dada de alta de manera exitosa.", text:"Ya puedes visualizarla en el apartado -Ver todas las sucursales-.",type:"success"}).then(
+			swal({title:"Sucursal dada de alta de manera exitosa.", text:"Ya puedes visualizarla en el apartado<br> -Ver todas las sucursales-.",type:"success"}).then(
 					function(result) {
 						location.reload();
 					});	

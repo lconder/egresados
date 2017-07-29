@@ -41,11 +41,11 @@ router.get('/', function(req, res, next) {
 				
 				var c=0;
 				async.each(business, function(item, cb){
-					connection.query("SELECT * FROM branch WHERE business_id=?",[item.id], function(err, rows, fields){
+					connection.query("SELECT * FROM promotions WHERE business_id=?",[item.id], function(err, rows, fields){
 						if(err)
 							console.log(err);
 						console.log(rows);
-						business[c].branch = rows;
+						business[c].promotions = rows;
 						c++;	
 						cb();
 					});

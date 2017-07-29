@@ -1,11 +1,7 @@
-function postData(){
-	var	name = $("#name").val();
+function validateDate(){
+
 	var expired_date = $("#expired_date").val();
 	var created_at = $("#created_at").val();
-	var promo_description = $("#promo_description").val();
-	var branch = [];
-	var band = false
-
 
 	var date_created = created_at.split("/");
 	var date_expired = expired_date.split("/");
@@ -14,19 +10,32 @@ function postData(){
 	dc = new Date(date_created[2],date_created[1]-1,date_created[0])
 	de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
 	today = new Date()
+	console.log(dc)
+	console.log(de)
 
 	if((dc.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (dc.getTime() > today.getTime()))
 	{
 		if((de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (de.getTime() > today.getTime()))
 		{
-			console.log("true")
-			band = true
+			console.log("true");
+			postData();
 		}else{
+			console.log("fecha invalida");
 			swal("La fecha de fin no es válida")
 		}
 	}else{
+		console.log("fecha invalida");
 		swal("La fecha de inicio no es válida")
 	}
+}
+
+function postData(){
+	var	name = $("#name").val();
+	var expired_date = $("#expired_date").val();
+	var created_at = $("#created_at").val();
+	var promo_description = $("#promo_description").val();
+	var branch = [];
+	
 
 
 	for(var i=0; i<business.length; i++){
@@ -35,7 +44,7 @@ function postData(){
 		}
 	}
 
-	if(branch.length!=0 || band){
+	if(branch.length!=0){
 		
 
 		var promo = {

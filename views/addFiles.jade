@@ -13,7 +13,7 @@ block content
 										| Por favor llena los campos.
 								br
 								br
-								form(action="/files/", method="POST", enctype="multipart/form-data")
+								form(action="/files/", id="form_files" ,method="POST", enctype="multipart/form-data")
 									.row
 										.col-sm-3
 											p.f-500.c-black.m-b-20 Logo
@@ -21,7 +21,7 @@ block content
 												span.btn.btn-primary.btn-file.m-r-10
 													span.fileinput-new Seleccionar Archivo
 													span.fileinput-exists 
-													input#logo(type='file', name='logo', required)
+													input#logo(type='file', name='logo', required, data-validation='mime', data-validation-allowing='jpg, png, gif, bmp')
 												span.fileinput-filename
 												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
 										.col-sm-3
@@ -30,7 +30,7 @@ block content
 												span.btn.btn-primary.btn-file.m-r-10
 													span.fileinput-new Seleccionar Archivo
 													span.fileinput-exists 
-													input#act(type='file', name='act', required)
+													input#act(type='file', name='act', required, data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
 												span.fileinput-filename
 												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
 										.col-sm-3
@@ -39,7 +39,7 @@ block content
 												span.btn.btn-primary.btn-file.m-r-10
 													span.fileinput-new Seleccionar Archivo
 													span.fileinput-exists 
-													input#voucher(type='file', name='voucher', required)
+													input#voucher(type='file', name='voucher', required, data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
 												span.fileinput-filename
 												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
 										.col-sm-3
@@ -48,10 +48,12 @@ block content
 												span.btn.btn-primary.btn-file.m-r-10
 													span.fileinput-new Seleccionar Archivo
 													span.fileinput-exists 
-													input#credential(type='file', name='credential', required)
+													input#credential(type='file', name='credential', required, data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
 												span.fileinput-filename
 												a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
 									div(class="form-group")
 										button.btn.btn-warning(type="submit") Subir
 
 	include footer
+	script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js')
+	script(src='/javascripts/js/addFiles_controller.js')

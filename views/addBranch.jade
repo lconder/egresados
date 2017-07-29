@@ -5,7 +5,9 @@ block content
 			section#content
 					.container
 						.block-header
-							h2 Agregar nueva sucursal
+							h2 Agregar nueva sucursal 
+								a(href='#')
+									i#icon-info.zmdi.zmdi-info
 						.card
 							.card-header
 								h2
@@ -35,37 +37,39 @@ block content
 										| Requerimos los siguientes datos:
 								br
 								br
-								.row
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-store
-											.fg-line
-												input#name.form-control(type='text' name='name' required)
-												label.fg-label Nombre
-											small#nameError.help-block
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-my-location
-											.fg-line
-												input#address_d.form-control(type='text' name='address_d' required)
-												label.fg-label 
-											small#address_dError.help-block
-								br
-								.row
-									.col-md-3
-									.col-md-3
-									.col-md-2
-									.col-md-2
-										button(onclick='clearForm()').btn.btn-danger.btn-icon-text
-											i.zmdi.zmdi-close
-											|  Limpiar		
-									.col-md-2				
-										button(onclick='postData()').btn.btn-primary.btn-icon-text
-											i.zmdi.zmdi-check
-											|  Aceptar
+								form(action='#'  method='post' id='form_branch')
+									.row
+										.col-md-4
+											.input-group.fg-float
+												span.input-group-addon
+													i.zmdi.zmdi-store
+												.fg-line
+													input#name.form-control(type='text' name='name' data-validation='required')
+													label.fg-label Nombre
+												small#nameError.help-block
+										.col-md-4
+											.input-group.fg-float
+												span.input-group-addon
+													i.zmdi.zmdi-my-location
+												.fg-line
+													input#address_d.form-control(type='text' name='address_d' data-validation='required')
+													label.fg-label 
+												small#address_dError.help-block
+									br
+									.row
+										.col-md-3
+										.col-md-3
+										.col-md-2
+										.col-md-2
+											button(type='reset').btn.btn-danger.btn-icon-text
+												i.zmdi.zmdi-close
+												|  Limpiar		
+										.col-md-2
+											button(type='submit').btn.btn-primary.btn-icon-text
+												i.zmdi.zmdi-check
+												|  Aceptar
 
 	include footer
 	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAd0FWFPYgJCQCHss-ZmGAVn9X4wZLwMLg')
+	script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js')
 	script(src='/javascripts/js/addBranch_controller.js')

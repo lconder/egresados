@@ -44,6 +44,7 @@ var rfc = require('./routes/rfc');
 var password = require('./routes/password');
 var check = require('./routes/check');
 var admin = require('./routes/admin');
+var branch_promotion = require('./routes/branch_promotion');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -89,6 +90,7 @@ app.use('/rfc', rfc);
 app.use('/password', password);
 app.use('/check', check);
 app.use('/admin', admin);
+app.use('/branch_promotion', branch_promotion);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
