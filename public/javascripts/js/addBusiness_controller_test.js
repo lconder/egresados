@@ -5,7 +5,7 @@ $.validate({
 	onSuccess : function() {
 		if(checkRFC($("#rfc").val())){
 			console.log("POST DATA");
-			//postData()
+			postData()
 		}else{
 			swal("RFC no válido")
 			console.log("RFC NO VALIDO")
