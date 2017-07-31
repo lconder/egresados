@@ -1,8 +1,15 @@
 $.validate({
 
 	lang: 'es',
+	 modules : 'html5',  
 	onSuccess : function() {
-		postData();
+		if(checkRFC($("#rfc").val())){
+			console.log("POST DATA");
+			//postData()
+		}else{
+			swal("RFC no válido")
+			console.log("RFC NO VALIDO")
+		}		
 		return false;
 	}
 });
@@ -124,6 +131,29 @@ function fillCategories(business_type){
 		default: break;
 	}
 }
+
+function checkRFC(rfc){
+
+	const re       = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+	var   validado = rfc.match(re);
+	if(validado){
+		return true;
+	}else{
+		return false;
+	}
+
+}
+
+$('#rfc').change(function(){
+
+    if (checkRFC($('#rfc').val()))  {
+    	$("#rfcError").html("");
+    }
+    else{
+    	$("#rfcError").css('color','red');
+		$("#rfcError").html("Este R.F.C no es válido");
+    }    	
+})
 
 $(document).ready(function(){
 	swal({

@@ -5,6 +5,10 @@ var router = express.Router();
 
 router.get('/', function(req, res, next){
 
+	if(req.session.level!=1){
+		res.render('index', { title: 'Ibero App'});
+	}
+	
 	var business_type = [{'value': "Agropecuarias"},{'value': "Mineras"},{'value': "Servicio"},{'value': "Industria"}, {'value': "Comercio"}]
 	var size_business = [{'value': "Microempresa", 'name':"Pequeña (menos de 50 trabajadores)"},{'value': "Pequeña", 'name':"Microempresa (menos de 10 trabajadores)"},{'value': "Mediana", 'name':"Mediana (de 50 a 250 empleados)"},{'value': "Grande", 'name':"Grande (más de 250 empleados)"}]
 

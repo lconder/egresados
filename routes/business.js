@@ -242,6 +242,11 @@ router.post('/activate/', function(req, res, next){
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.get('/:id/', function(req, res, next){
+
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+	
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id],function(err, rows, fields)
 	{
@@ -396,6 +401,8 @@ function checkRFC(rfc){
 	 	});
 	})
 }
+
+
 
 
 

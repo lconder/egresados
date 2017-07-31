@@ -3,6 +3,11 @@ var mysql = require('mysql');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
+
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	res.render('report', { title: 'Reportes', levelUser: req.session.level});
 });
 

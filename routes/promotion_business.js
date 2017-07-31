@@ -83,6 +83,11 @@ router.post('/', function(req, res, next){
 
 
 router.get('/add', function(req, res, next){
+
+	if(req.session.level!=1){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	var connection = mysql.createConnection(info_connection);
 	if(req.session.id_business != null){
 		connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business],function(err, rows, fields)
@@ -96,6 +101,11 @@ router.get('/add', function(req, res, next){
 
 
 router.get('/all', function(req, res, next){
+
+	if(req.session.level!=1){
+		res.render('index', { title: 'Ibero App'});
+	}
+	
 	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){

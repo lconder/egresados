@@ -28,7 +28,8 @@ block content
 												span.input-group-addon
 													i.zmdi.zmdi-account
 												.fg-line
-													input#rfc.form-control(type='text' name='rfc'   data-validation='custom' data-validation-regexp='[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?' data-validation-error-msg='Ingresa un R.F.C válido (XAXX010101000) en mayúsculas')
+													//input#rfc.form-control(type='text' name='rfc'   data-validation='custom' data-validation-regexp='^([A-ZÑ&]{3,4})?(?:-?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01]))?(?:-?)?([A-Z\d]{2})([A\d])$' data-validation-error-msg='Ingresa un R.F.C válido (XAXX010101000) en mayúsculas.')
+													input#rfc.form-control(type='text' name='rfc')
 													label.fg-label R.F.C.
 												small#rfcError.help-block
 										.col-md-4

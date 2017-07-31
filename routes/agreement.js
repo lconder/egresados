@@ -32,6 +32,10 @@ router.get('/', function(req, res, next) {
 //VIEW
 router.get('/all', function(req, res, next) {
 
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	var data = {"error": 1, "agreements":""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT * FROM business", function(err, rows, fields){

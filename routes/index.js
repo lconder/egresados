@@ -26,10 +26,39 @@ var options = {
 
 
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'Ibero App' });
+
+	console.log(req.session.level);
+	switch(req.session.level){
+		case 0://admin
+			console.log("admin")
+			res.redirect('/dashboard');
+			break;
+		case 1:
+			console.log("business")
+			res.redirect('/settings');
+			break;
+		case 3:
+			console.log("guess")
+			res.render('index', { title: 'Ibero App' });
+			break;
+		case 4:
+			console.log("business")
+			res.redirect('/admin');
+			break;
+		default:
+			res.render('index', { title: 'Ibero App' });
+			break;
+	}
+	
 });
 
 router.get('/dashboard', function(req, res, next) {
+
+	
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT COUNT(*) AS C FROM student", function(err, rows, fields){
 		if(!err){

@@ -32,11 +32,17 @@ router.get('/', function(req, res, next){
 
 
 router.get('/all/', function(req, res, next){
+
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	console.log("load view to show ex-students");
 	var data = {
 		"error": 1,
 		"students":""
 	};
+	
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT * FROM student", function(err, rows, fields){
     

@@ -21,6 +21,8 @@ global.info_connection = {
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
 
 
+
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
@@ -91,6 +93,13 @@ app.use('/password', password);
 app.use('/check', check);
 app.use('/admin', admin);
 app.use('/branch_promotion', branch_promotion);
+
+
+app.use(function(req, re, next){
+
+  console.log(req.session);
+
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

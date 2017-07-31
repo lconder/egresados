@@ -4,6 +4,12 @@ var request = require('request');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
+
+	if(req.session.level!=0){
+		res.render('index', { title: 'Ibero App'});
+	}
+
+	
 	console.log("Carga la vista de un mapa");
 	var data = {"error": 1, "business": []};
 	var connection = mysql.createConnection(info_connection);

@@ -6,6 +6,10 @@ var router = express.Router();
 
 router.get('/', function(req, res, next){
 
+	if(req.session.level!=4){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	getAdmins()
 	.then(admins => {
 
@@ -22,6 +26,9 @@ router.get('/', function(req, res, next){
 
 router.get('/add', function(req, res, next){
 
+	if(req.session.level!=4){
+		res.render('index', { title: 'Ibero App'});
+	}
 	res.render('addAdmin', { title: 'Todos los administradores' , levelUser: req.session.level});
 
 });

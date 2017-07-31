@@ -4,6 +4,8 @@ var request = require('request');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
+
+
 	var data = {"error": 1, "business": []};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT  b.logo, b.name,b.graduated, s.* FROM business b INNER JOIN branch s ON (b.id = s.business_id);", function(err, rows, fields)
@@ -31,10 +33,19 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/add', function(req, res, next){
+	
+	if(req.session.level!=1){
+		res.render('index', { title: 'Ibero App'});
+	}
+
 	res.render('addBranch', {title: "Agregar sucursal", levelUser: req.session.level});
 });
 
 router.get('/all', function(req, res, next){
+
+	if(req.session.level!=1){
+		res.render('index', { title: 'Ibero App'});
+	}
 
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business],function(err, rows, fields)
