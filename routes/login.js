@@ -60,24 +60,26 @@ function registrar_egresado(student){
 	console.log(student)
 
 	var post = {
-		name: student.name,
-		lastname: student.lastname,
-		second_lastname: student.second_lastname,
-		mat: student.mat,
-		photo: student.photo,
-		email: student.email,
-		phone: student.phone, 
-		mobile: student.mobile, 
-		street_number: student.street_number, 
-		town: "", 
-		suburb: student.suburb, 
-		state: student.state, 
-		city: "",
-		active: 0, 
-		postal_code: student.postal_code,
-		created_at: new Date(),
-		last_login: new Date() ,
-		employed: 0
+		name: 				student.name,
+		lastname: 			student.lastname,
+		second_lastname: 	student.second_lastname,
+		mat: 				student.mat,
+		photo: 				student.photo,
+		email: 				student.email,
+		phone: 				student.phone, 
+		mobile: 			student.mobile, 
+		street_number: 		student.street_number, 
+		town: 				"", 
+		suburb: 			student.suburb, 
+		state: 				student.state, 
+		city: 				"",
+		active: 			0, 
+		postal_code: 		student.postal_code,
+		created_at: 		new Date(),
+		last_login: 		new Date() ,
+		employed: 			0,
+		gender: 			student.gender,
+		career: 			student.career
 	};	
 
 	return new Promise(function(resolve, reject){
@@ -143,26 +145,29 @@ function datos_generales_egresado(student){
 		{	
 			datos_egresado = JSON.parse(body)
 			student = datos_egresado.DatosGeneralesEgresadoResult
-
+			console.log("Datos generales del egresado: ")
+			console.log(student)
 			if(!error && response.statusCode==200 && student.respuesta.codigo==200)
 			{
 				var data = {
-					email : student.datos.email,
-					name : student.datos.nombre,
-					lastname : student.datos.aPaterno,
-					second_lastname : student.datos.aMaterno,
-					phone : student.datos.teléfono,
-					mobile : student.datos.movil,
-					street_number : student.datos.calleNum,
-					suburb : student.datos.colonia,
-					postal_code : student.datos.codPostal,
-					state : student.datos.idEstado,
-					photo : (student.datos.foto==null) ? '/images/user.png' : student.datos.foto,
-					mat : student.datos.matricula
+					email : 			student.datos.email,
+					name : 				student.datos.nombre,
+					lastname : 			student.datos.aPaterno,
+					second_lastname : 	student.datos.aMaterno,
+					phone : 			student.datos.teléfono,
+					mobile : 			student.datos.movil,
+					street_number : 	student.datos.calleNum,
+					suburb : 			student.datos.colonia,
+					postal_code : 		student.datos.codPostal,
+					state : 			student.datos.idEstado,
+					gender :  			(student.datos.genero=='M') ? 1 : 0,
+					photo : 			(student.datos.foto==null) ? '/images/user.png' : student.datos.foto,
+					mat : 				student.datos.matricula,
+					career : 			"Programa académico prueba"
 				}
 				resolve(data)
 			}else{
-				cosole.log("Error del servidor 002")
+				console.log("Error del servidor 002")
 				reject({ 'error':1, 'desc':"Error del servidor 002" })
 			}
 		})
