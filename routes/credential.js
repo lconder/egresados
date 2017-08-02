@@ -36,7 +36,7 @@ router.get('/:mat', function(req, res, next){
 });
 
 
-router.put('/img/:id_student', function(req, res ,next){
+router.post('/img/:id_student', function(req, res ,next){
 
 	console.log(req.files)
 
