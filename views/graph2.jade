@@ -21,13 +21,21 @@ block content
 										th Nombre de la Empresa
 										th Empresa de Egresado
 										th Giro de la Empresa
+										th Fecha de Visita
 										th Número de Visitas
+										th Descuentos brindados
+										th Fecha de Inicio
+										th Fecha de Fin
 								tfoot
 									tr
 										th Nombre de la Empresa
 										th Empresa de Egresado
 										th Giro de la Empresa
+										th Fecha de Visita
 										th Número de Visitas
+										th Descuentos brindados
+										th Fecha de Inicio
+										th Fecha de Fin
 								tbody
 									each val in data
 										tr
@@ -38,7 +46,11 @@ block content
 												if val.graduated==0
 													| No
 											td=val.business_type
+											td #{prettyDate(val.date)}
 											td=val.count
+											td=val.name_promo
+											td #{prettyDate(val.created_at)}
+											td #{prettyDate(val.expired_at)}
 					.card
 						.card-header
 							h2
@@ -59,4 +71,5 @@ block content
 	include footer
 	script.
 		var data = !{JSON.stringify(data)}; 
+		console.log(data)
 	script(src='/javascripts/js/graph2_controller.js')
