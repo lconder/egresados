@@ -6,12 +6,12 @@ block content
 			section#content
 				.container
 					.block-header
-						h2 Listado de todos los alumnos
+						h2 Listado de todos los egresados
 
 					.card
 						.card-header
 							h2
-								| TODOS LOS ALUMNOS
+								| TODOS LOS EGRESADOS
 								small
 									| En este apartado se visualizan los resultados de la búsqueda.
 						.table-responsive
@@ -38,7 +38,11 @@ block content
 											td #{prettyDate(val.created_at)}
 											td=val.mat
 											td=val.name
-											td=val.gender
+											td
+												if val.gender==1
+													| Masculino
+												if val.gender==0
+													| Femenino
 											td=val.career
 											td=val.email
 											td 1
