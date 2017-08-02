@@ -1,6 +1,8 @@
 var express = require('express');
 var mysql = require('mysql');
 var request = require('request');
+var fs = require('fs');
+var multer = require('multer');
 var router = express.Router();
 var key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 
@@ -31,6 +33,55 @@ router.get('/:mat', function(req, res, next){
 		}
 
  	});
+});
+
+
+router.put('/img/:id_student', function(req, res ,next){
+
+	console.log(req.files)
+
+	var data = {"error":1};
+	var dir = "public/img_users/";
+	var short_dir = "/img_users/"
+	var name = "profile_"+req.params.id_student;
+	var extension = req.files.img.originalname.split(".").pop();
+	var profile_img = dir+name+"."+extension;
+	var short_profile_img = short_dir+name+"."+extension;
+
+	console.log(short_profile_img)
+
+	fs.rename(req.files.img.path, profile_img, function(err){
+		if(err){
+			data["description"] = err;
+			res.json(data);
+		}else{
+			var connection = mysql.createConnection(info_connection);
+			changes = [short_profile_img,req.params.id_student];
+			connection.query("UPDATE student SET photo = ? WHERE id = ?", changes, function(err, result){
+				if(err){
+					data["description"] = err;
+					connection.end(function(err){console.log("connection end...")});
+					res.json(data);
+				}else{
+					if(result.affectedRows == 1){
+						console.log("data updated");
+						data["error"]=0;
+						data["description"]="Imagen actualizada con éxito";
+						connection.end(function(err){console.log("connection end...")});
+						res.json(data);
+					}else{
+						data["student"] = "Hemos encontrado un error";
+						connection.end(function(err){console.log("connection end...")});
+						res.json(data);
+					}	
+				}
+				
+			});
+		}
+			
+	});
+
+
 });
 
 //----------------------------API-------------------------------------------------//
