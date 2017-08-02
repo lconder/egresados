@@ -37,7 +37,7 @@ block content
 										tr
 											td #{prettyDate(val.created_at)}
 											td=val.mat
-											td=val.name
+											td=val.name + ' ' + val.lastname + ' ' + val.second_lastname
 											td
 												if val.gender==1
 													| Masculino
