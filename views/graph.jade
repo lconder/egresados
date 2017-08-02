@@ -24,6 +24,8 @@ block content
 										th Empresa de Egresado
 										th Teléfono
 										th Descripción del descuento
+										th Status
+										th Email
 								tfoot
 									tr
 										th Fecha de Registro
@@ -32,6 +34,8 @@ block content
 										th Empresa de Egresado
 										th Teléfono
 										th Descripción del descuento
+										th Status
+										th Email
 								tbody
 									each val in business
 										tr
@@ -45,6 +49,12 @@ block content
 													| No
 											td=val.phone
 											td=val.discount_description
+											td
+												if val.active==1
+													| Activo
+												if val.active==0
+													| No Activo
+											td=val.email
 					.card
 						.card-header
 							h2

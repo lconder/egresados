@@ -1,0 +1,44 @@
+extends layout
+block content
+	include bar
+		block cont
+			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
+			section#content
+				.container
+					.block-header
+						h2 Listado de todos los alumnos
+
+					.card
+						.card-header
+							h2
+								| TODAS LAS VISITAS
+								small
+									| En este apartado podrá visualizar todas las visitas a tus sucursales.
+						.table-responsive
+							table#data-table-visits.table.table-striped
+								thead
+									tr
+										th Fecha
+										th Sucursal
+										th Dirección
+										th Nombre de Promoción
+										th Contador
+								tfoot
+									tr
+										th Fecha
+										th Sucursal
+										th Dirección
+										th Nombre de Promoción
+										th Contador
+								tbody
+									each val in visits
+										tr
+											td #{prettyDate(val.date)}
+											td=val.name
+											td=val.address
+											td=val.name_promo
+											td=val.count
+	include footer
+	script.
+		var visits = !{JSON.stringify(visits)}; 
+	//script(src='/javascripts/js/visit_controller.js')

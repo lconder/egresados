@@ -113,6 +113,13 @@ header#header.clearfix(data-ma-theme='ibero1')
 								a(href='/promotion_business/add/') Agregar
 							li
 								a(href='/promotion_business/all/') Ver Todas
+					li.sub-menu
+						a(href='', data-ma-action='submenu-toggle')
+							i.zmdi.zmdi-walk
+							|  Visitas
+						ul
+							li
+								a(href='/visit/') Ver Todas
 			if levelUser==3
 				ul.main-menu
 					li

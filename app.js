@@ -47,6 +47,7 @@ var password = require('./routes/password');
 var check = require('./routes/check');
 var admin = require('./routes/admin');
 var branch_promotion = require('./routes/branch_promotion');
+var visit = require('./routes/visit');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -93,6 +94,7 @@ app.use('/password', password);
 app.use('/check', check);
 app.use('/admin', admin);
 app.use('/branch_promotion', branch_promotion);
+app.use('/visit', visit);
 
 
 app.use(function(req, re, next){
