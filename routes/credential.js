@@ -103,9 +103,9 @@ router.put('/', function(req, res, next){
 	}
 
 	var array_date = req.body.date_start.split('/')
-	var day_start = array_date[2]
+	var day_start = array_date[0]
 	var month_start = array_date[1]
-	var year_start = array_date[0]
+	var year_start = array_date[2]
 	console.log(array_date)
 
 	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, day_start, month_start, year_start, req.body.idUser];

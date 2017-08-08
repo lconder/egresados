@@ -45,7 +45,7 @@ $('#icon-info').click(function(){
 		title: '<b>Sucursal Única</b>',
 		type: 'info',
 		html:
-			'Si tu empresa tiene sólo una <b>sucursal</b>, debes de darla de alta aquí para que aparezca en nuestras apps móviles',
+			'Recuerda ingresar todos tus puntos de venta para que aparezcan en nuestra App',
 		showCloseButton: true
 	})
 })
