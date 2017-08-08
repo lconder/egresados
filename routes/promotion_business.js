@@ -132,7 +132,6 @@ function sendPush(title, body){
 		if(err){
 			console.log(err);
 			connection.end(function(err){console.log("connection end...")});
-			//page error
 		}
 		else{
 			for (var i = rows.length - 1; i >= 0; i--) {

@@ -19,6 +19,7 @@ block content
 								thead
 									tr
 										th Nombre de la Empresa
+										th Nombre del Egresado
 										th Empresa de Egresado
 										th Giro de la Empresa
 										th Fecha de Visita
@@ -29,6 +30,7 @@ block content
 								tfoot
 									tr
 										th Nombre de la Empresa
+										th Nombre del Egresado
 										th Empresa de Egresado
 										th Giro de la Empresa
 										th Fecha de Visita
@@ -40,6 +42,7 @@ block content
 									each val in data
 										tr
 											td=val.name
+											td=val.name_student
 											td
 												if val.graduated==1
 													| Sí

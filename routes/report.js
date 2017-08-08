@@ -27,7 +27,7 @@ function getDataBusiness(init_date, finish_date, cb){
 
 function getDataCounts(init_date, finish_date, cb){
 	var connection = mysql.createConnection(info_connection);
-	var sql = "SELECT  bi.name, bi.graduated, bi.business_type, sp.date, bp.count, b.name as branch_name, b.address, p.name as name_promo, p.created_at, p.expired_at FROM student_promotions sp INNER JOIN branch_promotions bp ON sp.encrypt_promotion = bp.encrypt INNER JOIN promotions p ON bp.id_promotion = p.id INNER JOIN branch b ON b.id = bp.id_branch INNER JOIN business bi ON bi.id=b.business_id";
+	var sql = "SELECT  CONCAT(st.name, ' ', st.lastname, ' ', st.second_lastname) as name_student, bi.name, bi.graduated, bi.business_type, sp.date, bp.count, b.name as branch_name, b.address, p.name as name_promo, p.created_at, p.expired_at FROM student_promotions sp INNER JOIN branch_promotions bp ON sp.encrypt_promotion = bp.encrypt INNER JOIN promotions p ON bp.id_promotion = p.id INNER JOIN branch b ON b.id = bp.id_branch INNER JOIN business bi ON bi.id=b.business_id INNER JOIN student st ON st.id = sp.id_student";
 	//WHERE d.created_at BETWEEN ? AND ?
 	connection.query(sql, [init_date,finish_date],function(err, rows, fields){
 		if(err){
