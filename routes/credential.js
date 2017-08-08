@@ -100,16 +100,17 @@ router.put('/', function(req, res, next){
 		case "98": business_type="Industria";break;
 		case "99": business_type="Comercio";break;
 		default: business_type="Desconocido";break;
-
 	}
 
-	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, month_start, year_start, req.body.idUser];
-	var account = req.body.user;
-	var password = req.body.password;
-
 	var array_date = req.body.date_start.split('/')
+	var day_start = array_date[2]
 	var month_start = array_date[1]
 	var year_start = array_date[0]
+	console.log(array_date)
+
+	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, day_start, month_start, year_start, req.body.idUser];
+	var account = req.body.user;
+	var password = req.body.password;
 
 	var dat = "/UpdateDatos_UsuarioDatosGeneral?x="+account+"&y="+password+"&k="+key+"&a="+req.body.email+","+req.body.streetNumber+","+req.body.suburb+",21,"+req.body.postal_code+","+req.body.phone+","+req.body.mobile;
 	console.log(dat);
@@ -227,7 +228,7 @@ function updateStudent(fields){
 
 
 	return new Promise(function(resolve, reject){
-		connection.query("UPDATE student SET email = ?, street_number = ?, suburb = ?, postal_code = ?, phone = ?, mobile = ?, active = ?, business_name = ?, business_type = ?, position = ?, month_start = ?, year_start = ? WHERE id = ?", fields, function(err, result){
+		connection.query("UPDATE student SET email = ?, street_number = ?, suburb = ?, postal_code = ?, phone = ?, mobile = ?, active = ?, business_name = ?, business_type = ?, position = ?, day_start = ?, month_start = ?, year_start = ? WHERE id = ?", fields, function(err, result){
 
 			if(err){
 				return reject(err)
