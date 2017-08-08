@@ -88,6 +88,7 @@ router.post('/img/:id_student', function(req, res ,next){
 //----------------------------API-------------------------------------------------//
 router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
+	console.log(req.body)
 
 	var data = {"error": 1};
 	var business_type = "Desconocido"
