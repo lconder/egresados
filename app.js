@@ -19,7 +19,7 @@ global.info_connection = {
 };
 
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
-
+global.key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 
 
 
@@ -48,6 +48,7 @@ var check = require('./routes/check');
 var admin = require('./routes/admin');
 var branch_promotion = require('./routes/branch_promotion');
 var visit = require('./routes/visit');
+var business_type = require('./routes/business_type');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -95,13 +96,10 @@ app.use('/check', check);
 app.use('/admin', admin);
 app.use('/branch_promotion', branch_promotion);
 app.use('/visit', visit);
+app.use('/business_type', business_type);
 
 
-app.use(function(req, re, next){
 
-  console.log(req.session);
-
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

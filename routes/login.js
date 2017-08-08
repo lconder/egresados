@@ -2,7 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 var request = require('request');
 var router = express.Router();
-var key = 'oNZzKNd9Bckq1bGtPYeIWw=='
+
 
 router.post('/', function(req, res, next){
 	console.log("Login para las apps móviles")
@@ -20,32 +20,37 @@ router.post('/', function(req, res, next){
 				user_encrypted = data.desc.LoginEgresadoResult.usuario
 
 				datos_generales_egresado(data.desc.LoginEgresadoResult.usuario)
-				.then(data => {
+				.then(data_general => {
 
-					buscar_egresado(data.mat)
-					.then(egresado => {
+					datos_laborales_egresado(data.desc.LoginEgresadoResult.usuario)
+					.then(data_laboral => {
 
-						if(egresado.error==1){
-							registrar_egresado(data)
-							.then(registrado =>{
+						buscar_egresado(data_general.mat)
+						.then(egresado => {
 
+							if(egresado.error==1){
+								registrar_egresado(data_general, data_laboral)
+								.then(registrado =>{
+
+									res.json({
+										'error' : 0,
+										'acces' : true,
+										'idUser': registrado,
+										'data'  : user_encrypted
+									})
+								})
+							}else{
 								res.json({
 									'error' : 0,
 									'acces' : true,
-									'idUser': registrado,
+									'idUser': egresado.id,
 									'data'  : user_encrypted
 								})
-							})
-						}else{
-							res.json({
-								'error' : 0,
-								'acces' : true,
-								'idUser': egresado.id,
-								'data'  : user_encrypted
-							})
-						}
+							}
+						})
+						.catch(error => {res.json(error);})
 					})
-					.catch(error => {res.json(error);})
+					.catch()
 				})
 				.catch(error => {res.json(error);})
 			}	
@@ -54,10 +59,14 @@ router.post('/', function(req, res, next){
 });
 
 
-function registrar_egresado(student){
+function registrar_egresado(student, student_job){
 
 	console.log("Inserción de un egresado")
 	console.log(student)
+	console.log(student_job)
+
+	var array_date = student_job.date_start.split('/');
+
 
 	var post = {
 		name: 				student.name,
@@ -69,21 +78,25 @@ function registrar_egresado(student){
 		phone: 				student.phone, 
 		mobile: 			student.mobile, 
 		street_number: 		student.street_number, 
-		town: 				"", 
+		town: 				"",
 		suburb: 			student.suburb, 
 		state: 				student.state, 
 		city: 				"",
-		active: 			0, 
+		active: 			1, 
 		postal_code: 		student.postal_code,
 		created_at: 		new Date(),
 		last_login: 		new Date() ,
-		employed: 			0,
+		employed: 			1,
 		gender: 			student.gender,
-		career: 			student.career
+		career: 			student.career,
+		business_name: 		student_job.business_name,
+		business_type: 		student_job.business_type,
+		position: 			student_job.position,
+		month_start: 		array_date[1], 
+		year_start: 		array_date[0]
 	};	
 
 	return new Promise(function(resolve, reject){
-
 
 		var connection = mysql.createConnection(info_connection);
 
@@ -133,6 +146,37 @@ function buscar_egresado(matricula){
 	})
 }
 
+function datos_laborales_egresado(student){
+
+	console.log("Obtención de los datos laborales de un egresado ")
+	console.log(student)
+
+	return new Promise(function(resolve, reject){
+
+		request(url+'/DatosLaboralesEgresado?x='+student.cuenta+'&y='+student.contraseña+'&k='+key, function(error, response, body){
+			
+
+			datos_laborales = JSON.parse(body);
+			console.log(datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0])
+			datos = datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0]
+			if(!error && response.statusCode==200 /*&& student.respuesta.codigo==200*/){
+				
+				var data = {
+					business_name: datos.nombreEmpresa,
+					business_type: datos.giroEmpresa,
+					position: datos.position,
+					date_start: datos.fechaIngreso
+				}
+				resolve(data)
+			}else{
+				console.log("Error del servidor 005")
+				reject({ 'error':1, 'desc':"Error del servidor 005" })
+			}
+
+		})
+	})
+}
+
 
 function datos_generales_egresado(student){
 
@@ -149,6 +193,7 @@ function datos_generales_egresado(student){
 			console.log(student)
 			if(!error && response.statusCode==200 && student.respuesta.codigo==200)
 			{
+				
 				var data = {
 					email : 			student.datos.email,
 					name : 				student.datos.nombre,
@@ -209,11 +254,8 @@ function login_egresado(user, password){
 				console.log("error en el servidor 001")
 				reject({ 'error':1, 'desc':"Error del servidor 001" })
 			}
-
 		})
-
 	})
-
 }
 
 

@@ -7,11 +7,12 @@ var router = express.Router();
 var key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 
 //----------------------------API-------------------------------------------------//
+
 router.get('/:mat', function(req, res, next){
 	console.log("credential by Id");
 	var connection = mysql.createConnection(info_connection);
 	var data = {"error": 1};
-	connection.query("SELECT name, lastname, second_lastname, mat, photo, gender,career, active, email, street_number, suburb, postal_code, phone, mobile   from student WHERE id=?",[req.params.mat], function(err, rows, fields)
+	connection.query("SELECT name, lastname, second_lastname, mat, photo, gender,career, active, email, street_number, suburb, postal_code, phone, mobile, business_name, business_type, position, year_start, month_start   from student WHERE id=?",[req.params.mat], function(err, rows, fields)
 	{
 		
 		if(err){
@@ -89,12 +90,14 @@ router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
 
 	var data = {"error": 1};
-	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.idUser];
+	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, req.body.business_type , req.body.position, req.body.month_start, req.body.year_start, req.body.idUser];
 	var account = req.body.user;
 	var password = req.body.password;
 
 	var dat = "/UpdateDatos_UsuarioDatosGeneral?x="+account+"&y="+password+"&k="+key+"&a="+req.body.email+","+req.body.streetNumber+","+req.body.suburb+",21,"+req.body.postal_code+","+req.body.phone+","+req.body.mobile;
 	console.log(dat);
+	var dat_1 = "/DatosLaborales_Upd_Insert_Usuario?x="+account+"&y="+password+"&k="+key+"&a="+req.body.business_type+","+req.body.position+","+req.body.month_start+","+req.body.year_start+",000,"+req.body.business_name;
+	console.log(dat_1);
 
 	updateStudent(changes)
 	.then(d => {
@@ -103,10 +106,27 @@ router.put('/', function(req, res, next){
 			setStudentById(dat)
 			.then(success => {
 				if(success.codigo==200){
-					data["error"] = 0;
-					data["description"] = "Data updated successfully";
-					data["modified"] = true;
-					res.json(data);
+					setStudentJobById(dat_1)
+					.then(success_update => {
+						console.log(success_update)
+						if(success_update.codigo){
+							data["error"] = 0;
+							data["description"] = "Data updated successfully";
+							data["modified"] = true;
+							res.json(data);
+						}else{
+							data["error"] = 1;
+							data["description"] = "Error";
+							data["modified"] = false;
+							res.json(data)
+						}
+					})
+					.catch(error => {
+						data["error"] = 1;
+						data["description"] = "Error";
+						data["modified"] = false;
+						res.json(data)
+					})
 				}else{
 					data["error"] = 1;
 					data["description"] = "Error";
@@ -145,7 +165,7 @@ function setStudentById(url_params){
 		request(url+url_params, function(error, response, body)
 		{	
 			
-			if(!error && response.statusCode==200 /*&& student.respuesta.codigo==200*/)
+			if(!error && response.statusCode==200)
 			{
 				datos = JSON.parse(body)
 				update_data = datos.UpdateDatos_UsuarioDatosGeneralResult
@@ -161,13 +181,35 @@ function setStudentById(url_params){
 
 }
 
+function setStudentJobById(url_params){
+
+	return new Promise(function(resolve, reject){
+
+		request(url+url_params, function(error, response, body)
+		{	
+			
+			if(!error && response.statusCode==200 )
+			{
+				datos = JSON.parse(body)
+				update_data = datos.DatosLaborales_Upd_Insert_UsuarioResult[0]
+				console.log(update_data)
+				resolve(update_data.respuesta)
+			}else{
+				console.log("Error del servidor 001")
+				reject({ 'error':1, 'desc':"Error del servidor 001" })
+			}
+		})
+	})
+
+}
+
 function updateStudent(fields){
 
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
 
 	return new Promise(function(resolve, reject){
-		connection.query("UPDATE student SET email = ?, street_number = ?, suburb = ?, postal_code = ?, phone = ?, mobile = ?, active = ? WHERE id = ?", fields, function(err, result){
+		connection.query("UPDATE student SET email = ?, street_number = ?, suburb = ?, postal_code = ?, phone = ?, mobile = ?, active = ?, business_name = ?, business_type = ?, position = ?, month_start = ?, year_start = ? WHERE id = ?", fields, function(err, result){
 
 			if(err){
 				return reject(err)
@@ -183,12 +225,10 @@ function updateStudent(fields){
 					data["modified"] = false;
 					resolve(data)
 				}
-			}
-			//res.json(data);	
+			}	
 		})
 	})
 }
-
 
 
 module.exports = router;
