@@ -90,13 +90,29 @@ router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
 
 	var data = {"error": 1};
-	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, req.body.business_type , req.body.position, req.body.month_start, req.body.year_start, req.body.idUser];
+	var business_type = "Desconocido"
+	switch(req.body.business_type){
+
+		case "95": business_type="Agropecuarias"; break;
+		case "96": business_type="Mineras";break;
+		case "97": business_type="Servicios";break;
+		case "98": business_type="Industria";break;
+		case "99": business_type="Comercio";break;
+		default: business_type="Desconocido";break;
+
+	}
+
+	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, month_start, year_start, req.body.idUser];
 	var account = req.body.user;
 	var password = req.body.password;
 
+	var array_date = req.body.date_start.split('/')
+	var month_start = array_date[1]
+	var year_start = array_date[0]
+
 	var dat = "/UpdateDatos_UsuarioDatosGeneral?x="+account+"&y="+password+"&k="+key+"&a="+req.body.email+","+req.body.streetNumber+","+req.body.suburb+",21,"+req.body.postal_code+","+req.body.phone+","+req.body.mobile;
 	console.log(dat);
-	var dat_1 = "/DatosLaborales_Upd_Insert_Usuario?x="+account+"&y="+password+"&k="+key+"&a="+req.body.business_type+","+req.body.position+","+req.body.month_start+","+req.body.year_start+",000,"+req.body.business_name;
+	var dat_1 = "/DatosLaborales_Upd_Insert_Usuario?x="+account+"&y="+password+"&k="+key+"&a="+req.body.business_type+","+req.body.position+","+month_start+","+year_start+",000,"+req.body.business_name;
 	console.log(dat_1);
 
 	updateStudent(changes)
@@ -207,6 +223,7 @@ function updateStudent(fields){
 
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
+
 
 	return new Promise(function(resolve, reject){
 		connection.query("UPDATE student SET email = ?, street_number = ?, suburb = ?, postal_code = ?, phone = ?, mobile = ?, active = ?, business_name = ?, business_type = ?, position = ?, month_start = ?, year_start = ? WHERE id = ?", fields, function(err, result){

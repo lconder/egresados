@@ -91,15 +91,11 @@ router.get('/logout', function(req, res, next) {
 	res.render('index', { title: 'Ibero App'});
 });
 
-router.get('/test', function(req, res, next){
-	var connection = mysql.createConnection(info_connection);
-	//SELECT * FROM `business` WHERE created_at between '2017-01-01' and '2017-24-03'
-	connection.query("SELECT * FROM business WHERE created_at BETWEEN ? and ?",['2017-01-01','2017-03-03'],function(err, rows, fields){
-		if(err)
-			console.log(err);
-		
-		res.render('graph', {title: 'testGraph', business: rows});	
-	});
+router.post('/test', function(req, res, next){
+	
+	console.log(req.body)
+	var array = req.body.date.split('/')
+	res.json(array[0])
 
 	
 });

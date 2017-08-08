@@ -129,3 +129,91 @@
             description: "No se pudieron obtener los giros"
         }
       ```
+
+
+
+
+
+
+**credential**
+----
+  Modificar datos de un egresado.
+
+* **URL**
+
+  /credential
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   **Required:**
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+    `id_user: Int`
+    `user: String`
+    `password: String `
+    `email: String`
+    `streetNumber: String`
+    `suburb: String`
+    `postal_code: String`
+    `phone: String`
+    `mobile: String`
+    `business_name: String`
+    `business_type: Int`
+    `position: String`
+    `date_start: Date` (AAAA/MM/DD)
+
+    **Optional:**
+    None
+    
+    **Example:**
+    {
+        idUser: 12,
+        user: "0uYxfY9j6A8=",
+        password: "EBFDFsnyvIQ=",
+         email: "example@gmail.com",
+         streetNumber: "11 sur 1234",
+         suburb: "Lomas",
+         postal_code: "72000",
+         phone: "2221026578",
+         mobile: "2225698741",
+         business_name: "IBERO",
+         business_type: 97,
+         position: "Jefe",
+         date_start: "2017/08/02"
+    }
+        
+* **Success Response:**
+
+    `error: Int`
+    `descripton:String`
+    `modified: Boolean`
+    
+    * **error:** 0
+    Esto ocurre cuando la petición NO encontró ningún error. En **description** está la descripción de lo ocurrido y en **modified** una bandera la cuál indica si se realizó el update.
+    
+    ```json
+        error: 0,
+        description: "Data updated successfully",
+        modified: true
+        
+* **Error Response:**
+    
+    `error: Int`
+    `description: String`
+
+  * **error:** 1
+    Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
+
+    ```json
+        {
+            error: 1,
+            description: "No se pudieron actualizar los datos"
+        }
+      ```
