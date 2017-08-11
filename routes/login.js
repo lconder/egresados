@@ -208,7 +208,7 @@ function datos_generales_egresado(student){
 					gender :  			(student.datos.genero=='M') ? 1 : 0,
 					photo : 			(student.datos.foto==null) ? '/images/user.png' : student.datos.foto,
 					mat : 				student.datos.matricula,
-					career : 			"Programa académico prueba"
+					career : 			student.grado_estudios
 				}
 				resolve(data)
 			}else{
