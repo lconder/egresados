@@ -49,6 +49,7 @@ var admin = require('./routes/admin');
 var branch_promotion = require('./routes/branch_promotion');
 var visit = require('./routes/visit');
 var business_type = require('./routes/business_type');
+var business_edit = require('./routes/business_edit');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -97,7 +98,7 @@ app.use('/admin', admin);
 app.use('/branch_promotion', branch_promotion);
 app.use('/visit', visit);
 app.use('/business_type', business_type);
-
+app.use('/business_edit', business_edit);
 
 
 

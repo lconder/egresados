@@ -7,111 +7,178 @@ block content
 					.block-header
 						h2=b.name
 							small=b.size+'/'+b.business_type
-					#profile-main.card
-						.pm-overview.c-overflow
-							.pmo-pic
-								.p-relative
-									a(href='')
-										img.img-responsive(src='/#{b.logo}', alt='')
-									.dropdown.pmop-message
-										if b.active == 1
-											button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
-												i.zmdi.zmdi-check
-										else
-											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
-												i.zmdi.zmdi-close
-									//a.pmop-edit(href='')
-										i.zmdi.zmdi-camera
-										span.hidden-xs Update Profile Picture
-								.pmo-stat
-									h2.m-0.c-white 0
-									| Promociones Totales
-							.pmo-block.pmo-contact.hidden-xs
-								h2 Contacto
-								ul
-									li
-										i.zmdi.zmdi-phone
-										p=b.phone
-									li
-										i.zmdi.zmdi-facebook-box
-										p=b.facebook
-									li
-										i.zmdi.zmdi-twitter
-										p=b.twitter
-									li
-										i.zmdi.zmdi-pin
-										address.m-b-0.ng-binding
-											p=b.street+' '+b.external_number+' '+b.suburb+' '+b.postal_code+' '+b.city
-									br
-						.pm-body.clearfix
-							ul.tab-nav.tn-justified
-								li.active
-									a(href='#') Acerca de
-								
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-equalizer.m-r-10
-										|  Descripción del Descuento
-								.pmbb-body.p-l-30
-									.pmbb-view
-										p=b.discount_description
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-account.m-r-10
-										|   Información Básica
-								.pmbb-body.p-l-30
-									.pmbb-view
-										dl.dl-horizontal
-											dt R.F.C
-											dd=b.rfc
-										dl.dl-horizontal
-											dt Telefóno
-											dd=b.phone
-										dl.dl-horizontal
-											dt Empresa de Egresado
-											if b.graduated == 1
-												dd Sí
+					form(method='post' action='/business_edit' id='form_business' enctype='multipart/form-data')
+						#profile-main.card
+							.pm-overview.c-overflow
+								.pmo-pic
+									.p-relative
+										a(href='')
+											img.img-responsive(src='/#{b.logo}', alt='')
+										.dropdown.pmop-message
+											if b.active == 1
+												button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+													i.zmdi.zmdi-check
 											else
-												dd No
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-phone.m-r-10
-										|  Información de Contacto
-								.pmbb-body.p-l-30
-									.pmbb-view
-										dl.dl-horizontal
-											dt Nombre del Contacto
-											dd=b.name_attendant+' '+b.lastname+' '+b.second_lastname
-										dl.dl-horizontal
-											dt Email
-											dd=b.email
-										dl.dl-horizontal
-											dt Teléfono
-											dd=b.phone_attendant
-										dl.dl-horizontal
-											dt Dirección
-											dd=b.address
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-file.m-r-10
-										|  Archivos
-								.pmbb-body.p-l-30
-									.pmbb-view
-										dl.dl-horizontal
-											dt Acta constitutiva
-											dd
-												a(href='/#{b.act}' target='_blank') Ver
-										dl.dl-horizontal
-											dt Comprobante de Domicilio
-											dd
-												a(href='/#{b.voucher}' target='_blank') Ver			
-										dl.dl-horizontal
-											dt ID Oficial
-											dd
-												a(href='/#{b.credential}' target='_blank') Ver	
+												button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
+													i.zmdi.zmdi-close
+										//a.pmop-edit(href='#')
+											i.zmdi.zmdi-camera
+											span.hidden-xs Actualizar imagen
+									.pmo-stat
+										h2.m-0.c-white 0
+										| Promociones Totales
+								.pmo-block.pmo-contact.hidden-xs
+									h2 Contacto
+									ul
+										li
+											i.zmdi.zmdi-phone
+											input#phone.form-control(type='text' name='phone' value='#{b.phone}' data-validation='required')
+										li
+											i.zmdi.zmdi-facebook-box
+											input#facebook.form-control(type='text' name='facebook' value='#{b.facebook}' )
+										li
+											i.zmdi.zmdi-twitter
+											input#twitter.form-control(type='text' name='twitter' value='#{b.twitter}')
+										li
+											i.zmdi.zmdi-globe
+											input#website.form-control(type='text' name='website' value='#{b.website}')
+										-var address = b.street+' '+b.external_number+' '+b.suburb+' '+b.postal_code+' '+b.city
+										li
+											i.zmdi.zmdi-pin
+											address.m-b-0.ng-binding
+												p=b.street+' '+b.external_number+' '+b.suburb+' '+b.postal_code+' '+b.city
+											input#street.form-control(type='text' name='street' value='#{b.street}' data-validation='required')
+											input#external_number.form-control(type='text' name='external_number' value='#{b.external_number}' data-validation='required')
+											input#suburb.form-control(type='text' name='suburb' value='#{b.suburb}' data-validation='required')
+											input#postal_code.form-control(type='text' name='postal_code' value='#{b.postal_code}' data-validation='required')
+
+										br
+							.pm-body.clearfix
+								ul.tab-nav.tn-justified
+									li.active
+										a(href='#') Acerca de
+									
+								.pmb-block
+									.pmbb-header
+										h2
+											i.zmdi.zmdi-equalizer.m-r-10
+											|  Descripción del Descuento
+									.pmbb-body.p-l-30
+										.pmbb-view
+											.fg-line
+												textarea#text_area_desc.form-control(rows='5', name='discount_description' placeholder='Descripción del descuento...' data-validation="required" )=b.discount_description
+												span#max_char 500
+													|  chars left
+								.pmb-block
+									.pmbb-header
+										h2
+											i.zmdi.zmdi-account.m-r-10
+											|   Información Básica
+									.pmbb-body.p-l-30
+										.pmbb-view
+											dl.dl-horizontal
+												dt R.F.C
+												dd=b.rfc
+											dl.dl-horizontal
+												dt Telefóno
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Teléfono', name='phone_attendant' value='#{b.phone_attendant}' data-validation='custom' data-validation-regexp='^([0-9]{10})$' data-validation-error-msg='Ingresa un teléfono válido')
+											dl.dl-horizontal
+												dt Empresa de Egresado
+												if b.graduated == 1	
+													dd												
+														.col-sm-4.m-b-20
+														.toggle-switch.toggle-switch-demo(data-ts-color='red')
+															input#ts2(type='checkbox', hidden='hidden', checked='' name='graduated')
+															label.ts-helper(for='ts2')
+												else
+													dd
+														.col-sm-4.m-b-20
+														.toggle-switch.toggle-switch-demo(data-ts-color='red')
+															input#ts2(type='checkbox', hidden='hidden' name='graduated')
+															label.ts-helper(for='ts2')
+								.pmb-block
+									.pmbb-header
+										h2
+											i.zmdi.zmdi-phone.m-r-10
+											|  Información de Contacto
+									.pmbb-body.p-l-30
+										.pmbb-view
+											dl.dl-horizontal
+												dt Nombre del Encargado
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Nombre de encargado', value='#{b.name_attendant}' name='name' data-validation='required')
+														input.form-control(type='hidden', value='#{b.id_attendant}' name='id_attendant')
+											dl.dl-horizontal
+												dt Apellido del Encargado
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Apellido Paterno de encargado', value='#{b.lastname}' name='lastname' data-validation='required')
+											dl.dl-horizontal
+												dt Apellido del Encargado
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Apellido Materno de encargado', value='#{b.second_lastname}' name='second_lastname' data-validation='required')
+											dl.dl-horizontal
+												dt Email
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Email', value='#{b.email}' data-validation='email' name='email')
+											dl.dl-horizontal
+												dt Teléfono
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Teléfono', value='#{b.phone_attendant}' data-validation='custom' data-validation-regexp='^([0-9]{10})$' data-validation-error-msg='Ingresa un teléfono válido')
+											dl.dl-horizontal
+												dt Dirección
+												dd
+													.fg-line
+														input.form-control(type='text', placeholder='Dirección', value='#{b.address}' data-validation='required' name='address')
+								.pmb-block
+									.pmbb-header
+										h2
+											i.zmdi.zmdi-file.m-r-10
+											|  Archivos
+									.pmbb-body.p-l-30
+										.pmbb-view
+											dl.dl-horizontal
+												dt Acta constitutiva
+												dd
+													a(href='/#{b.act}' target='_blank') Ver
+													br
+													input(type='file' name='act' data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
+											dl.dl-horizontal
+												dt Comprobante de Domicilio
+												dd
+													a(href='/#{b.voucher}' target='_blank') Ver
+													br
+													input(type='file' name='voucher' data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
+											dl.dl-horizontal
+												dt ID Oficial
+												dd
+													a(href='/#{b.credential}' target='_blank') Ver
+													br
+													input(type='file' name='credential' data-validation='mime', data-validation-allowing='jpg, png, gif, doc, docx, pdf, pptx, xlsx, ppt, xls, bmp')
+											dl.dl-horizontal
+												dt Logo
+												dd
+													input(type='file' name='logo' data-validation='mime', data-validation-allowing='jpg, png, gif, bmp')
+								.pmb-block
+									.pmb-header
+									.pmb-body.p-l-30
+										.pmb-view
+											.row
+												.col-md-3
+												.col-md-3
+													button(type='reset').btn.btn-danger.btn-icon-text
+														i.zmdi.zmdi-close
+														|  Limpiar		
+												.col-md-3				
+													button(type='submit').btn.btn-primary.btn-icon-text
+														i.zmdi.zmdi-check
+														|  Aceptar
 	include footer
+	script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js')
 	script(src='/javascripts/js/business_controller.js')

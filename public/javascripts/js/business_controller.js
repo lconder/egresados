@@ -1,3 +1,14 @@
+$.validate({
+	form : '#form_business',
+	modules: 'file',
+	lang: 'es',
+	onSuccess : function() {
+		console.log("Válido")	
+	}
+});
+
+$('#text_area_desc').restrictLength( $('#max_char') );
+
 function activate(but){
 	var status = but.id;
 	var id = but.name;
@@ -31,3 +42,4 @@ function activate(but){
 		dataType: 'json'
 	});
 }
+

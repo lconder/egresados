@@ -3,6 +3,6 @@ $.validate({
 	modules: 'file',
 	lang: 'es',
 	onSuccess : function() {
-		console.log("jiji")
+		console.log("Válido")
 	}
 });

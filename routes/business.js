@@ -211,11 +211,8 @@ router.post('/', function(req, res, next){
 			.catch(error => { res.json({'error':1, 'description':error, 'level': "attendant"  }) })
 
 		}else{
-
 			res.json({'error': 1, 'description': 'ya existe el RFC', 'code_error': 1})
-
 		}
-
 	})
 	.catch(error => { res.json({'error':1, 'description':error, 'level': "rfc"  }) })
 
@@ -246,16 +243,17 @@ router.get('/:id/', function(req, res, next){
 	if(req.session.level!=0){
 		res.render('index', { title: 'Ibero App'});
 	}
+
+	req.session.id_business = req.params.id
 	
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id],function(err, rows, fields)
+	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address, s.id AS id_attendant FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id], function(err, rows, fields)
 	{
 		if(err){
 			console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 			res.json(data);
-		}
-		else{
+		}else{
 			console.log(rows[0]);
 			connection.end(function(err){console.log("connection end...")});
 			res.render('business', {title: "Vista de negocio", b:rows[0],  levelUser: req.session.level});	
