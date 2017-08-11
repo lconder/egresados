@@ -167,6 +167,7 @@ function datos_laborales_egresado(student){
 					position: datos.position,
 					date_start: datos.fechaIngreso
 				}
+				console.log(data)
 				resolve(data)
 			}else{
 				console.log("Error del servidor 005")
@@ -208,7 +209,7 @@ function datos_generales_egresado(student){
 					gender :  			(student.datos.genero=='M') ? 1 : 0,
 					photo : 			(student.datos.foto==null) ? '/images/user.png' : student.datos.foto,
 					mat : 				student.datos.matricula,
-					career : 			student.grado_estudios
+					career : 			student.datos.grado_estudios
 				}
 				console.log(data)
 				resolve(data)
