@@ -210,6 +210,7 @@ function datos_generales_egresado(student){
 					mat : 				student.datos.matricula,
 					career : 			student.grado_estudios
 				}
+				console.log(data)
 				resolve(data)
 			}else{
 				console.log("Error del servidor 002")
