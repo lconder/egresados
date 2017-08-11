@@ -33,6 +33,7 @@ $('#data-table-students').DataTable({
 $('a').click(function(){
 
     //alert(this.id)
+    $('#promos tbody').empty();
     $.ajax({
         url: '/student_promotion/'+this.id,
         success: function(response){
