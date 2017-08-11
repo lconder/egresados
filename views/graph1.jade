@@ -24,14 +24,12 @@ block content
 										th Género
 										th Programa Académico
 										th Email
-										th Número de usos
 										th Nombre de la Empresa
 										th Giro de la empresa
-										th Nivel de puesto
 										th Puesto
 										th Mes de Inicio en el puesto
 										th Año de Inicio en el puesto
-										th Tamaño de la empresas
+										th Usos
 								tbody
 									each val in students
 										tr
@@ -45,14 +43,33 @@ block content
 													| Femenino
 											td=val.career
 											td=val.email
-											td 1
 											td=val.business_name
 											td=val.business_type
-											td=val.position_level
 											td=val.position
 											td=val.month_start
 											td=val.year_start
-											td=val.business_size
+											td
+												a.btn.btn-sm.btn-default(data-toggle='modal', href='#modalWider' id='#{val.id}')
+													| Ver
+	
+				#modalWider.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+					.modal-dialog.modal-lg
+						.modal-content
+							.modal-header
+								h4.modal-title Usos de Promociones
+							.modal-body
+								table#promos.table
+									thead
+										tr
+											th Fecha
+											th Descripción de la promo
+											th Nombre de la sucursal
+											th Dirección
+									tbody
+							.modal-footer
+								button.btn.btn-link(type='button', data-dismiss='modal')
+									| Ok
+
 					//.card
 						.card-header
 							h2

@@ -29,3 +29,21 @@ $('#data-table-students').DataTable({
     buttons: [ 'excel', 'pdf'],
     "oLanguage": esp
 });
+
+$('a').click(function(){
+
+    //alert(this.id)
+    $.ajax({
+        url: '/student_promotion/'+this.id,
+        success: function(response){
+            console.log(response);
+            $.each(response, function(i, item){
+                $('#promos tbody').append(
+                        '<tr><td>'+item.date+'</td><td>'+item.description+'</td><td>'+item.name+'</td><td>'+item.address+'</td></tr>'
+                    )
+                
+            });
+        }
+    });
+
+});
