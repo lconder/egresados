@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
 		"business":""
 	};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM business", function(err, rows, fields){
+	connection.query("SELECT * FROM business WHERE active=1", function(err, rows, fields){
 		if(err)
 			res.json(data);
 		else{
@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 				
 				var c=0;
 				async.each(business, function(item, cb){
-					connection.query("SELECT * FROM promotions WHERE business_id=? AND active = 1",[item.id], function(err, rows, fields){
+					connection.query("SELECT * FROM promotions WHERE business_id=?",[item.id], function(err, rows, fields){
 						if(err)
 							console.log(err);
 						console.log(rows);
