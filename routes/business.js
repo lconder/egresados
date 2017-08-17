@@ -118,6 +118,7 @@ router.post('/', function(req, res, next){
 				'business_name': req.body.business_name,
 				'attendant_name': req.body.attendant_name+' '+req.body.attendant_lastname+' '+req.body.attendant_second_lastname,
 				'address': req.body.address,
+				'discount_description': req.body.discount_description,
 				'attendant_email': req.body.email,
 				'rfc': req.body.rfc,
 				'date': moment(new Date()).format("DD/MM/YYYY"),
