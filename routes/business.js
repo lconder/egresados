@@ -79,7 +79,7 @@ router.get('/all/', function(req, res, next) {
 		"business":""
 	};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.* , s.email as email FROM business b INNER JOIN attendant s ON ( b.attendant_id = s.id ) ", function(err, rows, fields){
+	connection.query("SELECT b.* , s.email as email FROM business b INNER JOIN attendant s ON ( b.attendant_id = s.id ) WHERE b.active = 1 ", function(err, rows, fields){
     if(err)
     {	
     	connection.end(function(err){console.log("connection end...")});
