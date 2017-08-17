@@ -16,12 +16,18 @@ function validateDate(){
 	console.log(today.getTime())
 	
 
-	if(/*(dc.setHours(0,0,0,0) === today.setHours(0,0,0,0)) || */(dc.getTime() < today.getTime()))
+	if(/*(dc.setHours(0,0,0,0) === today.setHours(0,0,0,0)) || */(dc.getTime() >= today.getTime()))
 	{
 		if(/*(de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || */(de.getTime() >= today.getTime()))
 		{
-			console.log("true");
-			postData();
+			
+			if(de.getTime() >= dc.getTime()){
+				postData();
+				console.log("true");
+			}
+			else{
+				swal("La fecha de fin no es válida")
+			}
 		}else{
 			console.log("fecha invalida 2");
 			swal("La fecha de fin no es válida")
