@@ -10,21 +10,24 @@ function validateDate(){
 	dc = new Date(date_created[2],date_created[1]-1,date_created[0])
 	de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
 	today = new Date()
-	console.log(dc)
-	console.log(de)
+	console.log(dc.setHours(0,0,0,0))
+	console.log(today.setHours(0,0,0,0))
+	console.log(dc.getTime())
+	console.log(today.getTime())
+	
 
-	if((dc.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (dc.getTime() > today.getTime()))
+	if(/*(dc.setHours(0,0,0,0) === today.setHours(0,0,0,0)) || */(dc.getTime() < today.getTime()))
 	{
-		if((de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || (de.getTime() > today.getTime()))
+		if(/*(de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || */(de.getTime() >= today.getTime()))
 		{
 			console.log("true");
 			postData();
 		}else{
-			console.log("fecha invalida");
+			console.log("fecha invalida 2");
 			swal("La fecha de fin no es válida")
 		}
 	}else{
-		console.log("fecha invalida");
+		console.log("fecha invalida 1");
 		swal("La fecha de inicio no es válida")
 	}
 }
