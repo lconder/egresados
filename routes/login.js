@@ -86,7 +86,7 @@ function registrar_egresado(student, student_job){
 		postal_code: 		student.postal_code,
 		created_at: 		new Date(),
 		last_login: 		new Date(),
-		expired_at: 		new Date(),
+		expired_at: 		new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
 		employed: 			1,
 		gender: 			student.gender,
 		career: 			student.career,
