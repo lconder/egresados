@@ -42,7 +42,7 @@ router.post('/img/:id_student', function(req, res ,next){
 	console.log(req.files)
 
 	var data = {"error":1};
-	var dir = "public/img_users/";
+	var dir = "../public/img_users/";
 	var short_dir = "/img_users/"
 	var name = "profile_"+req.params.id_student;
 	var extension = req.files.img.originalname.split(".").pop();
