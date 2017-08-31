@@ -39,6 +39,7 @@ router.post('/', function(req, res, next){
 										'data'  : user_encrypted
 									})
 								})
+								.catch(error => {res.json(error);})
 							}else{
 								res.json({
 									'error' : 0,
@@ -50,7 +51,7 @@ router.post('/', function(req, res, next){
 						})
 						.catch(error => {res.json(error);})
 					})
-					.catch()
+					.catch(error => {res.json(error);})
 				})
 				.catch(error => {res.json(error);})
 			}	
@@ -96,7 +97,7 @@ function registrar_egresado(student, student_job){
 		month_start: 		array_date[1], 
 		year_start: 		array_date[0]
 	};	
-
+	console.log(post);
 	return new Promise(function(resolve, reject){
 
 		var connection = mysql.createConnection(info_connection);
