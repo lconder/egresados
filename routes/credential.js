@@ -50,6 +50,7 @@ router.post('/img/:id_student', function(req, res ,next){
 	var short_profile_img = short_dir+name+"."+extension;
 
 	console.log(short_profile_img)
+	console.log(profile_img)
 
 	fs.rename(req.files.img.path, profile_img, function(err){
 		if(err){
