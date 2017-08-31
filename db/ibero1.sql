@@ -283,8 +283,8 @@ DEFAULT CHARACTER SET = latin1;
 ALTER TABLE `ibero`.`student` 
 CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 
-INSERT INTO `user` (`id`,`user`,`password`,`nickname`,`admin`,`superadmin`) VALUES (null,'superadmin','889a3a791b3875cfae413574b53da4bb8a90d53e','superadmin',0,1);
-INSERT INTO `user` (`id`,`user`,`password`,`nickname`,`admin`,`superadmin`) VALUES (NULL,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','admin',1,0);
+INSERT INTO `user` (`id`,`user`,`password`,`nickname`,`admin`,`superadmin`) VALUES (1,'superadmin','889a3a791b3875cfae413574b53da4bb8a90d53e','superadmin',0,1);
+INSERT INTO `user` (`id`,`user`,`password`,`nickname`,`admin`,`superadmin`) VALUES (2,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','admin',1,0);
 
 INSERT INTO `state` (`id_state`,`name`,`short_name`) VALUES (1,'Aguascalientes','Ags');
 INSERT INTO `state` (`id_state`,`name`,`short_name`) VALUES (2,'Baja California','BC');
