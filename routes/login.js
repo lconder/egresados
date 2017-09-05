@@ -167,7 +167,7 @@ function datos_laborales_egresado(student){
 					business_name: datos.nombreEmpresa,
 					business_type: datos.giroEmpresa,
 					position: datos.position,
-					date_start: datos.fechaIngreso
+					date_start: (datos.fechaIngreso=='') ? datos.fechaIngreso : 0
 				}
 				console.log(data)
 				resolve(data)
