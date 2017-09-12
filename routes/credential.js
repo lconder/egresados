@@ -4,6 +4,7 @@ var request = require('request');
 var fs = require('fs');
 var multer = require('multer');
 var router = express.Router();
+var iconv  = require('iconv-lite');
 var key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 
 //----------------------------API-------------------------------------------------//
@@ -109,6 +110,20 @@ router.put('/', function(req, res, next){
 	var year_start = array_date[2]
 	console.log(array_date)
 
+	/*0uYxfY9j6A8= cuenta
+	EBFDFsnyvIQ= password
+	test@email.com
+	calle 1
+	lomas
+	72000
+	1234567890
+	1234567890
+
+
+	IBERO
+	*/
+
+
 	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, day_start, month_start, year_start, req.body.idUser];
 	var account = req.body.user;
 	var password = req.body.password;
@@ -179,9 +194,12 @@ router.put('/', function(req, res, next){
 
 function setStudentById(url_params){
 
+	var utf8String = iconv.decode(new Buffer(url_params), "ISO-8859-1");
+	console.log(utf8String);
+
 	return new Promise(function(resolve, reject){
 
-		request(url+url_params, function(error, response, body)
+		request({url: url+utf8String, encoding: null}, function(error, response, body)
 		{	
 			
 			if(!error && response.statusCode==200)
@@ -204,7 +222,10 @@ function setStudentJobById(url_params){
 
 	return new Promise(function(resolve, reject){
 
-		request(url+url_params, function(error, response, body)
+		var utf8String = iconv.decode(new Buffer(url_params), "ISO-8859-1");
+		console.log(utf8String);
+
+		request({url: url+utf8String, encoding: null},function(error, response, body)
 		{	
 			
 			if(!error && response.statusCode==200 )
