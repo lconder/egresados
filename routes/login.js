@@ -152,28 +152,40 @@ function datos_laborales_egresado(student){
 
 	console.log("Obtención de los datos laborales de un egresado ")
 	console.log(student)
+	var data = {}
 
 	return new Promise(function(resolve, reject){
 
 		request(url+'/DatosLaboralesEgresado?x='+student.cuenta+'&y='+student.contraseña+'&k='+key, function(error, response, body){
 			
 
-			datos_laborales = JSON.parse(body);
-			console.log(datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0])
-			datos = datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0]
-			if(!error && response.statusCode==200 /*&& student.respuesta.codigo==200*/){
-				
-				var data = {
-					business_name: datos.nombreEmpresa,
-					business_type: datos.giroEmpresa,
-					position: datos.position,
-					date_start: (datos.fechaIngreso=='') ? datos.fechaIngreso : 0
+			if(error){
+				console.log("Error del servidor 005")
+				reject({ 'error':1, 'desc':"Error del servidor 005" })
+			}else{
+				datos_laborales = JSON.parse(body);	
+				//console.log(datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0])
+				datos = datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados
+
+				codigo = datos_laborales.DatosLaboralesEgresadoResult[0].respuesta.codigo
+				console.log(codigo)
+
+				if(datos!=null && codigo==200)
+				{
+					data.business_name 	= (datos[datos.length-1].nombreEmpresa!='')  ? datos[datos.length-1].nombreEmpresa : ''
+					data.business_type 	= (datos[datos.length-1].giroEmpresa!='')  ? datos[datos.length-1].giroEmpresa : ''
+					data.position 		= (datos[datos.length-1].puesto!='')  ? datos[datos.length-1].puesto : ''
+					data.date_start 	= (datos[datos.length-1].fechaIngreso !='') ? datos[datos.length-1].fechaIngreso : '0/0'
+
+				}else{
+
+					data.business_name 	= ''
+					data.business_type 	= ''
+					data.position 		= ''
+					data.date_start 	= '0/0'
 				}
 				console.log(data)
 				resolve(data)
-			}else{
-				console.log("Error del servidor 005")
-				reject({ 'error':1, 'desc':"Error del servidor 005" })
 			}
 
 		})
