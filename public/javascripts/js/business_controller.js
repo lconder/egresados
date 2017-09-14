@@ -31,6 +31,7 @@ function activate(but){
 		data: JSON.stringify(object_post),
 		success: function(data) {
 			if(data.error==0 && data.updated==true){
+				console.log("Se ha modificado el convenio")
 				swal({title:"Se ha modificado el Convenio", text:"Se ha actualizado el estado de este convenio.",type:"success"}).then(
 					function(result) {
 						location.reload();
