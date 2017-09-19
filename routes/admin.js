@@ -12,14 +12,11 @@ router.get('/', function(req, res, next){
 
 	getAdmins()
 	.then(admins => {
-
 		res.render('allAdmin', { title: 'Todos los administradores' , admins: admins ,levelUser: req.session.level});
-
 	})
 	.catch(error => {
-
+		res.render('index', { title: 'Ibero App'});
 	})
-	
 
 });
 
@@ -30,19 +27,6 @@ router.get('/add', function(req, res, next){
 		res.render('index', { title: 'Ibero App'});
 	}
 	res.render('addAdmin', { title: 'Todos los administradores' , levelUser: req.session.level});
-
-});
-
-router.put('/', function(req, res, next){
-
-	deleteAdmin(req.body.id)
-	.then(admin => {
-		res.json({'error':0, 'updated': true})
-	})
-	.catch(error => {
-		res.json({'error':1, 'updated': false})
-	})
-
 
 });
 
@@ -69,9 +53,27 @@ router.post('/', function(req, res, next){
 			
 	})
 	.catch(error => {
-
+		res.json({
+			'error': 1,
+			'description': "Error al crear un administrador",
+			'admin': {'created': false}
+		})
 	})
 });
+
+router.put('/', function(req, res, next){
+
+	deleteAdmin(req.body.id)
+	.then(admin => {
+		res.json({'error':0, 'updated': true})
+	})
+	.catch(error => {
+		res.json({'error':1, 'updated': false})
+	})
+
+
+});
+
 
 function getAdmins(){
 
