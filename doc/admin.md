@@ -128,3 +128,62 @@
 
 ***
 
+***
+
+##### Eliminar un administrador.
+
+* **URL**
+
+  /admin/
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+    
+    `id: Int`
+
+    **Optional:**
+    None
+        
+* **Success Response:**
+
+    `error: Int`
+    `updated: Boolean`
+    
+    * **error:** 0
+    Esto ocurre cuando la petición NO encontró ningún error. En **updated** se encuentra una bandera que indica si la eliminación se realizó de manera adecuada.
+    
+        ```json
+        {
+            'error' : 0,
+            'updated': true
+      }
+        
+* **Error Response:** 
+    
+    `error: Int`
+    `description: String`
+    `updated: Boolean`
+
+  * **error:** 1
+    Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
+
+    ```json
+        {
+            'error': 1,
+            'description': "Error al eliminar un administrador",
+            'updated': false
+        }
+      ```
+
+***
+
