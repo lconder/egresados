@@ -62,8 +62,7 @@
         
 * **Error Response:** 
     
-    `error: Int`
-    
+    `error: Int`  
     `business: String`
 
   * **error:** 1
