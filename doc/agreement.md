@@ -99,7 +99,7 @@
 * **Error Response:** 
     
     `error: Int`
-    `description: String`
+    `agreements: String`
     `updated: Boolean`
 
   * **error:** 1
@@ -115,3 +115,34 @@
 
 ***
 
+##### Carga la vista que contiene a todos los convenios.
+
+* **URL**
+
+  /agreement/all
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+    
+    None
+
+    **Optional:**
+    None
+        
+* **Success Response:**
+
+    Cargará una vista, la cuál contiene una tabla con los convenios dados de alta, y ciertas opciones.
+        
+* **Error Response:**
+
+    Esto ocurre cuando la petición encontró algún un error  en este momento cargará la vista principal de la plataforma .
