@@ -104,9 +104,9 @@
     
         ```json
         {
-            error : 0,
-            description: "Admin creado con éxito",
-        admin:  { created: true }
+            'error' : 0,
+            'description': "Admin creado con éxito",
+            'admin':  { 'created': true }
       }
         
 * **Error Response:** 
@@ -120,9 +120,9 @@
 
     ```json
         {
-            error: 1,
-            description: "Error al crear un administrador",
-            admin: { created: false }
+            'error': 1,
+            'description': "Error al crear un administrador",
+            'admin': { 'created': false }
         }
       ```
 
