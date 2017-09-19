@@ -103,7 +103,6 @@
     
     `error: Int`
     `agreements: String`
-    `updated: Boolean`
 
   * **error:** 1
     Esto ocurre cuando la petición encontró un error en  **agreements** se encuentra el error de manera específica.
@@ -112,7 +111,6 @@
         {
             'error': 1,
             'agreements': "Error al eliminar un administrador",
-            'updated': false
         }
       ```
 

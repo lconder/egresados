@@ -5,7 +5,6 @@ var router = express.Router();
 
 router.get('/', function(req, res, next){
 
-
 	var data = {"error": 1, "business": []};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT  b.logo, b.name,b.graduated, s.* FROM business b INNER JOIN branch s ON (b.id = s.business_id);", function(err, rows, fields)
