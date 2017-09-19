@@ -178,10 +178,8 @@
     ```json
         {
             'error': 1,
-            'description': "Error al eliminar un administrador",
-            'updated': false
+            'description': "Error al obtener los convenios"
         }
       ```
 
 ***
-

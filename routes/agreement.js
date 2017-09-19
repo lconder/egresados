@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
 			}else{
-				data["agreements"] = "No agreements found";
+				data["agreements"] = "No se encontraron convenios";
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
 			}
