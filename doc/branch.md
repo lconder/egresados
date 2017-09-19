@@ -28,18 +28,18 @@
         
 * **Success Response:**
 
-    `error: Int`
-    `business: [
-    	{
-			name: String,
-			graduated: Int,
-			logo: String,
-			latitude: Float,
-			longitude: Float,
-			address: String,
-			business_id: Int
-    	}
-    ]`
+    `error: Int`  
+    `business: [  
+    	{  
+			name: String,  
+			graduated: Int,  
+			logo: String,  
+			latitude: Float,  
+			longitude: Float,  
+			address: String,  
+			business_id: Int  
+    	}  
+    ]`  
     
     * **error:** 0
     Esto ocurre cuando la petición NO encontró ningún error. En **business** se encuentra una arreglo de sucursales basados en el modelo anteriormente mencionado.
