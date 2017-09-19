@@ -63,6 +63,7 @@
 * **Error Response:** 
     
     `error: Int`
+    
     `business: String`
 
   * **error:** 1
@@ -71,7 +72,7 @@
     ```json
         {
             'error': 1,
-            'agreements': "Error al encontrar sucursales"
+            'business': "Error al encontrar sucursales"
         }
       ```
 
