@@ -128,8 +128,6 @@
 
 ***
 
-***
-
 ##### Eliminar un administrador.
 
 * **URL**
