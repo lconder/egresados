@@ -80,10 +80,10 @@ router.post('/', function(req, res, next){
 			throw err;
 		}else{
 			if(result.affectedRows==1){
-				data["error"]=0;
-				data["branch"]={
-					created: true,
-					id: result.insertId
+				data["error"]	= 0;
+				data["branch"]	= {
+						created: true,
+						id: result.insertId
 				};
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);

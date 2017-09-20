@@ -76,3 +76,74 @@
       ```
 
 ***
+
+##### Creación de un nuevo Branch (Sucursal)
+
+* **URL**
+
+  /branch/
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+
+    `name: String`
+    `latitude: Float`
+    `longitude: Float`
+    `address: String`
+    `business_id: Int`
+
+    **Optional:**
+    
+    None
+        
+* **Success Response:**
+
+    `error: Int`  
+    `branch: [  
+    	{  
+			created: Boolean,  
+			id: Int
+    	}  
+    ]`  
+    
+    * **error:** 0
+    Esto ocurre cuando la petición NO encontró ningún error. En **branch** se encuentra una bandera llamada created y el id insertado en la base de datos.
+    
+        ```json
+        {
+            'error' : 0,
+            'branch': [ 
+            	{           	
+					created: true,
+					id: 1
+				}
+            ]
+      }
+        
+* **Error Response:** 
+    
+    `error: Int`  
+    `description: String`
+
+  * **error:** 1
+    Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
+
+    ```json
+        {
+            'error': 1,
+            'description': "Error al crear sucursal"
+        }
+      ```
+
+***
