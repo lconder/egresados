@@ -186,7 +186,7 @@
 
 * **URL**
 
-  /branch/all
+  /branch/add
 
 * **Method:**
 
