@@ -40,12 +40,12 @@
     ]`  
     
     * **error:** 0
-    Esto ocurre cuando la petición NO encontró ningún error. En **business** se encuentra una arreglo de sucursales basados en el modelo anteriormente mencionado.
+    Esto ocurre cuando la petición NO encontró ningún error. En **users** se encuentra un arreglo de usuarios basados en el modelo anteriormente mencionado.
     
         ```json
         {
             'error' : 0,
-            'business': [ 
+            'users': [ 
             	{           	
 					id: 1,  
 					user: "admin",  
@@ -59,7 +59,7 @@
 * **Error Response:** 
     
     `error: Int`  
-    `business: String`
+    `users: String`
 
   * **error:** 1
     Esto ocurre cuando la petición encontró un error en  **users** se encuentra el error de manera específica.
@@ -112,12 +112,12 @@
     	}`  
     
     * **error:** 0
-    Esto ocurre cuando la petición NO encontró ningún error. En **business** se encuentra una arreglo de sucursales basados en el modelo anteriormente mencionado.
+    Esto ocurre cuando la petición NO encontró ningún error. En **user** se encuentra el usuario encontrado basado en el modelo anteriormente mencionado.
     
         ```json
         {
             'error' : 0,
-            'business': 
+            'user': 
             	{           	
 					id: 1,  
 					user: "admin",  
@@ -130,7 +130,7 @@
 * **Error Response:** 
     
     `error: Int`  
-    `business: String`
+    `user: String`
 
   * **error:** 1
     Esto ocurre cuando la petición encontró un error en  **users** se encuentra el error de manera específica.
