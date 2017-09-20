@@ -147,3 +147,71 @@
       ```
 
 ***
+
+##### Carga la vista que contiene todas las sucursales.
+
+* **URL**
+
+  /branch/all
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+    
+    None
+
+    **Optional:**
+    None
+        
+* **Success Response:**
+
+    Cargará una vista, la cuál contiene una tabla con las sucursales dadas de alta, y ciertas opciones.
+        
+* **Error Response:**
+
+    Esto ocurre cuando la petición encontró algún un error  en este momento cargará la vista principal de la plataforma .
+
+***
+
+##### Carga la vista para agregar una nueva sucursal.
+
+* **URL**
+
+  /branch/all
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+    None
+ 
+* **Data Params**
+    
+    **Required:**
+    
+    None
+
+    **Optional:**
+    None
+        
+* **Success Response:**
+
+    Cargará una vista, la cuál contiene un formulario para dar de alta una nueva sucursal.
+        
+* **Error Response:**
+
+    Esto ocurre cuando la petición encontró algún un error  en este momento cargará la vista principal de la plataforma .
+
+***
