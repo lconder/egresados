@@ -51,6 +51,7 @@ router.put('/password/', function(req, res, next){
 })
 
 router.put('/', function(req, res, next){
+	
 	var data = {"error":1};
 	console.log(req.body);
 
