@@ -124,11 +124,11 @@
         {
             'error' : 0,
             'branch': [ 
-            	{           	
-					created: true,
-					id: 1
-				}
-            ]
+            {           	
+				created: true,
+				id: 1
+			}
+		]
       }
         
 * **Error Response:** 
