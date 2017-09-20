@@ -30,7 +30,6 @@ router.get('/', function(req, res, next){
 
 
 
-
 router.get('/all/', function(req, res, next){
 
 	if(req.session.level!=0){
