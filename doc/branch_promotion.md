@@ -49,7 +49,7 @@
             	{           	
 					address: "11 Poniente 1234",  
 					latitude: 19.0765,  
-					longitude: -98,03258,  
+					longitude: -98.03258,  
 					name: "2x1 en Bebidas",  
 					graduated: 0
 				}
