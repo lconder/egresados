@@ -97,11 +97,11 @@
     
     **Required:**
 
-    `name: String`
-    `latitude: Float`
-    `longitude: Float`
-    `address: String`
-    `business_id: Int`
+    `name: String`  
+    `latitude: Float`  
+    `longitude: Float`  
+    `address: String`  
+    `business_id: Int`  
 
     **Optional:**
     
