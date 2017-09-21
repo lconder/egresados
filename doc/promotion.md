@@ -46,7 +46,7 @@
         ```json
         {
             'error' : 0,
-            'promo': {         	
+            'promotion': {         	
 				branch: "Test",
 		    	branch_address: "Calle siempre viva 123",
 		    	latitude: 19.0765,
@@ -61,7 +61,68 @@
 * **Error Response:** 
     
     `error: Int`  
-    `business: String`
+    `description: String`
+
+  * **error:** 1
+    Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
+
+    ```json
+        {
+            'error': 1,
+            'description': "Error al obtener promoción"
+        }
+      ```
+
+***
+
+##### Consumir una promoción.
+
+* **URL**
+
+  /promotion/:id
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+
+    `id: Int` 
+ 
+* **Data Params**
+    
+    **Required:**
+
+    None  
+
+    **Optional:**
+    
+    None
+        
+* **Success Response:**
+
+    `error: Int`  
+    `promotion:{
+		modified: Boolean,
+	}`    
+    
+    * **error:** 0
+    Esto ocurre cuando la petición NO encontró ningún error. En **promotion** se encuentra una bandera llamada modified que indica que la promoción ha sido consumida con éxito en este momento se actualiza el contador de esta promotion.
+    
+        ```json
+        {
+            'error' : 0,
+            'promotion': {         	
+				modified: true
+			}
+      }
+        
+* **Error Response:** 
+    
+    `error: Int`  
+    `description: String`
 
   * **error:** 1
     Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
