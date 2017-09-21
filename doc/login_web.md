@@ -4,11 +4,11 @@
 
 * **URL**
 
-  /promotion_business/
+  /login_web/
 
 * **Method:**
 
-  `GET`
+  `POST`
   
 *  **URL Params**
 
