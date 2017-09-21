@@ -44,7 +44,7 @@
 * **Error Response:** 
     
     `error: Int`  
-    `business: String`
+    `description: String`
 
   * **error:** 1
     Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
