@@ -135,3 +135,61 @@
       ```
 
 ***
+
+##### Activar o desactivar una promoción.
+
+* **URL**
+
+  /promotion/activate
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   **Required:**
+
+    None 
+ 
+* **Data Params**
+    
+    **Required:**
+
+    `id: Int`  
+    `status: Int`  
+
+    **Optional:**
+    
+    None
+        
+* **Success Response:**
+
+    `error: Int`  
+    `updated: Boolean`    
+    
+    * **error:** 0
+    Esto ocurre cuando la petición NO encontró ningún error. En **updated** se encuentra una bandera que indica que el estado de la promoción ha sido actualizado con éxito.
+    
+        ```json
+        {
+            'error' : 0,
+            'updated': true
+      }
+        
+* **Error Response:** 
+    
+    `error: Int`  
+    `description: String`
+
+  * **error:** 1
+    Esto ocurre cuando la petición encontró un error en  **description** se encuentra el error de manera específica.
+
+    ```json
+        {
+            'error': 1,
+            'description': "Error al actualizar estado de  promoción"
+        }
+      ```
+
+***
