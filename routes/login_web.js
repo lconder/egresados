@@ -5,7 +5,7 @@ var request = require('request');
 var router = express.Router();
 
 
-//En este controller pueden iniciar sesión el Administrador así como los establecimientos.
+//En este controller pueden iniciar sesión Administradores, Superadministradores así como los establecimientos.
 
 router.post('/', function(req, res, next){
 	var user = req.body.user;
