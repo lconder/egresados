@@ -1,6 +1,6 @@
 # **credential**
 
-##### Obtener los datos de un egresado a partir de su matricula.
+##### Obtener los datos de un egresado a partir de su id.
 
 * **URL**
 
@@ -14,7 +14,7 @@
 
    **Required:**
 
-    `mat: Int`  
+    `id_student: Int`  
  
 * **Data Params**
     
