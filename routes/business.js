@@ -110,6 +110,15 @@ router.post('/', function(req, res, next){
 
 	console.log("Route para crear un nuevo negocio")
 	console.log(req.body)
+	var fullAddress = req.body.street+' '+req.body.external_number+' '+req.body.internal_number+' '+req.body.suburb+' '+req.body.postal_code+' '+req.body.city
+
+	getNameState(req.body.state)
+	.then( state => {
+		fullAddress = fullAddress+' '+state
+	})
+	.catch(err => {
+		console.log(err)
+	})
 
 	var options = {
 		template: {
@@ -117,7 +126,7 @@ router.post('/', function(req, res, next){
 			data: {
 				'business_name': req.body.business_name,
 				'attendant_name': req.body.attendant_name+' '+req.body.attendant_lastname+' '+req.body.attendant_second_lastname,
-				'address': req.body.address,
+				'address': fullAddress, 
 				'discount_description': req.body.discount_description,
 				'attendant_email': req.body.email,
 				'rfc': req.body.rfc,
@@ -187,6 +196,8 @@ router.post('/', function(req, res, next){
 
 					console.log("negocio creado")
 					req.session.id_business = id_business
+					console.log(fullAddress)
+
 					generateDoc(options)
 					.then(doc_created => {
 						
@@ -401,8 +412,26 @@ function checkRFC(rfc){
 	})
 }
 
+function getNameState(id_state){
 
 
+	return new Promise(function(resolve, reject){
+
+		var connection = mysql.createConnection(info_connection);
+		connection.query("SELECT name FROM state WHERE id_state=?", [id_state],function(err, rows, fields)
+		{
+			if(err){
+				console.log(err)
+				connection.end(function(err){console.log("connection end...")});			
+				return reject(err)
+			}
+			else{
+				connection.end(function(err){console.log("connection end...")});
+				resolve(rows[0].name)
+			}
+	 	});
+	})
+}
 
 
 module.exports = router;

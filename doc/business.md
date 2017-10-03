@@ -60,7 +60,8 @@
     Esto ocurre cuando la petición NO encontró ningún error. En **business** se encuentra una bandera que indica si todo se ha ralizado de manera aecuada. Este endpoint realiza las siguientes operaciones:
 
     1. Creación del convenio y de su encargado.
-    2. Creación del documento de convenio y envío del mismo 
+    2. Creación del documento de convenio y envío del mismo.
+    3. 
     
 		```json
 		{
