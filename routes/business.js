@@ -378,8 +378,7 @@ function sendEmailToAttendant(email, password){
 			from: config.user_mail,
 			to: email,
 			subject: 'Bienvenido a Egresados Ibero',
-			html: '<b>	Estimado empresario </b><br><br><b>	Se ha completado la activación de su registro.</b><br><br><b>	Su password es: '+password+' </b><br><br><b>Agradeceremos guarde su usuario (es su RFC) y contraseña para futuros ingresos a la app.</b><br><br><b>	Para cualquier duda o aclaración favor de contactar: </b><br><br><b>Oficina de Atención Tecnológica</b><br><br><b> <a href="mailto:oat@iberopuebla.mx" target="_top">oat@iberopuebla.mx</a> </b><br><br><b>	Tel. 372 3000 ext. 19155 </b><br><br>'
-			//text: "Te adjuntamos tu password: "+password+ " recuerda que tu usuario es tu R.F.C"
+			html: '<b>	Estimado empresario: </b><br><br><b>¡Muchas gracias por tu solicitud de registro!</b><br><br><b>La información proporcionada se encuentra en proceso de validación y en 48 horas recibirás una notificación vía correo electrónico sobre el status de tu activación en la App. </b><br><br><b>	Su password es: '+password+' </b><br><br><b>Agradeceremos guarde su usuario (es su RFC) y contraseña para futuros ingresos a la app a través de la siguiente liga: <a href="https://appegresados.iberopuebla.mx/"> https://appegresados.iberopuebla.mx/</a> .</b><br><br><b>	Para cualquier duda o aclaración favor de contactar: </b><br><br><b>Oficina de Egresados</b><br><br><b> <a href="mailto:egresados@iberopuebla.mx" target="_top">egresados@iberopuebla.mx</a> </b><br><br><b>	Tel. (222) 372 3000 ext. 15210 / 15204 </b><br><br><b>Saludos cordiales</b></br>'
 		}, function(error, info){
 			if(error){
 				reject(error)
