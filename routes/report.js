@@ -11,6 +11,8 @@ router.get('/', function(req, res, next) {
 	res.render('report', { title: 'Reportes', levelUser: req.session.level});
 });
 
+
+
 function getDataBusiness(init_date, finish_date, cb){
 	var connection = mysql.createConnection(info_connection);
 	sql = "SELECT b.*, a.email FROM business b INNER JOIN attendant a ON b.attendant_id = a.id WHERE b.created_at BETWEEN ? and ?"
@@ -37,6 +39,7 @@ function getDataCounts(init_date, finish_date, cb){
 		}
 	});
 }
+
 
 function getDataStudents(init_date, finish_date, cb){
 	var connection = mysql.createConnection(info_connection);

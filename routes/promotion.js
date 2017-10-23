@@ -6,8 +6,9 @@ var router = express.Router();
 
 router.get('/:id', function(req, res, next){
 	var data = {"error": 1, "promotion":""};
+	var today = getToday();
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=?", [req.params.id,1], function(err, rows, fields){
+	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=? AND ? BETWEEN p.created_at AND p.expired_at", [req.params.id,1, today], function(err, rows, fields){
 		if(err){
 			res.json({"err":1, "desc": err});
 		}else{
@@ -111,5 +112,24 @@ router.get('/edit/:id/', function(req, res, next){
 	});
 });
 
+
+function getToday(){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+	    dd = '0'+dd
+	} 
+
+	if(mm<10) {
+	    mm = '0'+mm
+	} 
+
+	today = yyyy + '-' + mm + '-' + dd;
+
+	return today;
+}
 
 module.exports = router;
