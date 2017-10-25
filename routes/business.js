@@ -38,19 +38,20 @@ router.get('/', function(req, res, next) {
 			{
 				data["error"] = 0;
 				business = rows;
-				
+
 				var c=0;
+				var today = getToday();
 				async.each(business, function(item, cb){
-					connection.query("SELECT * FROM promotions WHERE business_id=?",[item.id], function(err, rows, fields){
+					connection.query("SELECT * FROM promotions WHERE business_id=? AND ? BETWEEN created_at AND expired_at",[item.id, today], function(err, rows, fields){
 						if(err)
 							console.log(err);
 						console.log(rows);
 						business[c].promotions = rows;
-						c++;	
+						c++;
 						cb();
 					});
-					
-					
+
+
 				}, function(err){
 					if(err)
 						console.log(err);
@@ -58,12 +59,12 @@ router.get('/', function(req, res, next) {
 					data["business"] = business;
 					res.json(data);
 				});
-				
+
 			}else{
 				data["business"] = "No business was found!";
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
-			}	
+			}
 		}
 	});
 });
@@ -81,15 +82,15 @@ router.get('/all/', function(req, res, next) {
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.* , s.email as email FROM business b INNER JOIN attendant s ON ( b.attendant_id = s.id ) ", function(err, rows, fields){
     if(err)
-    {	
+    {
     	connection.end(function(err){console.log("connection end...")});
     	//res.json(data);
     }
     else{
     	connection.end(function(err){console.log("connection end...")});
-    	res.render('allBusiness', {title:'Establecimientos registrados', business: rows, levelUser: req.session.level});	
+    	res.render('allBusiness', {title:'Establecimientos registrados', business: rows, levelUser: req.session.level});
     }
-    
+
   });
 });
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -99,9 +100,9 @@ router.get('/add/', function(req, res, next) {
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT id_state as id, name FROM state;", function(err, rows, fields)
 	{
-		res.render('addBusiness_', {title:'Agregar Establecimiento', states: rows, levelUser: 3});	
+		res.render('addBusiness_', {title:'Agregar Establecimiento', states: rows, levelUser: 3});
 	});
-	
+
 });
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -126,7 +127,7 @@ router.post('/', function(req, res, next){
 			data: {
 				'business_name': req.body.business_name,
 				'attendant_name': req.body.attendant_name+' '+req.body.attendant_lastname+' '+req.body.attendant_second_lastname,
-				'address': fullAddress, 
+				'address': fullAddress,
 				'discount_description': req.body.discount_description,
 				'attendant_email': req.body.email,
 				'rfc': req.body.rfc,
@@ -187,7 +188,7 @@ router.post('/', function(req, res, next){
 		if(contador_rfc==0){
 
 			addAttendant(attendant)
-			.then(id_attendant =>{ 
+			.then(id_attendant =>{
 
 				console.log("encargado creado")
 				business.attendant_id = id_attendant
@@ -200,7 +201,7 @@ router.post('/', function(req, res, next){
 
 					generateDoc(options)
 					.then(doc_created => {
-						
+
 						if(doc_created.ok==1){
 
 							console.log("doc creado")
@@ -228,7 +229,7 @@ router.post('/', function(req, res, next){
 	})
 	.catch(error => { res.json({'error':1, 'description':error, 'level': "rfc"  }) })
 
-	
+
 
 })
 
@@ -257,7 +258,7 @@ router.get('/:id/', function(req, res, next){
 	}
 
 	req.session.id_business = req.params.id
-	
+
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT  b.*, s.name AS name_attendant, s.phone AS phone_attendant, s.lastname, s.second_lastname, s.email, s.address, s.id AS id_attendant FROM business b INNER JOIN attendant s ON (b.attendant_id = s.id) WHERE b.id=?;", [req.params.id], function(err, rows, fields)
 	{
@@ -268,7 +269,7 @@ router.get('/:id/', function(req, res, next){
 		}else{
 			console.log(rows[0]);
 			connection.end(function(err){console.log("connection end...")});
-			res.render('business', {title: "Vista de negocio", b:rows[0],  levelUser: req.session.level});	
+			res.render('business', {title: "Vista de negocio", b:rows[0],  levelUser: req.session.level});
 		}
  	});
 });
@@ -286,7 +287,7 @@ function addAttendant(attendant){
 	return new Promise(function(resolve, reject){
 
 		connection.query("INSERT INTO attendant SET ?", attendant, function(err, result){
-			
+
 			if(err){
 				connection.end(function(err){console.log("connection end...")});
 				reject(err)
@@ -400,7 +401,7 @@ function checkRFC(rfc){
 		{
 			if(err){
 				console.log(err)
-				connection.end(function(err){console.log("connection end...")});			
+				connection.end(function(err){console.log("connection end...")});
 				return reject(err)
 			}
 			else{
@@ -421,7 +422,7 @@ function getNameState(id_state){
 		{
 			if(err){
 				console.log(err)
-				connection.end(function(err){console.log("connection end...")});			
+				connection.end(function(err){console.log("connection end...")});
 				return reject(err)
 			}
 			else{
@@ -430,6 +431,26 @@ function getNameState(id_state){
 			}
 	 	});
 	})
+}
+
+
+function getToday(){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+	    dd = '0'+dd
+	}
+
+	if(mm<10) {
+	    mm = '0'+mm
+	}
+
+	today = yyyy + '-' + mm + '-' + dd;
+
+	return today;
 }
 
 

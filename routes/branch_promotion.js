@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var async = require('async');
 var router = express.Router();
 
-
+//Obtener las sucursales en las que se encuentra activa cierta promoción.
 router.get('/:id_promotion', function(req, res, next){
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);

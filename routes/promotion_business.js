@@ -15,22 +15,32 @@ router.post('/', function(req, res, next){
 	var data = {"error": 1};
 	var connection = mysql.createConnection(info_connection);
 
-	
+
 
 	if(req.session.id_business != null)
 	{
-		sendPush(req.body.name, req.body.promo_description);
-		
 		var date_expired = req.body.expired_date.split("/");
 		var date_created = req.body.created_at.split("/");
+		var de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
+		var dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+
 		var promo = {
 			"name": req.body.name,
 			"description": req.body.promo_description,
 			"count": 0,
-			"expired_at": new Date(date_expired[2],date_expired[1]-1,date_expired[0]),
-			"created_at": new Date(date_created[2],date_created[1]-1,date_created[0]),
+			"expired_at": de,
+			"created_at": dc,
 			"business_id": req.session.id_business
 		};
+
+		if( (dc <= getToday()) && (getToday() <= de) ){
+				console.log("Se envia notificación")
+				sendPush(req.body.name, req.body.promo_description)
+		}else{
+				console.log("NO Se envia notificación, promoción futura")
+		}
+
+
 		connection.query("INSERT INTO promotions SET ?", promo, function(err, result){
 			if(err){
 				console.log("Error on promo creation...");
@@ -72,10 +82,10 @@ router.post('/', function(req, res, next){
 					});
 
 
-					
+
 				}
 			}
-		});	
+		});
 	}else{
 		console.log("Manage error...");
 	}
@@ -105,11 +115,11 @@ router.get('/all', function(req, res, next){
 	if(req.session.level!=1){
 		res.render('index', { title: 'Ibero App'});
 	}
-	
+
 	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){
-    
+
 		if(!err){
 			connection.end(function(err){console.log("connection end...")});
 			data.promos = rows
@@ -138,7 +148,7 @@ function sendPush(title, body){
 				console.log(rows[i].token)
 				var message = {
 				    to: rows[i].token,
-				    collapse_key: 'your_collapse_key', 
+				    collapse_key: 'your_collapse_key',
 				    data: {
 				        your_custom_data_key: 'your_custom_data_value'
 				    },
@@ -148,7 +158,7 @@ function sendPush(title, body){
 				    }
 				};
 
-				fcm.send(message, function(err,response){  
+				fcm.send(message, function(err,response){
 				    if(err) {
 				        console.log("Something has gone wrong !", err);
 				    } else {
@@ -158,8 +168,21 @@ function sendPush(title, body){
 			};
 		}
  	});
-
-	
-
 }
+
+function getToday(){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth();
+	var yyyy = today.getFullYear();
+
+	if(dd<10)
+	    dd = '0'+dd
+
+	if(mm<10)
+	    mm = '0'+mm
+
+	return new Date()
+}
+
 module.exports = router;
