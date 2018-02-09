@@ -10,7 +10,7 @@ router.get('/:id_student', function(req, res, next){
 	connection.query(sql, [req.params.id_student], function(err, rows, fields)
 	{
 		if(err){
-			console.log(err);
+			//console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 			res.json(err);
 		}else{

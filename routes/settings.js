@@ -40,7 +40,6 @@ router.put('/password/', function(req, res, next){
 	var connection = mysql.createConnection(info_connection);
 	var query = 'UPDATE business SET password=? WHERE id=?'
 	connection.query(query, [password, id_business], function(err, result){
-		console.log(err, result);
 		if(err){
 			res.json(err)
 		}else{
@@ -124,7 +123,6 @@ function updateAttendant(attendant){
 		var query = 'UPDATE attendant SET name=?, lastname=?, second_lastname=?, email=?, phone=?, address=? WHERE id=?'
 		connection.query(query, attendant, function(err, result){
 
-			console.log(err, result)
 			if(err){
 				connection.end(function(err){console.log("connection end.")});
 				reject(err)
@@ -151,7 +149,6 @@ function updateBusiness(business){
 		var query = 'UPDATE business SET name=?, rfc=?, facebook=?, twitter=?, website=?, graduated=?, discount_description=?, size=?, business_type=?, categorie=?, street=?, external_number=?, internal_number=?, postal_code=?, suburb=?, city=?, state=?, phone=?  WHERE id=?';
 		connection.query(query, business, function(err, result){
 
-			console.log(err, result)
 			if(err){
 				connection.end(function(err){console.log("connection end.")});
 				reject(err)
@@ -181,7 +178,6 @@ function checkRFC(rfc){
 		connection.query("SELECT count(*) as contador FROM business WHERE rfc=?", [rfc],function(err, rows, fields)
 		{
 			if(err){
-				console.log(err)
 				connection.end(function(err){console.log("connection end...")});			
 				return reject(err)
 			}

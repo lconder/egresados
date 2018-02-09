@@ -10,7 +10,7 @@ router.post('/', function(req, res, next){
 	{
 		var business = [];
 		if(err){
-			console.log(err);
+			//console.log(err);
 			data.desc = err
 			connection.end(function(err){console.log("connection end...")});			
 			res.json(data)

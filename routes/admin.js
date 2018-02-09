@@ -32,7 +32,7 @@ router.get('/add', function(req, res, next){
 
 router.post('/', function(req, res, next){
 
-	console.log(req.body);
+	//console.log(req.body);
 	password = req.body.password;
 
 	var admin = {
@@ -82,7 +82,7 @@ function getAdmins(){
 	return new Promise(function (resolve, reject){
 
 		connection.query(sql, 1,function(err, rows, fields){
-			console.log(rows)
+			//console.log(rows)
 			connection.end(function(err){console.log("conexión finalizada obteniendo los administradores")});
 			if(err){
 				return reject(err)
@@ -101,7 +101,7 @@ function deleteAdmin(id){
 	return new Promise(function(resolve, reject){
 
 		connection.query(sql, id, function(err, results, fields){
-			console.log(err, results)
+			//console.log(err, results)
 			if(err){
 				connection.end(function(err){console.log("connection end.")});
 				return reject(err)
@@ -127,7 +127,7 @@ function createAdmin(admin){
 	return new Promise(function(resolve, reject){
 
 		connection.query("INSERT INTO user SET ?", admin, function(err, result){
-			console.log(err, result)
+			//console.log(err, result)
 			if(err){
 				connection.end(function(err){console.log("connection end.")});
 				reject(err)

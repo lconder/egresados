@@ -23,7 +23,6 @@ var transporter = nodemailer.createTransport({
 router.get('/', function(req, res, next) {
 	console.log("Get All Business")
 
-	console.log(config)
 
 	var data = {
 		"error": 1,
@@ -314,7 +313,7 @@ function addBusiness(business){
 	return new Promise(function(resolve, reject){
 
 		connection.query("INSERT INTO business SET ?", business, function(err, result){
-			console.log(err, result)
+			//console.log(err, result)
 			if(err){
 				connection.end(function(err){console.log("connection end.")});
 				reject(err)
@@ -437,7 +436,7 @@ function getNameState(id_state){
 function getToday(){
 	var today = new Date();
 	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
+	var mm = today.getMonth()+1; 
 	var yyyy = today.getFullYear();
 
 	if(dd<10) {

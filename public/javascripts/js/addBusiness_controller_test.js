@@ -1,7 +1,7 @@
 $.validate({
 
 	lang: 'es',
-	 modules : 'html5',  
+	 modules : 'html5',
 	onSuccess : function() {
 		if(checkRFC($("#rfc").val())){
 			console.log("POST DATA");
@@ -9,7 +9,7 @@ $.validate({
 		}else{
 			swal("RFC no válido")
 			console.log("RFC NO VALIDO")
-		}		
+		}
 		return false;
 	}
 });
@@ -99,7 +99,7 @@ function postData(){
 }
 
 function getDataCategories(id){
-	
+
 	$.getJSON("/categories/"+id, function(data) {
 		$('#categorie').empty();
 		console.log(data);
@@ -152,7 +152,7 @@ $('#rfc').change(function(){
     else{
     	$("#rfcError").css('color','red');
 		$("#rfcError").html("Este R.F.C no es válido");
-    }    	
+    }
 })
 
 $(document).ready(function(){

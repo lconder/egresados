@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `ibero`.`business` (
   `graduated` TINYINT(1) NOT NULL,
   `discount_description` VARCHAR(500) NOT NULL,
   `size` VARCHAR(45) NOT NULL,
-  `business_type` VARCHAR(15) NOT NULL,
+  `business_type` VARCHAR(150) NOT NULL,
   `categorie` INT(11) NOT NULL,
   `logo` VARCHAR(150) NOT NULL,
   `act` VARCHAR(45) NOT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `ibero`.`student` (
   `last_login` DATETIME NOT NULL,
   `employed` TINYINT(1) NOT NULL,
   `business_name` VARCHAR(150) NULL DEFAULT NULL,
-  `business_type` VARCHAR(30) NULL DEFAULT NULL,
+  `business_type` VARCHAR(150) NULL DEFAULT NULL,
   `position` VARCHAR(45) NULL DEFAULT NULL,
   `position_level` VARCHAR(150) NULL DEFAULT NULL,
   `day_start` INT(11) NULL DEFAULT '0',
@@ -280,7 +280,7 @@ ENGINE = MyISAM
 AUTO_INCREMENT = 43
 DEFAULT CHARACTER SET = latin1;
 
-ALTER TABLE `ibero`.`student` 
+ALTER TABLE `ibero`.`student`
 CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 
 INSERT INTO `user` (`id`,`user`,`password`,`nickname`,`admin`,`superadmin`) VALUES (1,'superadmin','889a3a791b3875cfae413574b53da4bb8a90d53e','superadmin',0,1);

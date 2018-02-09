@@ -18,7 +18,7 @@ function getDataBusiness(init_date, finish_date, cb){
 	sql = "SELECT b.*, a.email FROM business b INNER JOIN attendant a ON b.attendant_id = a.id WHERE b.created_at BETWEEN ? and ?"
 	connection.query(sql,[init_date,finish_date],function(err, rows, fields){
 		if(err){
-			console.log(err)
+			//console.log(err)
 			cb([]);
 		}else{
 			console.log(rows)

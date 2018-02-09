@@ -104,7 +104,7 @@ router.get('/edit/:id/', function(req, res, next){
 	
 	connection.query("SELECT * FROM promotions WHERE id=?", [req.params.id], function(err, rows, fields){
 		if(err){
-			console.log(err);
+			console.log("err");
 		}else{
 			b = rows[0];
 			res.render('promotion', {title: 'Promoción', b: b, levelUser: req.session.level});

@@ -44,7 +44,7 @@ router.post('/', function(req, res, next){
 		connection.query("INSERT INTO promotions SET ?", promo, function(err, result){
 			if(err){
 				console.log("Error on promo creation...");
-				console.log(err);
+				//console.log(err);
 				data["error"] = 1;
 				data["promo"]=err;
 				connection.end(function(err){console.log("connection end...")});
@@ -63,7 +63,7 @@ router.post('/', function(req, res, next){
 							encrypt: shortid.generate(),
 							active: 1
 						};
-						console.log(insert);
+						//console.log(insert);
 						connection.query("INSERT INTO branch_promotions SET ?",insert, function(err, result){
 							if(err)
 								console.log(err);
@@ -140,7 +140,7 @@ function sendPush(title, body){
 	{
 		var business = [];
 		if(err){
-			console.log(err);
+			//console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 		}
 		else{

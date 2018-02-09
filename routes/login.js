@@ -97,7 +97,7 @@ function registrar_egresado(student, student_job){
 		month_start: 		array_date[1], 
 		year_start: 		array_date[0]
 	};	
-	console.log(post);
+	//console.log(post);
 	return new Promise(function(resolve, reject){
 
 		var connection = mysql.createConnection(info_connection);
@@ -106,12 +106,12 @@ function registrar_egresado(student, student_job){
 		{
 			if(err){
 				console.log("Error en el servidor 004")
-				console.log(err)
+				//console.log(err)
 				connection.end(function(err){console.log("connection end...")});
 				reject({ 'error':1, 'desc':"Error del servidor 004" })
 			}else{
 				console.log("usuario creado con éxito")
-				console.log(result)
+				//console.log(result)
 				connection.end(function(err){console.log("connection end...")});
 				resolve(result.insertId)
 			}
@@ -132,7 +132,7 @@ function buscar_egresado(matricula){
 		{
 			if(err){
 				console.log("error en el servidor 003")
-				console.log(err)
+				//console.log(err)
 				connection.end(function(err){console.log("connection end...")});
 				reject({ 'error':1, 'desc':"Error del servidor 003" })
 			}else{

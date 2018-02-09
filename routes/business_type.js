@@ -32,7 +32,6 @@ function getTypes(){
 			{
 				for (var i = bt.length - 1; i >= 0; i--) {
 					var temp = {"id": bt[i].cveGiro, "name": bt[i].nombreGiro}
-					console.log(temp)
 					clean.push(temp)
 				};
 				var data = {

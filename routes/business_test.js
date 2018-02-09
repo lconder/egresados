@@ -101,7 +101,6 @@ router.post('/', function(req, res, next){
 
 					Promise.all([sendEmailtoAdmin(), sendEmailToAttendant(req.body.email, password)])
 					.then(values => {
-						console.log(values)
 						res.json({
 							'error': 0,
 							'description': "Negocio y encargado creados con éxito, correos enviados",

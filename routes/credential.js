@@ -115,9 +115,7 @@ router.put('/', function(req, res, next){
 	var password = req.body.password;
 
 	var dat = "/UpdateDatos_UsuarioDatosGeneral?x="+account+"&y="+password+"&k="+key+"&a="+req.body.email+","+req.body.streetNumber+","+req.body.suburb+",21,"+req.body.postal_code+","+req.body.phone+","+req.body.mobile;
-	console.log(dat);
 	var dat_1 = "/DatosLaborales_Upd_Insert_Usuario?x="+account+"&y="+password+"&k="+key+"&a="+req.body.business_type+","+req.body.position+","+month_start+","+year_start+",000,"+req.body.business_name;
-	console.log(dat_1);
 
 	updateStudent(changes)
 	.then(d => {

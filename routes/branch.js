@@ -11,7 +11,6 @@ router.get('/', function(req, res, next){
 	{
 		var business = [];
 		if(err){
-			console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 			res.json(data);
 		}
@@ -51,7 +50,6 @@ router.get('/all', function(req, res, next){
 	{
 		var business = [];
 		if(err){
-			console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 		}
 		else{
@@ -75,7 +73,7 @@ router.post('/', function(req, res, next){
 
 	connection.query("INSERT INTO branch SET ?", branch, function(err, result){
 		if(err){
-			console.log(err);
+			//console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 			throw err;
 		}else{

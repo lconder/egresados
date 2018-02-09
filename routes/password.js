@@ -59,7 +59,7 @@ function getByRFC(rfc){
 		connection.query(query, rfc, function(err, rows, fields)
 		{
 			if(err){
-				console.log(err);
+				//console.log(err);
 				connection.end(function(err){console.log("connection end...")});			
 				return reject(err)
 			}
@@ -83,7 +83,7 @@ function savePasswordAndSendEmail(rfc, email, password){
 		connection.query(query, [sha1(password), rfc], function(err, rows, fields)
 		{
 			if(err){
-				console.log(err);
+				//console.log(err);
 				connection.end(function(err){console.log("connection end...")});			
 				return reject(err)
 			}
