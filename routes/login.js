@@ -139,7 +139,7 @@ function registrar_egresado(student, student_job){
 		suburb: 			student.suburb, 
 		state: 				student.state, 
 		city: 				"",
-		active: 			1, 
+		active: 			0, 
 		postal_code: 		student.postal_code,
 		created_at: 		new Date(),
 		last_login: 		new Date(),
