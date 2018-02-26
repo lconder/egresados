@@ -41,23 +41,79 @@ router.post('/', function(req, res, next){
 								})
 								.catch(error => {res.json(error);})
 							}else{
-								res.json({
-									'error' : 0,
-									'acces' : true,
-									'idUser': egresado.id,
-									'data'  : user_encrypted
+								console.log("Estudiante ya registrado se modifican los datos")
+								modificar_egresado(data_general, data_laboral, egresado.id)
+								.then(student_modified => {
+									res.json({
+										'error' : 0,
+										'acces' : true,
+										'idUser': egresado.id,
+										'data'  : user_encrypted
+									})
 								})
+								.catch(error => {res.status(500).json(error);})
 							}
 						})
-						.catch(error => {res.json(error);})
+						.catch(error => {res.status(500).json(error);})
 					})
-					.catch(error => {res.json(error);})
+					.catch(error => {res.status(500).json(error);})
 				})
-				.catch(error => {res.json(error);})
+				.catch(error => {res.status(500).json(error);})
 			}	
 	})
-	.catch(error => {res.json(error);})
+	.catch(error => {res.status(500).json(error);})
 });
+
+function modificar_egresado(student, student_job, id_student){
+
+	console.log("Modificación de un egresado")
+
+	var array_date = student_job.date_start.split('/');
+
+	var post = [
+		student.name,
+		student.lastname,
+		student.second_lastname,
+		student.email,
+		student.phone,
+		student.mobile,
+		student.street_number,
+		student.suburb,
+		student.state,
+		student.postal_code,
+		student.gender,
+		student.career,
+		student_job.business_name,
+		student_job.business_type,
+		student_job.position,
+		array_date[1], 
+		array_date[0],
+		id_student ]
+		
+
+	return new Promise(function(resolve, reject){
+
+		var q = "UPDATE student SET name=?, lastname=?, second_lastname=?, email=?, phone=?, mobile=?, street_number=?, suburb=?, state=?, postal_code=?, gender=?, career=?, business_name=?, business_type=?, position=?,  month_start=?, year_start=? WHERE id=?"
+		console.log(q)		
+		var connection = mysql.createConnection(info_connection);					
+		connection.query(q, post, function(err, result){
+			if(err){
+				reject({ 'error':1, 'desc':"Error del servidor 005" })
+			}else{
+				
+				if(result.affectedRows==1){
+					data["error"]=0;
+					data["updated"]=true;
+					connection.end(function(err){console.log("connection end...")});
+					resolve(data)
+				}else{
+					reject({ 'error':1, 'desc':"Error del servidor 005" })
+				}
+			}
+		});
+	})
+
+}
 
 
 function registrar_egresado(student, student_job){
@@ -132,7 +188,7 @@ function buscar_egresado(matricula){
 		{
 			if(err){
 				console.log("error en el servidor 003")
-				//console.log(err)
+				console.error(err)
 				connection.end(function(err){console.log("connection end...")});
 				reject({ 'error':1, 'desc':"Error del servidor 003" })
 			}else{
@@ -268,6 +324,7 @@ function login_egresado(user, password){
 				resolve(data)
 			}else{
 				console.log("error en el servidor 001")
+				console.error(error)
 				reject({ 'error':1, 'desc':"Error del servidor 001" })
 			}
 		})
