@@ -74,26 +74,13 @@ function modificar_egresado(student, student_job, id_student){
 		student.name,
 		student.lastname,
 		student.second_lastname,
-		student.email,
-		student.phone,
-		student.mobile,
-		student.street_number,
-		student.suburb,
-		student.state,
-		student.postal_code,
-		student.gender,
 		student.career,
-		student_job.business_name,
-		student_job.business_type,
-		student_job.position,
-		array_date[1], 
-		array_date[0],
 		id_student ]
 		
 
 	return new Promise(function(resolve, reject){
 
-		var q = "UPDATE student SET name=?, lastname=?, second_lastname=?, email=?, phone=?, mobile=?, street_number=?, suburb=?, state=?, postal_code=?, gender=?, career=?, business_name=?, business_type=?, position=?,  month_start=?, year_start=? WHERE id=?"
+		var q = "UPDATE student SET name=?, lastname=?, second_lastname=?, career=? WHERE id=?"
 		console.log(q)		
 		var connection = mysql.createConnection(info_connection);					
 		connection.query(q, post, function(err, result){
