@@ -15,13 +15,11 @@ router.post('/', function(req, res, next){
 
 	getAdmin(user, password)
 	.then(admin => {
-		console.log("admin "+admin)
 		if(admin < 1){
 
-			console.log(user, password)
 			getSuperAdmin(user, password)
 			.then(superadmin => {
-				console.log("superadmin " + superadmin);
+
 				if(superadmin < 1){
 					getBusiness(user, password)
 					.then(business => {
@@ -40,7 +38,6 @@ router.post('/', function(req, res, next){
 						res.json(data)
 					})
 				}else{
-					console.log("Incio de session como superadmin");
 					req.session.level = 4 ;// 4 = SADMIN
 					data.error = 0
 					data.level = 4
@@ -77,7 +74,6 @@ function getAdmin(user, password){
 	var sqlA = "SELECT count(*) as contador FROM user WHERE user=? AND password=? AND admin=?"
 	return new Promise(function(resolve, reject){
 		connection.query(sqlA, [user, password, 1], function(err, rows, fields){
-			console.log(rows[0])
 			connection.end(function(err){console.log("conexión finalizada obteniendo el admin")});
 			if(err){
 				return reject(err)

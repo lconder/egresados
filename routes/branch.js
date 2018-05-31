@@ -73,7 +73,6 @@ router.post('/', function(req, res, next){
 
 	connection.query("INSERT INTO branch SET ?", branch, function(err, result){
 		if(err){
-			//console.log(err);
 			connection.end(function(err){console.log("connection end...")});
 			throw err;
 		}else{
@@ -93,7 +92,7 @@ router.post('/', function(req, res, next){
 router.post('/address/', function(req, res, next){
 	var lat = req.body.lat;
 	var lng = req.body.lng;
-	request('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=true', function (error, response, body) {
+	request('https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=true&key='+key_maps, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			address = JSON.parse(body); 
 			res.json({"address": address.results[0].formatted_address});

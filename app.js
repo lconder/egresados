@@ -20,6 +20,7 @@ global.info_connection = {
 
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
 global.key = 'oNZzKNd9Bckq1bGtPYeIWw=='
+global.key_maps = 'AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM'
 
 
 

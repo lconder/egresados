@@ -3,7 +3,7 @@
 	"host_database": "34.213.221.198",
 	"port_database" : "3306",
 	"user_database" : "lconder",
-	"password_database": "0112358",
+	"password_database": "lconder",
   	"database" : "ibero",
 
   	"host_mail": "atenea.hosting-mexico.net",

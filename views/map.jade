@@ -96,15 +96,15 @@ block content
 		});
 
 	
-	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAd0FWFPYgJCQCHss-ZmGAVn9X4wZLwMLg')
+	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM')
 	script.
 		var map; 
 		var business = !{JSON.stringify(businessMap)};
 		$(document).ready(function(){
 			var map = new GMaps({
 				div: '#map',
-				lat: business[0].latitude,
-				lng:  business[0].longitude
+				lat: business[0].latitude || 0,
+				lng:  business[0].longitude || 0
 			});
 			for(i=0;i<business.length;i++){
 				map.addMarker({

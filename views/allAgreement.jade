@@ -20,12 +20,14 @@ block content
 										th Dirección
 										th Teléfono
 										th Status
+										th Opciones
 								tfoot
 									tr
 										th Nombre
 										th Dirección
 										th Teléfono
 										th Status
+										th Opciones
 								tbody
 									each val in data.agreements
 										tr
@@ -39,6 +41,12 @@ block content
 											else
 												td
 													| Inactivo
+											td
+												a(href='/promotion/'+val.id data-toggle='tooltip' title='Ver Promociones')
+													i.zmdi.zmdi-card-giftcard.zmdi-hc-2x
+												&nbsp;&nbsp;
+												a(href='/branch/'+val.id data-toggle='tooltip' title='Ver Sucursales')
+													i.zmdi.zmdi-store.zmdi-hc-2x
 
 
 	include footer
