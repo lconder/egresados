@@ -80,9 +80,6 @@ router.post('/', function(req, res, next){
 						connection.end(function(err){console.log("connection end...")});
 						res.json(data);
 					});
-
-
-
 				}
 			}
 		});
@@ -119,6 +116,31 @@ router.get('/all', function(req, res, next){
 	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){
+
+		if(!err){
+			connection.end(function(err){console.log("connection end...")});
+			data.promos = rows
+			res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data})
+		}else{
+			connection.end(function(err){console.log("connection end...")});
+			res.json(data);
+		}
+	});
+});
+
+
+router.get('/all/:id', function(req, res, next){
+
+
+	if(req.session.level!=0) 
+		res.render('index', { title: 'Ibero App'});
+	
+
+	let id_business = req.params.id 
+
+	var data = {"error": 1,"promos":""};
+	var connection = mysql.createConnection(info_connection);
+	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [id_business],function(err, rows, fields){
 
 		if(!err){
 			connection.end(function(err){console.log("connection end...")});

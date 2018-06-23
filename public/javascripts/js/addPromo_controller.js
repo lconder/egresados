@@ -10,15 +10,10 @@ function validateDate(){
 	dc = new Date(date_created[2],date_created[1]-1,date_created[0])
 	de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
 	today = new Date()
-	console.log(dc.setHours(0,0,0,0))
-	console.log(today.setHours(0,0,0,0))
-	console.log(dc.getTime())
-	console.log(today.getTime())
-	
 
-	if(/*(dc.setHours(0,0,0,0) === today.setHours(0,0,0,0)) || */(dc.getTime() >= today.getTime()))
+	if((dc.getTime() >= today.getTime()))
 	{
-		if(/*(de.setHours(0,0,0,0) == today.setHours(0,0,0,0)) || */(de.getTime() >= today.getTime()))
+		if((de.getTime() >= today.getTime()))
 		{
 			
 			if(de.getTime() >= dc.getTime()){
@@ -29,7 +24,6 @@ function validateDate(){
 				swal("La fecha de fin no es válida")
 			}
 		}else{
-			console.log("fecha invalida 2");
 			swal("La fecha de fin no es válida")
 		}
 	}else{
@@ -71,7 +65,7 @@ function postData(){
 				success: function(data) {
 					console.log(data);
 					if(data.error == 0){
-						swal({title:"Promoción dada de alta de manera exitosa.", text:"Y puedes visualizar su información en el apartado -Ver todas las promociones-.",type:"success"}).then(
+						swal({title:"Promoción dada de alta de manera exitosa.", text:"Ya puedes visualizar su información en el apartado -Ver todas las promociones-.",type:"success"}).then(
 						function(result) {
 							location.reload();
 						});
@@ -91,38 +85,38 @@ function postData(){
 
 $(document).ready(function() {
 
-			$(function () {
-                $('#created_at').datetimepicker({minDate: moment()});
-            });
-			
-			var esp = {
-				"sProcessing":     "Procesando...",
-				"sLengthMenu":     "Mostrar _MENU_ registros",
-				"sZeroRecords":    "No se encontraron resultados",
-				"sEmptyTable":     "Ningún dato disponible en esta tabla",
-				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-				"sInfoPostFix":    "",
-				"sSearch":         "Buscar:",
-				"sUrl":            "",
-				"sInfoThousands":  ",",
-				"sLoadingRecords": "Cargando...",
-				"oPaginate": {
-					"sFirst":    "Primero",
-					"sLast":     "Último",
-					"sNext":     "Siguiente",
-					"sPrevious": "Anterior"
-				},
-				"oAria": {
-					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-				}
-			};
-			$('#data-table-promotions').DataTable({
-				responsive: true,
-				"oLanguage": esp
-			});
+	$(function () {
+		$('#created_at').datetimepicker({minDate: moment()});
+	});
+
+	var esp = {
+		"sProcessing":     "Procesando...",
+		"sLengthMenu":     "Mostrar _MENU_ registros",
+		"sZeroRecords":    "No se encontraron resultados",
+		"sEmptyTable":     "Ningún dato disponible en esta tabla",
+		"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+		"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+		"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix":    "",
+		"sSearch":         "Buscar:",
+		"sUrl":            "",
+		"sInfoThousands":  ",",
+		"sLoadingRecords": "Cargando...",
+		"oPaginate": {
+			"sFirst":    "Primero",
+			"sLast":     "Último",
+			"sNext":     "Siguiente",
+			"sPrevious": "Anterior"
+		},
+		"oAria": {
+			"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		}
+	};
+	$('#data-table-promotions').DataTable({
+		responsive: true,
+		"oLanguage": esp
+	});
 
 			
 

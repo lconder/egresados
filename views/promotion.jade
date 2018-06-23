@@ -2,60 +2,97 @@ extends layout
 block content
 	include bar
 		block cont
-			- var prettyDate = function(i){return moment(i).format("DD/MM/YYYY");}
 			section#content
-				.container.container-alt
-					.block-header
-						h2 Promoción
-							small
-					#profile-main.card
-						.pm-overview.c-overflow
-							.pmo-pic
-								.p-relative
-									a(href='')
-										//img#qrcode.img-responsive(src='/images/round-logo.jpg', alt='')
-										#qrcode
-									.dropdown.pmop-message
-										if b.active == 1
-											button.btn.bgm-red.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
-												i.zmdi.zmdi-close
-										else
-											button.btn.bgm-green.btn-float.z-depth-1(id='#{b.active}' name='#{b.id}' onclick='activate(this)')
-												i.zmdi.zmdi-check
-								.pmo-stat
-									h2.m-0.c-white=b.count
-									| Veces consumida
-						.pm-body.clearfix
-							ul.tab-nav.tn-justified
-								li.active
-									a(href='#') Información de la promo
-								
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-equalizer.m-r-10
-										|  Nombre de la Promoción
-								.pmbb-body.p-l-30
-									.pmbb-view
-										p=b.name
-							.pmb-block
-								.pmbb-header
-									h2
-										i.zmdi.zmdi-account.m-r-10
-										|   Información
-								.pmbb-body.p-l-30
-									.pmbb-view
-										dl.dl-horizontal
-											dt Descripción
-											dd=b.description
-										dl.dl-horizontal
-											dt Inicia el
-											dd #{prettyDate(b.created_at)}
-										dl.dl-horizontal
-											dt Finaliza el
-											dd #{prettyDate(b.expired_at)}
-							
+					.container
+						.block-header
+							h2 Agregar Promoción
+						.card
+							.card-header
+								h2
+									small
+										| Por favor llena los campos.
+								br
+								br
+								form(action='#' method='POST' )
+								.row
+									.col-md-4
+										.input-group.fg-float
+											span.input-group-addon
+												i.zmdi.zmdi-card-giftcard
+											.fg-line
+												input#name.form-control(type='text' name='name' value='#{promotion.promo_name}' required)
+												label.fg-label Nombre de la promoción
+											small#nameError.help-block
+									.col-md-4
+										.input-group.form-group
+											span.input-group-addon
+												i.zmdi.zmdi-calendar
+											.dtp-container
+												input#created_at.form-control.date-picker(type='text', name='created_at', placeholder='Fecha de Inicio' value='#{promotion.promo_created_at}')
+										small#created_atError.help-block
+									.col-md-4
+										.input-group.form-group
+											span.input-group-addon
+												i.zmdi.zmdi-calendar
+											.dtp-container
+												input#expired_date.form-control.date-picker(type='text', name='expired_date', placeholder='Fecha de Expiración' value='#{promotion.promo_expired_at}')
+										small#expired_dateError.help-block
+								br
+								.row
+									.col-md-12
+										.form-group
+											.fg-line
+												textarea#promo_description.form-control(rows='3', placeholder='Describe tu promoción...' name='promo_description' )=promotion.promo_description
+												small#promo_descriptionError.help-block
+						.card
+							.card-header
+								h2
+									| Seleccione las sucursales donde su promoción estará activa.
+									small
+										| Después pulse el botón aceptar.
+							.row
+								.col-md-12
+									.table-responsive
+										table#data-table-promotions.table.table-striped
+											thead
+												tr
+													th Nombre
+													th Dirección
+													th Opciones
+											tfoot
+												tr
+													th Nombre
+													th Dirección
+													th Opciones
+											tbody
+												each val in business
+													tr
+														td=val.name
+														td=val.address
+														td
+															.toggle-switch.toggle-switch-demo
+																label.ts-label(for='#{val.id}') Seleccionar :
+																if val.active==true
+																	input(type='checkbox', hidden='hidden' id='#{val.id}' checked)
+																else
+																label.ts-helper(for='#{val.id}')
+							br
+							.row
+								.col-md-3
+								.col-md-3
+								.col-md-2
+								.col-md-2
+									button(onclick='clearForm()').btn.btn-danger.btn-icon-text
+										i.zmdi.zmdi-close
+										|  Limpiar		
+								.col-md-2				
+									button(onclick='validateDate()').btn.btn-primary.btn-icon-text
+										i.zmdi.zmdi-check
+										|  Aceptar	
+							br
+
+
 	include footer
 	script.
-		var id_encrypt = !{JSON.stringify(b.encrypt)};
-	script(src='/javascripts/js/promotion_controller.js')
+		var business = !{JSON.stringify(business)}; 
+	script(src='/javascripts/js/editPromo_controller.js')

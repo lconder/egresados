@@ -41,7 +41,11 @@ block content
 													each val in business
 														tr
 															td #{prettyDate(val.created_at)}
-															td=val.name
+															if levelUser==1
+																td=val.name
+															if levelUser==0
+																td
+																	a(href='/branch/edit/'+val.id)=val.name
 															td=val.address
 	include footer
 	script.

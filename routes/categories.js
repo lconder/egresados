@@ -2,23 +2,25 @@ var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
 var async = require('async');
+var query = require('../utils/queries');
 
-//----------------------------API-------------------------------------------------//
+
+
+
 router.get('/', function(req, res, next){
-	console.log('Get categories');
+	
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT id_categories as id, name FROM categories", function(err, rows, fields){
+	connection.query(query.query_get_categories, (err, rows, fields) => { 
 		if(!err){
 			res.json(rows);
-			connection.end(function(err){console.log("connection end...")});
+			connection.end( (err) => {});
 		}else{
-			connection.end(function(err){console.log("connection end...")});
+			connection.end( (err) => {});
 		}
 	});
 });
 
 
-//----------------------------API-------------------------------------------------//
 router.get('/:id', function(req, res, next){
 	console.log('Get categories by id');
 	var connection = mysql.createConnection(info_connection);
@@ -33,7 +35,7 @@ router.get('/:id', function(req, res, next){
 });
 
 
-//----------------------------API-------------------------------------------------//
+
 router.get('/business/:id/', function(req, res, next) {
 	 
 	var data = {'error': 1, 'business':""};

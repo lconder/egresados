@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
-//var formidable = require('express-formidable');
 var multer  = require('multer');
 var config = require('./config.json')
 
@@ -21,7 +20,6 @@ global.info_connection = {
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
 global.key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 global.key_maps = 'AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM'
-
 
 
 var routes = require('./routes/index');

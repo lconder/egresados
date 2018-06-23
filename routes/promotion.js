@@ -1,12 +1,17 @@
 var express = require('express');
 var mysql = require('mysql');
 var async = require('async');
+var moment = require('moment');
+var query = require('../utils/queries');
+var error = require('../utils/error');
+var objects = require('../utils/objects');
 var router = express.Router();
 
 
 router.get('/:id', function(req, res, next){
+
 	var data = {"error": 1, "promotion":""};
-	var today = getToday();
+	var today = moment().format("YYYY-MM-DD");
 	var connection = mysql.createConnection(info_connection);
 	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=? AND ? BETWEEN p.created_at AND p.expired_at", [req.params.id,1, today], function(err, rows, fields){
 		if(err){
@@ -14,11 +19,11 @@ router.get('/:id', function(req, res, next){
 		}else{
 			if(rows.length != 0)
 			{
-				data["error"] = 0;
-				data["promotion"] = rows[0];
+				data.error = 0;
+				data.promotion = rows[0];
 			}else{
-				data["error"] = 1;
-				data["description"] = "No promotions found";
+				data.error = 1;
+				data.description = "No promotions found";
 			}
 		}
 		res.json(data);
@@ -99,37 +104,60 @@ router.put('/activate/', function(req, res, next){
 	});
 });
 
-router.get('/edit/:id/', function(req, res, next){
-	var connection = mysql.createConnection(info_connection);
-	
-	connection.query("SELECT * FROM promotions WHERE id=?", [req.params.id], function(err, rows, fields){
-		if(err){
-			console.log("err");
-		}else{
-			b = rows[0];
-			res.render('promotion', {title: 'Promoción', b: b, levelUser: req.session.level});
-		}
-	});
+router.get('/edit/:id', function(req, res, next) {
+
+	let id = req.params.id
+
+	getPromoInfo(id)
+	.then(info_promo => {
+		id_business = info_promo[0].business_id;
+		getBranchs(id_business)
+		.then(branchs => {
+			console.log( objects.editPromo(info_promo, branchs) )
+			let promotion = objects.editPromo(info_promo, branchs)
+			res.render('promotion', {title: 'Promoción', promotion: promotion, business: promotion.branchs, levelUser: req.session.level});
+		})
+		.catch(err => {
+			console.error(err)
+		})
+	})
+	.catch(err => {
+		console.error(err)
+	})
 });
 
 
-function getToday(){
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
+function getPromoInfo(id_promo) {
 
-	if(dd<10) {
-	    dd = '0'+dd
-	} 
+	return new Promise(function(resolve, reject){
 
-	if(mm<10) {
-	    mm = '0'+mm
-	} 
+		let connection = mysql.createConnection(info_connection);
+		connection.query(query.query_get_promo_info_full, [id_promo], (err, rows, fields) => {
 
-	today = yyyy + '-' + mm + '-' + dd;
+			if(err){
+				reject(err)
+			}else{
+				resolve(rows)
+			}
+		})
+	})
 
-	return today;
 }
+
+function getBranchs(id_business) {
+
+	return new Promise(function(resolve, reject){
+		let connection = mysql.createConnection(info_connection);
+		connection.query(query.query_get_branchs_by_id, [id_business], (err, rows, fields) => {
+
+			if(err){
+				reject(err)
+			}else{
+				resolve(rows)
+			}
+		})
+	})
+}
+
 
 module.exports = router;

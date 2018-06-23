@@ -31,7 +31,11 @@ block content
 								tbody
 									each val in data.promos
 										tr
-											td=val.name
+											if levelUser==1
+												td=val.name
+											if levelUser==0
+												td
+													a(href='/promotion/edit/'+val.id_promotion)=val.name
 											td=val.name_branch+' / '+val.address
 											td=val.description
 											td=val.count
