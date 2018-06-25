@@ -9,6 +9,7 @@ var moment = require('moment');
 var shortid = require('shortid');
 var sha1 = require('sha1');
 var config = require('../config');
+var query = require('../utils/queries');
 
 var transporter = nodemailer.createTransport({
 	host: config.host_mail,
@@ -19,17 +20,15 @@ var transporter = nodemailer.createTransport({
 		}
 	})
 
-//----------------------------API-------------------------------------------------
-router.get('/', function(req, res, next) {
-	console.log("Get All Business")
 
+router.get('/', function(req, res, next) {
 
 	var data = {
 		"error": 1,
 		"business":""
 	};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM business WHERE active=1", function(err, rows, fields){
+	connection.query(query.query_get_business_order_by_name, (err, rows, fields) => {
 		if(err)
 			res.json(data);
 		else{
@@ -70,8 +69,6 @@ router.get('/', function(req, res, next) {
 
 
 
-//----------------------------API-------------------------------------------------
-
 router.get('/all/', function(req, res, next) {
 	console.log("Get All Business and render view");
 	var data = {
@@ -92,7 +89,7 @@ router.get('/all/', function(req, res, next) {
 
   });
 });
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
 router.get('/add/', function(req, res, next) {
 	console.log("Render view to add a new business");
@@ -104,7 +101,7 @@ router.get('/add/', function(req, res, next) {
 
 });
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
 router.post('/', function(req, res, next){
 

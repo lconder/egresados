@@ -82,12 +82,10 @@ function savePasswordAndSendEmail(rfc, email, password){
 
 		connection.query(query, [sha1(password), rfc], function(err, rows, fields)
 		{
-			if(err){
-				//console.log(err);
+			if(err) {
 				connection.end(function(err){console.log("connection end...")});			
 				return reject(err)
-			}
-			else{
+			} else {
 
 				connection.end(function(err){console.log("connection end...")});
 				transporter.sendMail({

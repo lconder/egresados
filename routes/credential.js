@@ -206,8 +206,8 @@ function setStudentJobById(url_params){
 
 	return new Promise(function(resolve, reject){
 
-		var utf8String = iconv.decode(new Buffer(url_params), "ISO-8859-1");
-		console.log(utf8String);
+		var utf8String = iconv.decode(new Buffer(url_params), "ISO-8859-1")
+		
 
 		request({url: url+utf8String, encoding: null},function(error, response, body)
 		{	

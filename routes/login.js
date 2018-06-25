@@ -239,6 +239,7 @@ function datos_laborales_egresado(student){
 function datos_generales_egresado(student){
 
 	console.log("Obtención de los datos generales de un egresado ")
+
 	console.log(student)
 
 	return new Promise(function(resolve, reject){
@@ -283,6 +284,7 @@ function datos_generales_egresado(student){
 function login_egresado(user, password){
 
 	console.log("Login consumiendo los servicios web de ibero con usuario: "+user+" y password: "+password)
+	password = iconv.decode(new Buffer(password), "ISO-8859-1")
 
 	return new Promise(function(resolve, reject){
 

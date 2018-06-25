@@ -5,9 +5,7 @@ var async = require('async');
 var query = require('../utils/queries');
 
 
-
-
-router.get('/', function(req, res, next){
+router.get('/', (req, res, next) => {
 	
 	var connection = mysql.createConnection(info_connection);
 	connection.query(query.query_get_categories, (err, rows, fields) => { 
@@ -22,14 +20,16 @@ router.get('/', function(req, res, next){
 
 
 router.get('/:id', function(req, res, next){
-	console.log('Get categories by id');
+	console.log('Get categories by id_business_type');
+
+	let id_business_type = req.params.id;
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT id_categories as id, name FROM categories WHERE id_business_type=?",[req.params.id],function(err, rows, fields){
+	connection.query(query.query_get_categories_by_business_type, [id_business_type], (err, rows, fields) => {
 		if(!err){
 			res.json(rows);
-			connection.end(function(err){console.log("connection end...")});
+			connection.end((err) => {});
 		}else{
-			connection.end(function(err){console.log("connection end...")});
+			connection.end((err) => {});
 		}
 	});
 });
@@ -46,7 +46,7 @@ router.get('/business/:id/', function(req, res, next) {
 		else{
 			if(rows.length != 0)
 			{
-				data["error"] = 0;
+				data.error = 0;
 				business = rows;
 				
 				var c=0;
@@ -59,17 +59,16 @@ router.get('/business/:id/', function(req, res, next) {
 						cb();
 					});
 					
-					
 				}, function(err){
 					if(err)
 						console.log(err);
 					connection.end(function(err){console.log("connection end...")});
-					data["business"] = business;
+					data.business = business;
 					res.json(data);
 				});
 				
 			}else{
-				data["business"] = "No business was found!";
+				data.business = "No business was found!";
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
 			}	

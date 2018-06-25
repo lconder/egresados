@@ -2,19 +2,20 @@ var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
 var async = require('async');
+var query = require('../utils/queries');
 
-//----------------------------API-------------------------------------------------
+
 router.get('/:state/', function(req, res, next) {
 	console.log("Get All Business from state")
 	var data = {"error": 1,"business":""};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM business WHERE state=?", [req.params.state],function(err, rows, fields){
+	connection.query(quey.query_get_business_by_state_order_by_name, [req.params.state],function(err, rows, fields){
 		if(err)
 			res.json(data);
 		else{
 			if(rows.length != 0)
 			{
-				data["error"] = 0;
+				data.error = 0;
 				business = rows;
 				
 				var c=0;
@@ -32,12 +33,12 @@ router.get('/:state/', function(req, res, next) {
 					if(err)
 						console.log(err);
 					connection.end(function(err){console.log("connection end...")});
-					data["business"] = business;
+					data.business = business;
 					res.json(data);
 				});
 				
 			}else{
-				data["business"] = "No business was found!";
+				data.business = "No business was found!";
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
 			}	

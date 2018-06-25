@@ -31,7 +31,7 @@ function getTypes(){
 			if(!error && response.statusCode == 200)
 			{
 				for (var i = bt.length - 1; i >= 0; i--) {
-					var temp = {"id": bt[i].cveGiro, "name": bt[i].nombreGiro}
+					var temp = {id: bt[i].cveGiro, name: bt[i].nombreGiro}
 					clean.push(temp)
 				};
 				var data = {

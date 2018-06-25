@@ -69,7 +69,6 @@ function postData(){
 			"mobile" : mobile,
 			"address" : address
 		};
-	console.log(business);
 
 	$.ajax({
 			type: 'POST',
