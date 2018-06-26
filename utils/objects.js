@@ -2,6 +2,12 @@ const moment = require('moment');
 
 module.exports = {
 
+	branch(rows){
+		let custom = {
+			branch : rows[0]
+		};
+		return custom;
+	},
 
 	branchs_by_business(business){
 

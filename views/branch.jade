@@ -12,30 +12,14 @@ block content
                         .card-header
                             h2
                                 small
-                                    | Ingresa una dirección en el cuadro de texto, después da click en el mapa con la ubicación excata.
+                                    | Ingresa una dirección en el cuadro de texto, después arrastra el marcador para obtener la ubicación y dirección exactas.
                             br
                             br
-                            .row
-                                .col-md-6
-                                    .input-group.fg-float
-                                        span.input-group-addon
-                                        .fg-line
-                                            input#address.form-control(type='text' name='address' required)
-                                            label.fg-label Ingresa para buscar en el mapa.
-                                .col-md-6
-                                    button(onclick='getAddress()').btn.btn-info.btn-icon-text
-                                        i.zmdi.zmdi-search
-                                        |  Buscar
-
                             .row
                                 .col-md-12
                                     #map(style="height: 400px; position: relative; overflow: scroll;")
-                    .card
-                        .card-header
-                            h2
-                                small
-                                    | Requerimos los siguientes datos:
-                            br
+
+                        .card-body
                             br
                             form(action='#'  method='post' id='form_branch')
                                 .row
@@ -70,3 +54,4 @@ block content
                                             |  Aceptar
 
     include footer
+    script(src='/javascripts/js/edit_branch_controller.js')

@@ -7,11 +7,19 @@ module.exports = {
 	NO_BUSINESS_FOUND : "No se encontraron negocios",
 
 	error(description) {
-		custom = {
+		let custom = {
 			error: 1,
 			description: description
 		}
 		return custom
-	}
+	},
+
+    invalid_id() {
+        let custom = {
+            error: 1,
+            description: "El ID no existe"
+        };
+        return custom;
+    },
 
 }

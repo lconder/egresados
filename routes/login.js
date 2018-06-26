@@ -106,14 +106,12 @@ function modificar_egresado(student, student_job, id_student){
 
 function registrar_egresado(student, student_job){
 
-	console.log("Inserción de un egresado")
-	console.log(student)
-	console.log(student_job)
+	console.log("Inserción de un egresado");
 
-	var array_date = student_job.date_start.split('/');
+	let array_date = student_job.date_start.split('/');
 
 
-	var post = {
+	let post = {
 		name: 				student.name,
 		lastname: 			student.lastname,
 		second_lastname: 	student.second_lastname,
@@ -138,7 +136,7 @@ function registrar_egresado(student, student_job){
 		business_name: 		student_job.business_name,
 		business_type: 		student_job.business_type,
 		position: 			student_job.position,
-		month_start: 		array_date[1], 
+		month_start: 		array_date[1],
 		year_start: 		array_date[0]
 	};	
 	//console.log(post);
@@ -204,32 +202,26 @@ function datos_laborales_egresado(student){
 			
 
 			if(error){
-				console.log("Error del servidor 005")
-				reject({ 'error':1, 'desc':"Error del servidor 005" })
+				console.log("Error del servidor 005");
+				reject({ 'error':1, 'desc':"Error del servidor 005" });
 			}else{
-				datos_laborales = JSON.parse(body);	
-				//console.log(datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados[0])
-				datos = datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados
+				datos_laborales = JSON.parse(body);
+				datos = datos_laborales.DatosLaboralesEgresadoResult[0].Datos_Laborales_Egresados;
+				codigo = datos_laborales.DatosLaboralesEgresadoResult[0].respuesta.codigo;
 
-				codigo = datos_laborales.DatosLaboralesEgresadoResult[0].respuesta.codigo
-				console.log(codigo)
-
-				if(datos!=null && codigo==200)
-				{
+				if(datos!=null && codigo==200) {
 					data.business_name 	= (datos[datos.length-1].nombreEmpresa!='')  ? datos[datos.length-1].nombreEmpresa : ''
 					data.business_type 	= (datos[datos.length-1].giroEmpresa!='')  ? datos[datos.length-1].giroEmpresa : ''
 					data.position 		= (datos[datos.length-1].puesto!='')  ? datos[datos.length-1].puesto : ''
 					data.date_start 	= (datos[datos.length-1].fechaIngreso !='') ? datos[datos.length-1].fechaIngreso : '0/0'
 
-				}else{
-
+				} else {
 					data.business_name 	= ''
 					data.business_type 	= ''
 					data.position 		= ''
 					data.date_start 	= '0/0'
 				}
-				console.log(data)
-				resolve(data)
+				resolve(data);
 			}
 
 		})
@@ -243,17 +235,19 @@ function datos_generales_egresado(student){
 
 	console.log(student)
 
+	console.log(url+'/DatosGeneralesEgresado?x='+student.cuenta+'&y='+student.contraseña+'&k='+key)
+
 	return new Promise(function(resolve, reject){
 
 		request(url+'/DatosGeneralesEgresado?x='+student.cuenta+'&y='+student.contraseña+'&k='+key, function(error, response, body)
 		{	
-			datos_egresado = JSON.parse(body)
-			student = datos_egresado.DatosGeneralesEgresadoResult
-			console.log("Datos generales del egresado: ")
-			console.log(student)
+			datos_egresado = JSON.parse(body);
+			student = datos_egresado.DatosGeneralesEgresadoResult;
+			console.log("Datos generales del egresado: ");
+			console.log(student);
 			if(!error && response.statusCode==200 && student.respuesta.codigo==200)
 			{
-				
+
 				var data = {
 					email : 			student.datos.email,
 					name : 				student.datos.nombre,
@@ -273,8 +267,8 @@ function datos_generales_egresado(student){
 				console.log(data)
 				resolve(data)
 			}else{
-				console.log("Error del servidor 002")
-				reject({ 'error':1, 'desc':"Error del servidor 002" })
+				console.error("Error del servidor 002")
+				reject({ error:1, desc:"Error del servidor 002" })
 			}
 		})
 	})
@@ -284,10 +278,12 @@ function datos_generales_egresado(student){
 
 function login_egresado(user, password){
 
-	console.log("Login consumiendo los servicios web de ibero con usuario: "+user+" y password: "+password)
-	password = iconv.decode(new Buffer(password), "ISO-8859-1")
 
-	return new Promise(function(resolve, reject){
+	password = iconv.decode(new Buffer(password), "ISO-8859-1");
+    console.log("Login consumiendo los servicios web de ibero con usuario: "+user+" y password: "+password);
+    console.log(url+'/LoginEgresado?x='+user+'&y='+password+'&k='+key);
+
+	return new Promise(function(resolve, reject) {
 
 		request(url+'/LoginEgresado?x='+user+'&y='+password+'&k='+key, function(error, response, body){
 

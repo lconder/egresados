@@ -7,14 +7,16 @@ let objects = require('../utils/objects');
 let router = express.Router();
 
 
-router.post('/address/', function(req, res){
+router.post('/address/', (req, res) => {
 
     let lat = req.body.lat;
     let lng = req.body.lng;
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${key_maps}`;
+    let url_maps = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${key_maps}`;
 
-    request(url, (error, response, body) => {
-        if (!error && response.statusCode === 200) {
+    console.log(req.body);
+
+    request(url_maps, (error, response, body) => {
+        if (!error && response.statusCode==200) {
             address = JSON.parse(body);
             res.json({address: address.results[0].formatted_address});
         }else{
@@ -73,6 +75,25 @@ router.get('/', function(req, res){
 
 		}
  	});
+});
+
+router.get('/:id', (req, res) => {
+
+    let id = req.params.id;
+    let connection = mysql.createConnection(info_connection);
+    connection.query(query.query_get_branch_by_id, [id], (err, rows) => {
+
+        if(err) {
+          connection.end((err) => console.error(err));
+          res.status(errors.ERROR_CLIENT).json(err);
+        } else {
+            if(rows.length>0)
+                res.status(errors.NO_ERROR).json(objects.branch(rows));
+            else
+                res.status(errors.ERROR_CLIENT).json(errors.invalid_id());
+        }
+
+    });
 });
 
 

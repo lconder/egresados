@@ -1,5 +1,8 @@
 let express = require('express');
 let mysql = require('mysql');
+let query = require('../../utils/queries');
+let strings = require('../../utils/strings');
+
 let router = express.Router();
 
 
@@ -13,49 +16,44 @@ router.get('/add', function(req, res){
 });
 
 
-router.get('/all', function(req, res, next){
+router.get('/all', function(req, res){
 
-    if(req.session.level!=1){
-        res.render('index', { title: 'Ibero App'});
-    }
+    if(req.session.level!=1)
+        res.render('index', { title: strings.MAIN_TITLE});
 
-    var connection = mysql.createConnection(info_connection);
-    connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business], function(err, rows, fields)
-    {
-        var business = [];
+    let connection = mysql.createConnection(info_connection);
+    connection.query(query.query_get_branchs, [req.session.id_business], (err, rows) => {
+
         if(err){
-            connection.end(function(err){console.log("connection end...")});
+            connection.end((err) => console.error(err));
         }
         else{
-            res.render('allBranch', {title: "Todas las sucursales", business: rows, levelUser: req.session.level});
+            res.render('allBranch', {title: string.ALL_BRANCHES, business: rows, levelUser: req.session.level});
         }
     });
 });
 
-router.get('/all/:id', function(req, res, next){
+router.get('/all/:id', (req, res) => {
 
-    if(req.session.level!=0){
+    if(req.session.level!=0)
         res.render('index', { title: 'Ibero App'});
-    }
 
     let id_business = req.params.id
 
-    var connection = mysql.createConnection(info_connection);
-    connection.query("SELECT * FROM branch WHERE business_id=?", [id_business],function(err, rows, fields)
-    {
-        var business = [];
-        if(err){
-            connection.end(function(err){console.log("connection end...")});
-        }
-        else{
-            res.render('allBranch', {title: "Todas las sucursales", business: rows, levelUser: req.session.level});
-        }
+    let connection = mysql.createConnection(info_connection);
+    connection.query(query.query_get_branchs_by_id, [id_business], (err, rows) => {
+
+        if(err)
+            connection.end((err) => console.error(err));
+        else
+            res.render('allBranch', {title: strings.ALL_BRANCHES, business: rows, levelUser: req.session.level});
+
     });
 });
 
 
 router.get('/edit/:id', (req, res) => {
-    res.render('branch', {title: 'Editar sucursal', levelUser: req.session.level});
+    res.render('branch', {title: strings.EDIT_BRANCH, levelUser: req.session.level, id_branch: req.params.id});
 });
 
 module.exports = router;
