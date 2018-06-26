@@ -1,7 +1,8 @@
-var express = require('express');
-var mysql = require('mysql');
-var request = require('request');
-var router = express.Router();
+let express = require('express');
+let mysql = require('mysql');
+let request = require('request');
+let router = express.Router();
+let iconv  = require('iconv-lite');
 
 
 router.post('/', function(req, res, next){

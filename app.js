@@ -1,9 +1,7 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 var multer  = require('multer');
@@ -50,6 +48,10 @@ var branch_promotion = require('./routes/branch_promotion');
 var visit = require('./routes/visit');
 var business_type = require('./routes/business_type');
 var business_edit = require('./routes/business_edit');
+
+let branch_web = require('./routes/web/branch');
+
+
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -100,6 +102,9 @@ app.use('/branch_promotion', branch_promotion);
 app.use('/visit', visit);
 app.use('/business_type', business_type);
 app.use('/business_edit', business_edit);
+
+
+app.use('/web/branch', branch_web);
 
 
 

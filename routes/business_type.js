@@ -25,23 +25,23 @@ function getTypes(){
 		request(url+'/CatalogosDatosLaborales?k='+key, function(error, response, body){
 			
 
-			business_types = JSON.parse(body);
-			bt = business_types.CatalogosDatosLaboralesResult[0].CatalogosDatosLaborales
+			var business_types = JSON.parse(body);
+			var bt = business_types.CatalogosDatosLaboralesResult[0].CatalogosDatosLaborales
 			clean = []
-			if(!error && response.statusCode == 200)
+			if(!error && response.statusCode === 200)
 			{
 				for (var i = bt.length - 1; i >= 0; i--) {
 					var temp = {id: bt[i].cveGiro, name: bt[i].nombreGiro}
 					clean.push(temp)
 				};
-				var data = {
+
+				let data = {
 					'error': 0,
 					'business_type': clean
-				}
+				};
 				
 				resolve(data)
 			}else{
-				console.log("Error del servidor")
 				reject({ 'error':1, 'desc':"Error del servidor" })
 			}
 

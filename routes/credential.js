@@ -1,36 +1,33 @@
-var express = require('express');
-var mysql = require('mysql');
-var request = require('request');
-var fs = require('fs');
-var multer = require('multer');
-var router = express.Router();
-var iconv  = require('iconv-lite');
-var key = 'oNZzKNd9Bckq1bGtPYeIWw=='
+let express = require('express');
+let mysql = require('mysql');
+let request = require('request');
+let fs = require('fs');
+let router = express.Router();
+let iconv  = require('iconv-lite');
+let query = require('../utils/queries');
+let errors = require('../utils/error');
+let key = 'oNZzKNd9Bckq1bGtPYeIWw=='
 
-//----------------------------API-------------------------------------------------//
 
-router.get('/:mat', function(req, res, next){
-	console.log("credential by Id");
-	var connection = mysql.createConnection(info_connection);
+router.get('/:mat', function(req, res){
+
+	let connection = mysql.createConnection(info_connection);
 	var data = {"error": 1};
-	connection.query("SELECT name, lastname, second_lastname, mat, photo, gender,career, active, email, street_number, suburb, postal_code, phone, mobile, business_name, business_type, position, day_start, month_start, year_start   from student WHERE id=?",[req.params.mat], function(err, rows, fields)
-	{
-		
-		if(err){
-			res.json(err);
-			connection.end(function(err){console.log("connection end...")});
+	connection.query(query.query_get_credential, [req.params.mat], (err, rows) =>  {
+		if(err) {
+			res.status(errors.ERROR_CLIENT).json(err);
+			connection.end( (err) => { console.error(err) });
 		}
 		else{
-			if(rows.length != 0)
-			{
-				data["error"]=0;
-				data["student"]=rows;
-				connection.end(function(err){console.log("connection end...")});
-				res.json(data);
+			if(rows.length != 0) {
+				data.error = 0;
+				data.student = rows;
+				connection.end( (err) => {console.error(err) });
+                res.status(errors.NO_ERROR).json(data);
 			}else{
-				data["student"] = "No students were found!";
-				connection.end(function(err){console.log("connection end...")});
-				res.json(data);
+				data.student = "No students were found!";
+				connection.end((err) => {console.error(err)});
+                res.status(errors.NO_ERROR).json(data);
 			}
 		}
 
@@ -38,9 +35,8 @@ router.get('/:mat', function(req, res, next){
 });
 
 
-router.post('/img/:id_student', function(req, res ,next){
+router.post('/img/:id_student', function(req, res) {
 
-	console.log(req.files)
 
 	var data = {"error":1};
 	var dir = "../public/img_users/";
@@ -50,8 +46,6 @@ router.post('/img/:id_student', function(req, res ,next){
 	var profile_img = dir+name+"."+extension;
 	var short_profile_img = short_dir+name+"."+extension;
 
-	console.log(short_profile_img)
-	console.log(profile_img)
 
 	fs.rename(req.files.img.path, profile_img, function(err){
 		if(err){

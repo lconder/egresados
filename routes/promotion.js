@@ -1,6 +1,5 @@
 var express = require('express');
 var mysql = require('mysql');
-var async = require('async');
 var moment = require('moment');
 var query = require('../utils/queries');
 var error = require('../utils/error');

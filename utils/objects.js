@@ -2,7 +2,17 @@ const moment = require('moment');
 
 module.exports = {
 
-	editPromo(info_promo, branchs){
+
+	branchs_by_business(business){
+
+		let custom =  {
+			error : 0,
+			business: business
+		}
+		return custom;
+	},
+
+	editPromo(info_promo, branchs) {
 
 		info_promo.forEach((item) => {
 			branchs.forEach((branch) => {
@@ -25,6 +35,15 @@ module.exports = {
 		}
 		return custom
 
+	},
+
+	success(description) {
+		var custom = {
+			error: 0,
+			description: description
+		}
+
+		return custom
 	}
 
 }

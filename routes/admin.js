@@ -35,16 +35,16 @@ router.post('/', function(req, res, next){
 	//console.log(req.body);
 	password = req.body.password;
 
-	var admin = {
-		'user' : req.body.name,
-		'password' : sha1(password),
-		'nickname' : req.body.name,
-		'admin' : 1,
-		'superadmin' : 0
+	let admin = {
+		user : req.body.name,
+		password : sha1(password),
+		nickname : req.body.name,
+		admin : 1,
+		superadmin : 0
 	};
 	
 	createAdmin(admin)
-	.then(admin => {
+	.then( () => {
 		res.json({
 			'error': 0,
 			'description': "Admin creado con éxito",
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next){
 		})
 			
 	})
-	.catch(error => {
+	.catch( () => {
 		res.json({
 			'error': 1,
 			'description': "Error al crear un administrador",
@@ -64,13 +64,8 @@ router.post('/', function(req, res, next){
 router.put('/', function(req, res, next){
 
 	deleteAdmin(req.body.id)
-	.then(admin => {
-		res.json({'error':0, 'updated': true})
-	})
-	.catch(error => {
-		res.json({'error':1, 'updated': false})
-	})
-
+	.then( res.json({'error':0, 'updated': true}) )
+	.catch( res.json({'error':1, 'updated': false}) )
 
 });
 
