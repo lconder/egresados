@@ -50,8 +50,7 @@ var business_type = require('./routes/business_type');
 var business_edit = require('./routes/business_edit');
 
 let branch_web = require('./routes/web/branch');
-
-
+let promotion_web = require('./routes/web/promotion');
 
 var app = express();
 app.use(multer({ dest: 'public/temp'}));
@@ -70,8 +69,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({name: "session",keys: ["key-1","key-2"]}));
-//app.use(formidable({ keepExtensions: true }));
-
 
 app.use('/', routes);
 app.use('/users', users);
@@ -105,6 +102,7 @@ app.use('/business_edit', business_edit);
 
 
 app.use('/web/branch', branch_web);
+app.use('/web/promotion', promotion_web);
 
 
 

@@ -6,8 +6,6 @@ block content
                 .container
                     .block-header
                         h2 Editar sucursal
-                            a(href='#')
-                                i#icon-info.zmdi.zmdi-info
                     .card
                         .card-header
                             h2
@@ -18,10 +16,9 @@ block content
                             .row
                                 .col-md-12
                                     #map(style="height: 400px; position: relative; overflow: scroll;")
-
                         .card-body
                             br
-                            form(action='#'  method='post' id='form_branch')
+                            form#form_branch(action='#'  method='POST')
                                 .row
                                     .col-md-4
                                         .input-group.fg-float
@@ -54,4 +51,6 @@ block content
                                             |  Aceptar
 
     include footer
+    script.
+        let id_branch = !{JSON.stringify(id_branch)};
     script(src='/javascripts/js/edit_branch_controller.js')

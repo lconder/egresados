@@ -9,7 +9,10 @@ module.exports = {
 	query_get_business_by_state_order_by_name : "SELECT * FROM business WHERE state=? ORDER BY name",
     query_get_credential : "SELECT name, lastname, second_lastname, mat, photo, gender,career, active, email, street_number, suburb, postal_code, phone, mobile, business_name, business_type, position, day_start, month_start, year_start   from student WHERE id=?",
 	query_get_business_and_branchs : "SELECT  b.logo, b.name,b.graduated, s.* FROM business b INNER JOIN branch s ON (b.id = s.business_id);",
-	query_insert_branch : "INSERT INTO branch SET ?",
-    query_get_branchs : "SELECT * FROM branch WHERE business_id=?",
-    query_get_branch_by_id : "SELECT * FROM branch WHERE id=? LIMIT 1"
+	query_insert_branch : "INSERT INTO branch SET ?;",
+    query_get_branchs : "SELECT * FROM branch WHERE business_id=?;",
+    query_get_branch_by_id : "SELECT * FROM branch WHERE id=? LIMIT 1;",
+	query_update_branch_by_id : "UPDATE branch SET name=?, latitude=?, longitude=?, address=? WHERE id=?;",
+	query_update_promotion_by_id : "UPDATE promotions SET name=?, created_at=?, expired_at=?, description=? WHERE id=?;"
+
 };

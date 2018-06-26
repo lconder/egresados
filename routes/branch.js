@@ -96,5 +96,28 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.put('/:id', (req, res) => {
+
+    console.log(req.body);
+    console.log(req.params);
+
+    let id = req.params.id;
+    let name = req.body.name;
+    let latitude = req.body.latitude;
+    let longitude = req.body.longitude;
+    let address = req.body.address;
+    let connection = mysql.createConnection(info_connection);
+    connection.query(query.query_update_branch_by_id, [name, latitude, longitude, address, id], (err, rows) => {
+
+        if (err) {
+            connection.end((err) => console.error(err));
+            res.status(errors.ERROR_CLIENT).json(err);
+        }else{
+            res.status(errors.NO_ERROR).json(rows);
+        }
+
+    });
+});
+
 
 module.exports = router;

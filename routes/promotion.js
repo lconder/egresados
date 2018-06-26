@@ -1,8 +1,8 @@
 var express = require('express');
 var mysql = require('mysql');
 var moment = require('moment');
-var query = require('../utils/queries');
-var error = require('../utils/error');
+var queries = require('../utils/queries');
+var errors = require('../utils/error');
 var objects = require('../utils/objects');
 var router = express.Router();
 
@@ -63,21 +63,27 @@ router.post('/:id', function(req, res, next){
 	});
 });
 
-function postDataUserPromo(student, promotion, cb){
-	var connection = mysql.createConnection(info_connection);
-	var insert = {
-		id_student: student,
-		encrypt_promotion: promotion,
-		date: new Date()
-	}
-	connection.query("INSERT INTO student_promotions SET ?",insert,function(err, result){
-		if(err){
-			cb([]);
-		}else{
-			cb(result);	
-		}
+router.put('/:id', (req,res) => {
+
+	let id = req.params.id;
+	let name = req.body.name;
+	let created_at = req.body.created_at;
+	let expired_at = req.body.expired_at;
+	let description = req.body.description;
+    let connection = mysql.createConnection(info_connection);
+	connection.query(queries.query_update_promotion_by_id, [name, created_at, expired_at, description, id], (err, rows) => {
+
+        if (err) {
+            connection.end((err) => console.error(err));
+            res.status(errors.ERROR_CLIENT).json(err);
+        }else{
+            res.status(errors.NO_ERROR).json(rows);
+        }
+
 	});
-}
+
+});
+
 
 router.put('/activate/', function(req, res, next){
 	var data = {"error":1};
@@ -103,59 +109,20 @@ router.put('/activate/', function(req, res, next){
 	});
 });
 
-router.get('/edit/:id', function(req, res, next) {
-
-	let id = req.params.id
-
-	getPromoInfo(id)
-	.then(info_promo => {
-		id_business = info_promo[0].business_id;
-		getBranchs(id_business)
-		.then(branchs => {
-			console.log( objects.editPromo(info_promo, branchs) )
-			let promotion = objects.editPromo(info_promo, branchs)
-			res.render('promotion', {title: 'Promoción', promotion: promotion, business: promotion.branchs, levelUser: req.session.level});
-		})
-		.catch(err => {
-			console.error(err)
-		})
-	})
-	.catch(err => {
-		console.error(err)
-	})
-});
-
-
-function getPromoInfo(id_promo) {
-
-	return new Promise(function(resolve, reject){
-
-		let connection = mysql.createConnection(info_connection);
-		connection.query(query.query_get_promo_info_full, [id_promo], (err, rows, fields) => {
-
-			if(err){
-				reject(err)
-			}else{
-				resolve(rows)
-			}
-		})
-	})
-
-}
-
-function getBranchs(id_business) {
-
-	return new Promise(function(resolve, reject){
-		let connection = mysql.createConnection(info_connection);
-		connection.query(query.query_get_branchs_by_id, [id_business], (err, rows, fields) => {
-
-			if(err){
-				reject(err)
-			}else{
-				resolve(rows)
-			}
-		})
-	})
+function postDataUserPromo(student, promotion, cb){
+    var connection = mysql.createConnection(info_connection);
+    var insert = {
+        id_student: student,
+        encrypt_promotion: promotion,
+        date: new Date()
+    }
+    connection.query("INSERT INTO student_promotions SET ?",insert,function(err, result){
+        if(err){
+            cb([]);
+        }else{
+            cb(result);
+        }
+    });
 }
 
 

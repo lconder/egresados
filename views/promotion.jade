@@ -1,98 +1,97 @@
 extends layout
 block content
-	include bar
-		block cont
-			section#content
-					.container
-						.block-header
-							h2 Agregar Promoción
-						.card
-							.card-header
-								h2
-									small
-										| Por favor llena los campos.
-								br
-								br
-								form(action='#' method='POST' )
-								.row
-									.col-md-4
-										.input-group.fg-float
-											span.input-group-addon
-												i.zmdi.zmdi-card-giftcard
-											.fg-line
-												input#name.form-control(type='text' name='name' value='#{promotion.promo_name}' required)
-												label.fg-label Nombre de la promoción
-											small#nameError.help-block
-									.col-md-4
-										.input-group.form-group
-											span.input-group-addon
-												i.zmdi.zmdi-calendar
-											.dtp-container
-												input#created_at.form-control.date-picker(type='text', name='created_at', placeholder='Fecha de Inicio' value='#{promotion.promo_created_at}')
-										small#created_atError.help-block
-									.col-md-4
-										.input-group.form-group
-											span.input-group-addon
-												i.zmdi.zmdi-calendar
-											.dtp-container
-												input#expired_date.form-control.date-picker(type='text', name='expired_date', placeholder='Fecha de Expiración' value='#{promotion.promo_expired_at}')
-										small#expired_dateError.help-block
-								br
-								.row
-									.col-md-12
-										.form-group
-											.fg-line
-												textarea#promo_description.form-control(rows='3', placeholder='Describe tu promoción...' name='promo_description' )=promotion.promo_description
-												small#promo_descriptionError.help-block
-						.card
-							.card-header
-								h2
-									| Seleccione las sucursales donde su promoción estará activa.
-									small
-										| Después pulse el botón aceptar.
-							.row
-								.col-md-12
-									.table-responsive
-										table#data-table-promotions.table.table-striped
-											thead
-												tr
-													th Nombre
-													th Dirección
-													th Opciones
-											tfoot
-												tr
-													th Nombre
-													th Dirección
-													th Opciones
-											tbody
-												each val in business
-													tr
-														td=val.name
-														td=val.address
-														td
-															.toggle-switch.toggle-switch-demo
-																label.ts-label(for='#{val.id}') Seleccionar :
-																if val.active==true
-																	input(type='checkbox', hidden='hidden' id='#{val.id}' checked)
-																else
-																label.ts-helper(for='#{val.id}')
-							br
-							.row
-								.col-md-3
-								.col-md-3
-								.col-md-2
-								.col-md-2
-									button(onclick='clearForm()').btn.btn-danger.btn-icon-text
-										i.zmdi.zmdi-close
-										|  Limpiar		
-								.col-md-2				
-									button(onclick='validateDate()').btn.btn-primary.btn-icon-text
-										i.zmdi.zmdi-check
-										|  Aceptar	
-							br
+    include bar
+        block cont
+            section#content
+                .container
+                    .block-header
+                        h2 Editar Promoción
+                    .card
+                        .card-header
+                            h2
+                                small
+                                    | Por favor llena los campos.
+                            br
+                            form#form_promotion(action='#' method='POST' name='form_promotion')
+                                .row
+                                    .col-md-4
+                                        .input-group.fg-float
+                                            span.input-group-addon
+                                                i.zmdi.zmdi-card-giftcard
+                                            .fg-line
+                                                input#name.form-control(type='text' name='name' value='#{promotion.promo_name}' data-validation='required')
+                                                label.fg-label Nombre de la promoción
+                                            small#nameError.help-block
+                                    .col-md-4
+                                        .input-group.form-group
+                                            span.input-group-addon
+                                                i.zmdi.zmdi-calendar
+                                            .dtp-container
+                                                input#created_at.form-control.date-picker(type='text', name='created_at', placeholder='Fecha de Inicio' value='#{promotion.promo_created_at}' data-validation='required')
+                                        small#created_atError.help-block
+                                    .col-md-4
+                                        .input-group.form-group
+                                            span.input-group-addon
+                                                i.zmdi.zmdi-calendar
+                                            .dtp-container
+                                                input#expired_at.form-control.date-picker(type='text', name='expired_at', placeholder='Fecha de Expiración' value='#{promotion.promo_expired_at}' data-validation='required')
+                                        small#expired_dateError.help-block
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            .fg-line
+                                                textarea#description.form-control(rows='3', placeholder='Describe tu promoción...' name='description' data-validation='required')=promotion.promo_description
+                                                small#promo_descriptionError.help-block
+                                .card-header
+                                    h2
+                                        | Seleccione las sucursales donde su promoción estará activa.
+                                        small
+                                            | Después pulse el botón aceptar.
+                                .row
+                                    .col-md-12
+                                        .table-responsive
+                                            table#data-table-promotions.table.table-striped
+                                                thead
+                                                    tr
+                                                        th Nombre
+                                                        th Dirección
+                                                        th Opciones
+                                                tfoot
+                                                    tr
+                                                        th Nombre
+                                                        th Dirección
+                                                        th Opciones
+                                                tbody
+                                                    each val in business
+                                                        tr
+                                                            td=val.name
+                                                            td=val.address
+                                                            td
+                                                                .toggle-switch.toggle-switch-demo
+                                                                    label.ts-label(for='#{val.id}') Seleccionar :
+                                                                    if val.active == true
+                                                                        input(type='checkbox', hidden='hidden' id='#{val.id}' checked)
+                                                                    else
+                                                                        input(type='checkbox', hidden='hidden' id='#{val.id}')
+                                                                    label.ts-helper(for='#{val.id}')
+                                br
+                                .row
+                                    .col-md-3
+                                    .col-md-3
+                                    .col-md-2
+                                    .col-md-2
+                                        button(type='reset').btn.btn-danger.btn-icon-text
+                                            i.zmdi.zmdi-close
+                                            |  Limpiar
+                                    .col-md-2
+                                        button(type='submit').btn.btn-primary.btn-icon-text
+                                            i.zmdi.zmdi-check
+                                            |  Aceptar
+                                br
 
 
-	include footer
-	script.
-		var business = !{JSON.stringify(business)}; 
-	script(src='/javascripts/js/editPromo_controller.js')
+    include footer
+    script.
+        let id_promo = !{JSON.stringify(id_promotion)};
+        let branches = !{JSON.stringify(business)};
+    script(src='/javascripts/js/edit_promo_controller.js')

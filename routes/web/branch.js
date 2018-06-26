@@ -36,9 +36,9 @@ router.get('/all', function(req, res){
 router.get('/all/:id', (req, res) => {
 
     if(req.session.level!=0)
-        res.render('index', { title: 'Ibero App'});
+        res.render('index', { title: strings.MAIN_TITLE});
 
-    let id_business = req.params.id
+    let id_business = req.params.id;
 
     let connection = mysql.createConnection(info_connection);
     connection.query(query.query_get_branchs_by_id, [id_business], (err, rows) => {
