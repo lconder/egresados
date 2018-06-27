@@ -1,6 +1,5 @@
 module.exports = {
 
-
 	query_get_promo_info_full : "SELECT b.*, p.id as promo_id, p.name as promo_name, p.created_at, p.expired_at, p.description, p.count FROM ibero.branch_promotions bp INNER JOIN ibero.promotions p ON bp.id_promotion=p.id INNER JOIN ibero.branch b ON bp.id_branch=b.id WHERE bp.id_promotion=?;",
 	query_get_branchs_by_id : "SELECT * FROM branch WHERE business_id=?",
 	query_get_categories : "SELECT c.name, c.id_categories as id FROM categories c INNER JOIN business b WHERE c.id_categories=b.categorie",
@@ -13,6 +12,9 @@ module.exports = {
     query_get_branchs : "SELECT * FROM branch WHERE business_id=?;",
     query_get_branch_by_id : "SELECT * FROM branch WHERE id=? LIMIT 1;",
 	query_update_branch_by_id : "UPDATE branch SET name=?, latitude=?, longitude=?, address=? WHERE id=?;",
-	query_update_promotion_by_id : "UPDATE promotions SET name=?, created_at=?, expired_at=?, description=? WHERE id=?;"
+	query_update_promotion_by_id : "UPDATE promotions SET name=?, created_at=?, expired_at=?, description=? WHERE id=?;",
+	query_get_devices: "SELECT * FROM devices;",
+	query_get_business_by_id: "SELECT * FROM business WHERE id=?;",
+    query_get_promos_by_id_business: "SELECT * FROM promotions WHERE business_id=?;"
 
 };

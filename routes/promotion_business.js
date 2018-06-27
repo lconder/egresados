@@ -1,43 +1,53 @@
-var express = require('express');
-var mysql = require('mysql');
-var sha1 = require('sha1')
-var moment = require('moment')
-var async = require('async')
-var shortid = require('shortid');
-var FCM = require('fcm-push');
-var config = require('../config');
-var serverKey = config.serverKey;
-var fcm = new FCM(serverKey);
-var router = express.Router();
+let express = require('express');
+let mysql = require('mysql');
+let async = require('async');
+let shortid = require('shortid');
+let FCM = require('fcm-push');
+let config = require('../config');
+let serverKey = config.serverKey;
+let fcm = new FCM(serverKey);
+let queries = require('../utils/queries');
+let strings = require('../utils/strings');
+let router = express.Router();
 
-
+//:TODO
 router.post('/', function(req, res, next){
 	var data = {"error": 1};
-	var connection = mysql.createConnection(info_connection);
-
-
+	let connection = mysql.createConnection(info_connection);
 
 	if(req.session.id_business != null)
 	{
-		var date_expired = req.body.expired_date.split("/");
-		var date_created = req.body.created_at.split("/");
-		var de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
-		var dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+		let date_expired = req.body.expired_date.split("/");
+		let date_created = req.body.created_at.split("/");
+		let de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
+		let dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+		let id_business = req.session.id_business;
 
-		var promo = {
-			"name": req.body.name,
-			"description": req.body.promo_description,
-			"count": 0,
-			"expired_at": de,
-			"created_at": dc,
-			"business_id": req.session.id_business
+		let promo = {
+			name: req.body.name,
+			description: req.body.promo_description,
+			count: 0,
+			expired_at: de,
+			created_at: dc,
+			business_id: req.session.id_business
 		};
 
+        getBussinessById(id_business)
+		.then(business => {
+			getPromosByBusiness(id_business)
+				.then(promos => {
+					business[0].promotions = promos;
+					let business_promos = {business}
+					sendPush(req.body.name, req.body.promo_description, business_promos);
+				})
+				.catch(err => console.error(err))
+		})
+		.catch(err => console.error(err))
+
 		if( (dc <= getToday()) && (getToday() <= de) ){
-				console.log("Se envia notificación")
-				sendPush(req.body.name, req.body.promo_description)
+
 		}else{
-				console.log("NO Se envia notificación, promoción futura")
+				console.log("NO Se envia notificación, promoción futura");
 		}
 
 
@@ -73,11 +83,11 @@ router.post('/', function(req, res, next){
 					}, function(err){
 						if(err)
 							console.log(err);
-						data["error"]=0;
-						data["promo"] = {
+						data.error=0;
+						data.promo = {
 							created: true
 						};
-						connection.end(function(err){console.log("connection end...")});
+						connection.end((err) => console.log(err));
 						res.json(data);
 					});
 				}
@@ -91,11 +101,11 @@ router.post('/', function(req, res, next){
 
 router.get('/add', function(req, res, next){
 
-	if(req.session.level!=1){
-		res.render('index', { title: 'Ibero App'});
-	}
+	if(req.session.level!=1)
+		res.render('index', { title: strings.MAIN_TITLE});
 
-	var connection = mysql.createConnection(info_connection);
+
+	let connection = mysql.createConnection(info_connection);
 	if(req.session.id_business != null){
 		connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business],function(err, rows, fields)
 		{
@@ -107,11 +117,11 @@ router.get('/add', function(req, res, next){
 })
 
 
-router.get('/all', function(req, res, next){
+router.get('/all', function(req, res){
 
-	if(req.session.level!=1){
+	if(req.session.level!=1)
 		res.render('index', { title: 'Ibero App'});
-	}
+
 
 	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
@@ -134,7 +144,6 @@ router.get('/all/:id', function(req, res, next){
 
 	if(req.session.level!=0) 
 		res.render('index', { title: 'Ibero App'});
-	
 
 	let id_business = req.params.id 
 
@@ -154,40 +163,30 @@ router.get('/all/:id', function(req, res, next){
 })
 
 
-function sendPush(title, body){
-
-
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM devices",function(err, rows, fields)
-	{
-		var business = [];
+function sendPush(title, body, business_promotions){
+	console.log(business_promotions);
+	let connection = mysql.createConnection(info_connection);
+	connection.query(queries.query_get_devices, (err, rows) => {
 		if(err){
-			//console.log(err);
-			connection.end(function(err){console.log("connection end...")});
-		}
-		else{
-			for (var i = rows.length - 1; i >= 0; i--) {
-				console.log(rows[i].token)
-				var message = {
-				    to: rows[i].token,
-				    collapse_key: 'your_collapse_key',
-				    data: {
-				        your_custom_data_key: 'your_custom_data_value'
-				    },
-				    notification: {
-				        title: title,
-				        body: body
-				    }
+			connection.end((err) => console.log(err));
+		} else {
+			rows.forEach((row) => {
+				let message = {
+					to: row.token,
+					data: {
+						business : business_promotions
+					},
+					notification:{
+						title: title,
+						body: body
+					}
 				};
 
-				fcm.send(message, function(err,response){
-				    if(err) {
-				        console.log("Something has gone wrong !", err);
-				    } else {
-				        console.log("Successfully sent with response :",response);
-				    }
-				});
-			};
+                fcm.send(message)
+				.then(response => console.log(response))
+                .catch(error => console.log(error))
+			});
+
 		}
  	});
 }
@@ -205,6 +204,42 @@ function getToday(){
 	    mm = '0'+mm
 
 	return new Date()
+}
+
+function getBussinessById(id_business){
+
+	return new Promise((resolve, reject) => {
+
+        let connection = mysql.createConnection(info_connection);
+        connection.query(queries.query_get_business_by_id, [id_business], (err, rows) => {
+            connection.end();
+			if(err) {
+				reject(err);
+			}else{
+				resolve(rows);
+			}
+
+        });
+
+	});
+}
+
+function getPromosByBusiness(id_business) {
+
+	return new Promise((resolve, reject) => {
+
+        let connection = mysql.createConnection(info_connection);
+        connection.query(queries.query_get_promos_by_id_business,[id_business] ,(err, rows) => {
+            connection.end();
+        	if(err) {
+                reject(err);
+            }else{
+                resolve(rows);
+            }
+
+		});
+
+    });
 }
 
 module.exports = router;
