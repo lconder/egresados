@@ -14,7 +14,7 @@ module.exports = {
 	query_update_branch_by_id : "UPDATE branch SET name=?, latitude=?, longitude=?, address=? WHERE id=?;",
 	query_update_promotion_by_id : "UPDATE promotions SET name=?, created_at=?, expired_at=?, description=? WHERE id=?;",
 	query_get_devices: "SELECT * FROM devices;",
-	query_get_business_by_id: "SELECT * FROM business WHERE id=?;",
-    query_get_promos_by_id_business: "SELECT * FROM promotions WHERE business_id=?;"
+	query_get_business_by_id: "SELECT id, name, phone, discount_description, business_type, logo, graduated FROM business WHERE id=?;",
+    query_get_promos_by_id_business: "SELECT id, name, description, business_id FROM promotions WHERE business_id=?;"
 
 };

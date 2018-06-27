@@ -29,7 +29,7 @@ router.post('/', function(req, res, next){
 			count: 0,
 			expired_at: de,
 			created_at: dc,
-			business_id: req.session.id_business
+			business_id: id_business
 		};
 
         getBussinessById(id_business)
@@ -37,8 +37,7 @@ router.post('/', function(req, res, next){
 			getPromosByBusiness(id_business)
 				.then(promos => {
 					business[0].promotions = promos;
-					let business_promos = {business}
-					sendPush(req.body.name, req.body.promo_description, business_promos);
+					sendPush(req.body.name, req.body.promo_description, business[0]);
 				})
 				.catch(err => console.error(err))
 		})
@@ -55,14 +54,13 @@ router.post('/', function(req, res, next){
 			if(err){
 				console.log("Error on promo creation...");
 				//console.log(err);
-				data["error"] = 1;
-				data["promo"]=err;
+				dataerror = 1;
+				datapromo =err;
 				connection.end(function(err){console.log("connection end...")});
 				res.json(data);
 			}else{
 				if(result.affectedRows==1){
 					var id = result.insertId;
-					//var encrypt = sha1(id);
 					var branchs = req.body.branch;
 					var c=0;
 					async.each(branchs, function(item, cb){
