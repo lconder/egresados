@@ -14,8 +14,8 @@ router.get('/edit/:id', function(req, res) {
             id_business = info_promo[0].business_id;
             getBranchs(id_business)
                 .then(branchs => {
-                    let promotion = objects.editPromo(info_promo, branchs)
-                    res.render('promotion', {title: 'Promoción', id_promotion:id, promotion: promotion, business: promotion.branchs, levelUser: req.session.level});
+                    let promotion = objects.editPromo(info_promo, branchs);
+                    res.render('promotion', {title: 'Promoción', id_promotion: id, promotion: promotion, business: promotion.branchs, levelUser: req.session.level});
                 })
                 .catch(err => {
                     console.error(err)

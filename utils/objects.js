@@ -22,13 +22,13 @@ module.exports = {
 
 		info_promo.forEach((item) => {
 			branchs.forEach((branch) => {
-				if(item.id===branch.id) {
+				if((item.id===branch.id) && (item.visible===1)) {
 					branch.active = true
 				}
 			})
 		});
 
-		let promo = info_promo[0]
+		let promo = info_promo[0];
 
 		var custom = {	
 			promo_id : promo.promo_id || '',
@@ -44,12 +44,22 @@ module.exports = {
 	},
 
 	success(description) {
-		var custom = {
+		let custom = {
 			error: 0,
 			description: description
-		}
+		};
 
 		return custom
+	},
+
+	success_promo_edit() {
+		//data.error = 0;
+        //data.promotion = { modified: true };
+		let custom = {
+			error : 0,
+			prmotion:  { modified: true }
+		};
+		return custom;
 	}
 
 }

@@ -36,20 +36,26 @@ $(document).ready( function() {
 });
 
 $('.toggle-switch').change((e) =>{
-    console.log(e.target.id);
+
+
     let id = Number(e.target.id);
-    if(cleanBranches.includes(id)){
-		cleanBranches.splice(cleanBranches.indexOf(id), 1);
-	}else{
-		cleanBranches.push(id);
-	}
+    let active = e.target.checked;
+
+    cleanBranches.forEach( (branch) => {
+        if(branch.id==id){
+            branch.active = active;
+        }
+    });
+
 	console.log(cleanBranches);
 });
 
 
 function cleanBranchesArray(){
-    cleanBranches = branches.filter( b => b.active==true);
-    cleanBranches = cleanBranches.map( b => b.id);
+    //cleanBranches = branches.filter( b => b.active==true);
+    cleanBranches = branches.map( b => {
+        return { active: b.active, id: b.id }
+    });
 }
 
 function validateBranches(){

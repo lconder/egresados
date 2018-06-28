@@ -118,16 +118,16 @@ router.get('/add', function(req, res, next){
 router.get('/all', function(req, res){
 
 	if(req.session.level!=1)
-		res.render('index', { title: 'Ibero App'});
+		res.render('index', { title: strings.MAIN_TITLE});
 
-
+	let id_business = req.session.id_business;
 	var data = {"error": 1,"promos":""};
 	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [req.session.id_business],function(err, rows, fields){
+	connection.query(queries.query_get_full_branch_promotions_by_id_business, [id_business], (err, rows) => {
 
 		if(!err){
 			connection.end(function(err){console.log("connection end...")});
-			data.promos = rows
+			data.promos = rows;
 			res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data})
 		}else{
 			connection.end(function(err){console.log("connection end...")});
@@ -137,24 +137,24 @@ router.get('/all', function(req, res){
 });
 
 
-router.get('/all/:id', function(req, res, next){
+router.get('/all/:id', function(req, res){
 
 
 	if(req.session.level!=0) 
-		res.render('index', { title: 'Ibero App'});
+		res.render('index', { title: strings.MAIN_TITLE});
 
 	let id_business = req.params.id 
 
 	var data = {"error": 1,"promos":""};
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=?", [id_business],function(err, rows, fields){
+	let connection = mysql.createConnection(info_connection);
+	connection.query(queries.query_get_full_branch_promotions_by_id_business, [id_business], (err, rows) => {
 
 		if(!err){
-			connection.end(function(err){console.log("connection end...")});
-			data.promos = rows
+            connection.end((err) => console.log(err));
+			data.promos = rows;
 			res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data})
 		}else{
-			connection.end(function(err){console.log("connection end...")});
+			connection.end((err) => console.log(err));
 			res.json(data);
 		}
 	});
@@ -172,11 +172,9 @@ function sendPush(title, body, business_promotions){
 				let message = {
 					to: row.token,
 					data: {
-						business : business_promotions
-					},
-					notification:{
-						title: title,
-						body: body
+						business : business_promotions,
+                        title: title,
+                        body: body
 					}
 				};
 
@@ -239,5 +237,7 @@ function getPromosByBusiness(id_business) {
 
     });
 }
+
+
 
 module.exports = router;

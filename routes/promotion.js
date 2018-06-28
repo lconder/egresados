@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
 var moment = require('moment');
+let shortid = require('shortid');
 var queries = require('../utils/queries');
 var errors = require('../utils/error');
 var objects = require('../utils/objects');
@@ -10,51 +11,44 @@ var router = express.Router();
 router.get('/:id', function(req, res, next){
 
 	var data = {"error": 1, "promotion":""};
-	var today = moment().format("YYYY-MM-DD");
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=? AND ? BETWEEN p.created_at AND p.expired_at", [req.params.id,1, today], function(err, rows, fields){
+	let today = moment().format("YYYY-MM-DD");
+	let id = req.params.id;
+	let connection = mysql.createConnection(info_connection);
+	connection.query(queries.query_get_full_promotion, [id,1, today], (err, rows) => {
 		if(err){
 			res.json({"err":1, "desc": err});
 		}else{
-			if(rows.length != 0)
+			if(rows.length!=0)
 			{
 				data.error = 0;
 				data.promotion = rows[0];
 			}else{
 				data.error = 1;
-				data.description = "No promotions found";
+				data.description = "No se han encontrado promociones";
 			}
 		}
 		res.json(data);
 	});
 });
 
-router.post('/:id', function(req, res, next){
+router.post('/:id', function(req, res){
 
-	var data = {"error": 1, "promotion":""};
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT count FROM branch_promotions WHERE encrypt=?", [req.params.id], function(err, rows, fields){
+	let id = req.params.id;
+	let connection = mysql.createConnection(info_connection);
+	connection.query(queries.query_get_branch_promotion_by_encrypt, [id], (err, rows) => {
 		if(err){
-			res.json({"err":1, "desc": err});
+			res.status(errors.ERROR_CLIENT).json(err);
 		}else{
-			if(rows.length != 0)
-			{
-				var count=rows[0].count;
-				count += 1;
-				connection.query("UPDATE branch_promotions SET count = ? WHERE encrypt = ?", [count,req.params.id], function(err, result){
+			if(rows.length>0) {
+				connection.query(queries.query_update_count_in_branch_promotion, [id], (err, result) => {
 					if(err){
-						res.json({"err":1, "desc": err});
-					}
-					else{
+                        res.status(errors.ERROR_CLIENT).json(err);
+					}else{
 						if(result.affectedRows==1){
-							connection.end(function(err){console.log("connection end...")});
-							data["error"] = 0;
-							data["promotion"] = {modified: true}; 
-							postDataUserPromo(req.body.student, req.params.id, function(result){
-								console.log(result);
-								res.json(data);
-							});
-							
+							connection.end((err) => console.log(err));
+							postDataUserPromo(req.body.student, req.params.id)
+								.then(res.status(errors.NO_ERROR).json(objects.success_promo_edit()))
+								.catch(err => console.error(err))
 						}
 					}
 				});
@@ -66,6 +60,8 @@ router.post('/:id', function(req, res, next){
 router.put('/:id', (req,res) => {
 
 	let id = req.params.id;
+	let branches = req.body.branches;
+    console.log(branches);
 	let name = req.body.name;
 	let created_at = req.body.created_at;
 	let expired_at = req.body.expired_at;
@@ -77,6 +73,9 @@ router.put('/:id', (req,res) => {
             connection.end((err) => console.error(err));
             res.status(errors.ERROR_CLIENT).json(err);
         }else{
+        	updateBranches(branches, id)
+				.then(success => console.log(success))
+				.catch(err => console.error(err))
             res.status(errors.NO_ERROR).json(rows);
         }
 
@@ -109,20 +108,76 @@ router.put('/activate/', function(req, res, next){
 	});
 });
 
-function postDataUserPromo(student, promotion, cb){
-    var connection = mysql.createConnection(info_connection);
-    var insert = {
-        id_student: student,
-        encrypt_promotion: promotion,
-        date: new Date()
-    }
-    connection.query("INSERT INTO student_promotions SET ?",insert,function(err, result){
-        if(err){
-            cb([]);
-        }else{
-            cb(result);
-        }
+function postDataUserPromo(student, promotion){
+
+    return new Promise((resolve, reject) => {
+		let connection = mysql.createConnection(info_connection);
+		let insert = {
+			id_student: student,
+			encrypt_promotion: promotion,
+			date: new Date()
+		};
+		connection.query(queries.query_insert_student_promotion,insert, (err, result) => {
+			if(err)
+				reject(err);
+			else
+				resolve(result);
+		});
+	});
+}
+
+function updateBranches(branches, id_promotion){
+
+    return new Promise((resolve, reject) => {
+
+        let connection = mysql.createConnection(info_connection);
+        branches.forEach( (b) => {
+            connection.query(queries.query_get_branch_promotion, [b.id, id_promotion], (err, rows) => {
+				let id_branch = b.id;
+            	if(err)
+            		reject(err)
+
+                if(rows.length>0){
+                    handlePromo(0, id_branch, id_promotion);
+                }else{
+            		if(b.active){
+                        handlePromo(1, id_branch, id_promotion);
+					}
+
+                }
+            });
+        });
+        resolve('éxito');
     });
+
+}
+
+function handlePromo(action, id_branch, id_promotion){
+
+	var query;
+	var body;
+    let encrypt = shortid.generate();
+
+	switch (action){
+		case 0:
+			query = "UPDATE branch_promotions SET visible=NOT(visible) WHERE id_branch=? AND id_promotion=?;";
+			body = [id_branch, id_promotion];
+			break;
+		case 1:
+            query = "INSERT INTO branch_promotions SET ?;";
+            body = {id_branch, id_promotion, encrypt};
+			break;
+	}
+	console.log(query);
+	console.log(body);
+    let connection = mysql.createConnection(info_connection);
+	connection.query(query, body, (err, rows) =>{
+		if(err)
+			console.error(err);
+		else
+			console.log(rows);
+	});
+
 }
 
 
