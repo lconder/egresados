@@ -81,7 +81,6 @@ router.post('/img/:id_student', function(req, res) {
 
 });
 
-//----------------------------API-------------------------------------------------//
 router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
 	console.log(req.body)
@@ -98,11 +97,10 @@ router.put('/', function(req, res, next){
 		default: business_type="Desconocido";break;
 	}
 
-	var array_date = req.body.date_start.split('/')
-	var day_start = array_date[0]
-	var month_start = array_date[1]
-	var year_start = array_date[2]
-	console.log(array_date)
+	let array_date = req.body.date_start.split('/')
+	let day_start = array_date[0];
+	let month_start = array_date[1];
+	let year_start = array_date[2];
 
 	var changes = [req.body.email, req.body.streetNumber, req.body.suburb, req.body.postal_code, req.body.phone, req.body.mobile, 1, req.body.business_name, business_type , req.body.position, day_start, month_start, year_start, req.body.idUser];
 	var account = req.body.user;

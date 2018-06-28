@@ -8,111 +8,102 @@ let serverKey = config.serverKey;
 let fcm = new FCM(serverKey);
 let queries = require('../utils/queries');
 let strings = require('../utils/strings');
+let errors = require('../utils/error');
 let router = express.Router();
 
 //:TODO
-router.post('/', function(req, res, next){
+router.post('/', function(req, res){
 	var data = {"error": 1};
 	let connection = mysql.createConnection(info_connection);
+	let date_expired = req.body.expired_date.split("/");
+	let date_created = req.body.created_at.split("/");
+	let de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
+	let dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+	let id_business = req.session.id_business;
 
-	if(req.session.id_business != null)
-	{
-		let date_expired = req.body.expired_date.split("/");
-		let date_created = req.body.created_at.split("/");
-		let de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
-		let dc = new Date(date_created[2],date_created[1]-1,date_created[0])
-		let id_business = req.session.id_business;
+	let promo = {
+		name: req.body.name,
+		description: req.body.promo_description,
+		count: 0,
+		expired_at: de,
+		created_at: dc,
+		business_id: id_business
+	};
 
-		let promo = {
-			name: req.body.name,
-			description: req.body.promo_description,
-			count: 0,
-			expired_at: de,
-			created_at: dc,
-			business_id: id_business
-		};
-
-        getBussinessById(id_business)
-		.then(business => {
-			getPromosByBusiness(id_business)
-				.then(promos => {
-					business[0].promotions = promos;
-					sendPush(req.body.name, req.body.promo_description, business[0]);
-				})
-				.catch(err => console.error(err))
-		})
-		.catch(err => console.error(err))
-
-		if( (dc <= getToday()) && (getToday() <= de) ){
-
-		}else{
-				console.log("NO Se envia notificación, promoción futura");
-		}
+	getBussinessById(id_business)
+	.then(business => {
+		getPromosByBusiness(id_business)
+			.then(promos => {
+				business[0].promotions = promos;
+				sendPush(req.body.name, req.body.promo_description, business[0]);
+			})
+			.catch(err => console.error(err))
+	})
+	.catch(err => console.error(err));
 
 
-		connection.query("INSERT INTO promotions SET ?", promo, function(err, result){
-			if(err){
-				console.log("Error on promo creation...");
-				//console.log(err);
-				dataerror = 1;
-				datapromo =err;
-				connection.end(function(err){console.log("connection end...")});
-				res.json(data);
-			}else{
-				if(result.affectedRows==1){
-					var id = result.insertId;
-					var branchs = req.body.branch;
-					var c=0;
-					async.each(branchs, function(item, cb){
-						insert = {
-							id_branch: item,
-							id_promotion: id,
-							count: 0,
-							encrypt: shortid.generate(),
-							active: 1
-						};
-						//console.log(insert);
-						connection.query("INSERT INTO branch_promotions SET ?",insert, function(err, result){
-							if(err)
-								console.log(err);
-							c++
-							cb();
-						});
-					}, function(err){
-						if(err)
-							console.log(err);
-						data.error=0;
-						data.promo = {
-							created: true
-						};
-						connection.end((err) => console.log(err));
-						res.json(data);
-					});
-				}
-			}
-		});
-	}else{
-		console.log("Manage error...");
+	if( (dc <= getToday()) && (getToday() <= de) ) {
+
+	} else {
+		console.log("NO Se envia notificación, promoción futura");
 	}
-})
 
 
-router.get('/add', function(req, res, next){
+	connection.query("INSERT INTO promotions SET ?", promo, function(err, result){
+		if(err){
+			connection.end((err) => console.log(err));
+			res.status(errors.ERROR_CLIENT).json(err);
+		}else{
+			if(result.affectedRows==1){
+				let id = result.insertId;
+				let branchs = req.body.branch;
+				let c=0;
+				async.each(branchs, (item, cb) => {
+					let insert = {
+						id_branch: item,
+						id_promotion: id,
+						count: 0,
+						encrypt: shortid.generate(),
+						active: 1
+					};
+					connection.query("INSERT INTO branch_promotions SET ?", insert, (err) => {
+						if(err){
+                            console.log(err);
+						}
+						c++;
+						cb();
+					});
+				}, (err) => {
+					if(err){
+                        console.log(err);
+					}
+					data.error =0;
+					data.promo = {
+						created: true
+					};
+					connection.end((err) => console.log(err));
+					res.status(errors.NO_ERROR).json(data);
+				});
+			}
+		}
+	});
+});
+
+
+router.get('/add', function(req, res){
 
 	if(req.session.level!=1)
 		res.render('index', { title: strings.MAIN_TITLE});
 
-
 	let connection = mysql.createConnection(info_connection);
 	if(req.session.id_business != null){
-		connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business],function(err, rows, fields)
-		{
+		connection.query("SELECT * FROM branch WHERE business_id=?", [req.session.id_business], (err, rows) => {
 			res.render('addPromotion', {title: 'Agregar Promoción', business: rows, levelUser: req.session.level});
 		});
 	}else{
-		console.log("Manage error");
+		console.log("error...");
 	}
-})
+});
 
 
 router.get('/all', function(req, res){
@@ -121,17 +112,16 @@ router.get('/all', function(req, res){
 		res.render('index', { title: strings.MAIN_TITLE});
 
 	let id_business = req.session.id_business;
-	var data = {"error": 1,"promos":""};
-	var connection = mysql.createConnection(info_connection);
+	let data = {"error": 1,"promos":""};
+	let connection = mysql.createConnection(info_connection);
 	connection.query(queries.query_get_full_branch_promotions_by_id_business, [id_business], (err, rows) => {
 
 		if(!err){
-			connection.end(function(err){console.log("connection end...")});
+			connection.end((err) => console.log(err));
 			data.promos = rows;
 			res.render('allPromotions', {title: 'Todas mis promociones', levelUser: req.session.level, data: data})
 		}else{
-			connection.end(function(err){console.log("connection end...")});
-			res.json(data);
+			connection.end((err) => console.log(err));
 		}
 	});
 });
@@ -161,28 +151,38 @@ router.get('/all/:id', function(req, res){
 })
 
 
-function sendPush(title, body, business_promotions){
+function sendPush(name, description, business_promotions){
 	console.log(business_promotions);
+
+	let title = `Nueva promoción en ${business_promotions.name}`;
+	let body = `${name} | ${description}`;
+
 	let connection = mysql.createConnection(info_connection);
 	connection.query(queries.query_get_devices, (err, rows) => {
 		if(err){
 			connection.end((err) => console.log(err));
 		} else {
-			rows.forEach((row) => {
-				let message = {
-					to: row.token,
-					data: {
-						business : business_promotions,
-                        title: title,
-                        body: body
-					}
-				};
 
-                fcm.send(message)
-				.then(response => console.log(response))
-                .catch(error => console.log(error))
+			let tokens = rows.map( (row) => {
+				return row['token'];
 			});
 
+            let message = {
+                registration_ids: tokens,
+                data: {
+                    business : business_promotions,
+                    title: title,
+                    body: body
+                },
+                notification: {
+                    title: title,
+                    body: body
+                }
+            };
+
+            fcm.send(message)
+                .then(response => console.log(response))
+                .catch(error => console.log(error))
 		}
  	});
 }

@@ -1,35 +1,28 @@
 function validateDate(){
 
-	var expired_date = $("#expired_date").val();
-	var created_at = $("#created_at").val();
 
-	var date_created = created_at.split("/");
-	var date_expired = expired_date.split("/");
-	
+	let date_created = new Date(formatDate($("#created_at").val()));
+	let date_expired = new Date(formatDate($("#expired_date").val()));
+	let today = new Date();
+	today.setHours(0,0,0,0);
 
-	dc = new Date(date_created[2],date_created[1]-1,date_created[0])
-	de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
-	today = new Date()
 
-	if((dc.getTime() >= today.getTime()))
-	{
-		if((de.getTime() >= today.getTime()))
-		{
-			
-			if(de.getTime() >= dc.getTime()){
-				postData();
-				console.log("true");
-			}
-			else{
-				swal("La fecha de fin no es válida")
-			}
-		}else{
-			swal("La fecha de fin no es válida")
+    let diff_days = moment(date_expired).diff(date_created, 'days');
+
+    if(diff_days > 0){
+
+		let diff_days_created = moment(date_created).diff(today, 'days');
+		let diff_days_expired = moment(today).diff(date_expired, 'days');
+
+		if(diff_days_created>=0 && diff_days_expired<=0){
+			postData();
+		} else {
+            swal({type:'error',title:'Verifica las fechas'});
 		}
 	}else{
-		console.log("fecha invalida 1");
-		swal("La fecha de inicio no es válida")
+        swal({type:'error',title:'La fecha de fin deber ser mayor a la de inicio.'});
 	}
+
 }
 
 function postData(){
@@ -38,8 +31,6 @@ function postData(){
 	var created_at = $("#created_at").val();
 	var promo_description = $("#promo_description").val();
 	var branch = [];
-	
-
 
 	for(var i=0; i<business.length; i++){
 		if($('#'+business[i].id).is(":checked")){
@@ -50,12 +41,12 @@ function postData(){
 	if(branch.length!=0){
 		
 
-		var promo = {
-			"name": name,
-			"expired_date": expired_date,
-			"created_at": created_at,
-			"promo_description": promo_description,
-			"branch": branch
+		let promo = {
+			name,
+			expired_date,
+			created_at,
+			promo_description,
+			branch
 		};
 		
 		$.ajax({
@@ -65,10 +56,8 @@ function postData(){
 				success: function(data) {
 					console.log(data);
 					if(data.error == 0){
-						swal({title:"Promoción dada de alta de manera exitosa.", text:"Ya puedes visualizar su información en el apartado -Ver todas las promociones-.",type:"success"}).then(
-						function(result) {
-							location.reload();
-						});
+						swal({title:'Promoción dada de alta de manera exitosa.', text:'Ya puedes visualizar su información en el apartado -Ver todas las promociones-.',type:'success'})
+							.then(() => location.reload());
 					}else{
 						swal('Error','Hubo un error al procesar la petición','error');
 					}
@@ -81,6 +70,11 @@ function postData(){
 	}
 	
 	
+}
+
+function formatDate(date){
+    let array_date = date.split('/');
+    return `${array_date[2]}/${array_date[1]}/${array_date[0]}`;
 }
 
 $(document).ready(function() {

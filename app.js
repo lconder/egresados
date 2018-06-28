@@ -16,8 +16,8 @@ global.info_connection = {
 };
 
 global.url = 'http://intrauia.iberopuebla.mx/ServiceIberoPuebla/Service.svc';
-global.key = 'oNZzKNd9Bckq1bGtPYeIWw=='
-global.key_maps = 'AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM'
+global.key = config.authorization_key;
+global.key_maps = config.key_maps;
 
 
 var routes = require('./routes/index');
@@ -103,7 +103,6 @@ app.use('/business_edit', business_edit);
 
 app.use('/web/branch', branch_web);
 app.use('/web/promotion', promotion_web);
-
 
 
 // catch 404 and forward to error handler

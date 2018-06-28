@@ -1,5 +1,4 @@
 {
-	
 	"host_database": "52.41.254.26",
 	"port_database" : "3306",
 	"user_database" : "lconder",
@@ -11,5 +10,8 @@
 	"user_mail": "test@iqbc.com.mx",
 	"password_mail": "u9u8G0U8ty",
 
+	"authorization_key" : "oNZzKNd9Bckq1bGtPYeIWw==",
+
+	"key_maps" : "AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM",
 	"serverKey": "AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5"
 }
