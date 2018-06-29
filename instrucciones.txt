@@ -1,9 +1,0 @@
-Instrucciones para levantar el server en node: 
-
-1.- Descomprimir las carpetas en el archivo .zip
-2.- En una terminal (cmd) ir a la raiz de la carpeta descomprimida 
-3.- (Tener instalado nodejs y express) 
-4.- en el archivo app.js a partir de la linea 13 se encuentran las credenciales de la Base de Datos, modificarlas por las propias.
-5.- Ejecutar la instrucción: npm install
-6.- Ejecutar la instrucción:  node bin/www
-7.- ir a algún navegador a la dirección: localhost:3001

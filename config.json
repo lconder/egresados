@@ -13,5 +13,5 @@
 	"authorization_key" : "oNZzKNd9Bckq1bGtPYeIWw==",
 
 	"key_maps" : "AIzaSyAxOA3exLDCXGH_xKYjmjgGGdyOXDcSscM",
-	"serverKey": "AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5"
+	"server_key_firebase": "AAAAjAIzTrQ:APA91bEgPm6HXYsWgLtqABO86u897OMc-kjDNxaJ1VkNOfhxGlNNrsDmNoxVkGAEHIJOp9luoYwKvmVSpPw18c1CA3grPjklZRzALLDSELTK8qaDUxwNbUBVNx1UD36QnsGaQMv_qRQ5"
 }
