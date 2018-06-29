@@ -25,7 +25,6 @@ let edit_promo = () => {
         },
         dataType: 'json',
         contentType: 'application/json'
-
     });
 
 };

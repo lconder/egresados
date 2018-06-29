@@ -134,16 +134,24 @@ function updateBranches(branches, id_promotion){
         branches.forEach( (b) => {
             connection.query(queries.query_get_branch_promotion, [b.id, id_promotion], (err, rows) => {
 				let id_branch = b.id;
+				let active = b.active || false;
             	if(err)
             		reject(err)
 
                 if(rows.length>0){
-                    handlePromo(0, id_branch, id_promotion);
-                }else{
-            		if(b.active){
-                        handlePromo(1, id_branch, id_promotion);
+                    console.log(`La branch_promotion si existe y la band = ${active}`);
+            		if (active){
+                        handlePromo(2, id_branch, id_promotion);
+					}else{
+                        handlePromo(0, id_branch, id_promotion);
 					}
+                }else{
+                    console.log(`La branch_promotion no existe y la band = ${active}`);
+            		if(active){
+                        handlePromo(1, id_branch, id_promotion);
+					}else{
 
+					}
                 }
             });
         });
@@ -154,22 +162,25 @@ function updateBranches(branches, id_promotion){
 
 function handlePromo(action, id_branch, id_promotion){
 
-	var query;
-	var body;
+	let query;
+	let body;
     let encrypt = shortid.generate();
 
 	switch (action){
 		case 0:
-			query = "UPDATE branch_promotions SET visible=NOT(visible) WHERE id_branch=? AND id_promotion=?;";
+			query = "UPDATE branch_promotions SET visible=0 WHERE id_branch=? AND id_promotion=?;";
 			body = [id_branch, id_promotion];
 			break;
 		case 1:
             query = "INSERT INTO branch_promotions SET ?;";
             body = {id_branch, id_promotion, encrypt};
 			break;
+		case 2:
+            query = "UPDATE branch_promotions SET visible=1 WHERE id_branch=? AND id_promotion=?;";
+            body = [id_branch, id_promotion];
+            break;
 	}
-	console.log(query);
-	console.log(body);
+
     let connection = mysql.createConnection(info_connection);
 	connection.query(query, body, (err, rows) =>{
 		if(err)
