@@ -1,13 +1,15 @@
 let express = require('express');
 let mysql = require('mysql');
+let queries = require('../utils/queries');
 let router = express.Router();
 
-//Obtener las sucursales en las que se encuentra activa cierta promoción.
-router.get('/:id_promotion', function(req, res, next){
-	var data = {"error": 1};
+
+router.get('/:id_promotion', (req, res) => {
+
+	let data = {"error": 1};
+
 	let connection = mysql.createConnection(info_connection);
-	sql = "SELECT b.address, b.latitude, b.longitude, b.name, c.graduated FROM branch_promotions p INNER JOIN branch b ON p.id_branch = b.id  INNER JOIN business c ON c.id = b.business_id WHERE p.id_promotion=?";
-	connection.query(sql, [req.params.id_promotion], function(err, rows, fields){
+	connection.query(queries.query_get_branches_by_promotion, [req.params.id_promotion], (err, rows) => {
 		if(err){
 			res.json({"error":1, "description": err});
 		}else{

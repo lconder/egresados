@@ -21,5 +21,6 @@ module.exports = {
 	query_get_full_promotion: "SELECT b.name AS branch, b.address AS branch_address, b.latitude, b.longitude,s.count, s.active, p.name AS promo, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE s.encrypt=? and s.active=? AND ? BETWEEN p.created_at AND p.expired_at;",
 	query_update_count_in_branch_promotion: "UPDATE branch_promotions SET count=count+1  WHERE encrypt=?;",
 	query_get_branch_promotion: "SELECT * FROM branch_promotions WHERE id_branch=? AND id_promotion=? LIMIT 1;",
-	query_get_full_branch_promotions_by_id_business: "SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=? AND s.visible=1;"
+	query_get_full_branch_promotions_by_id_business: "SELECT b.name as name_branch, b.address, s. * , p.name, p.description FROM branch b INNER JOIN branch_promotions s ON b.id = s.id_branch INNER JOIN promotions p ON p.id = s.id_promotion WHERE b.business_id=? AND s.visible=1;",
+	query_get_branches_by_promotion: "SELECT b.address, b.latitude, b.longitude, b.name, c.graduated FROM branch_promotions p INNER JOIN branch b ON p.id_branch = b.id  INNER JOIN business c ON c.id = b.business_id WHERE p.id_promotion=? AND p.visible=1;"
 };

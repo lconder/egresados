@@ -11,7 +11,6 @@ let strings = require('../utils/strings');
 let errors = require('../utils/error');
 let router = express.Router();
 
-//:TODO
 router.post('/', function(req, res){
 	var data = {"error": 1};
 	let connection = mysql.createConnection(info_connection);
