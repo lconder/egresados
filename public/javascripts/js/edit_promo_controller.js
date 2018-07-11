@@ -51,14 +51,17 @@ $('.toggle-switch').change((e) =>{
 
 
 function cleanBranchesArray(){
-    //cleanBranches = branches.filter( b => b.active==true);
+
     cleanBranches = branches.map( b => {
         return { active: b.active, id: b.id }
     });
 }
 
 function validateBranches(){
-	if(cleanBranches.length<=0)
+
+    let branchesValidated = cleanBranches.filter(b => b.active);
+
+	if(branchesValidated.length<=0)
 		swal('Selecciona al menos una sucursal');
 	else
 		edit_promo();

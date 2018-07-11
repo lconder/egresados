@@ -171,7 +171,7 @@ function sendPush(name, description, business_promotions){
 			let tokens = rows.map( (row) => {
 				return row['token'];
 			});
-			
+
 
             let message = {
                 registration_ids: tokens,
