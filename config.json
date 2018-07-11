@@ -1,8 +1,8 @@
 {
-	"host_database": "52.41.254.26",
-	"port_database" : "3306",
-	"user_database" : "lconder",
-	"password_database": "lconder",
+	"host_database": "127.0.0.1",
+	"port_database" : 3306,
+	"user_database" : "root",
+	"password_database": "",
 	"database" : "ibero",
 
 	"host_mail": "atenea.hosting-mexico.net",

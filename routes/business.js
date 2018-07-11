@@ -4,7 +4,6 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 var async = require('async');
 var generateDocx = require('generate-docx');
-var fs = require('fs');
 var moment = require('moment');
 var shortid = require('shortid');
 var sha1 = require('sha1');
@@ -191,16 +190,15 @@ router.post('/', function(req, res, next){
 				addBusiness(business)
 				.then(id_business => {
 
-					console.log("negocio creado")
-					req.session.id_business = id_business
-					console.log(fullAddress)
+					console.log("negocio creado");
+					req.session.id_business = id_business;
+					console.log(fullAddress);
 
 					generateDoc(options)
 					.then(doc_created => {
 
 						if(doc_created.ok==1){
 
-							console.log("doc creado")
 							Promise.all([sendEmailtoAdmin(), sendEmailToAttendant(req.body.email, password)])
 							.then(values => {
 								console.log(values)
@@ -229,7 +227,7 @@ router.post('/', function(req, res, next){
 
 })
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 router.post('/activate/', function(req, res, next){
 	var data = {"error":1};
 	var id = req.body.id;
@@ -246,7 +244,6 @@ router.post('/activate/', function(req, res, next){
 });
 
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 router.get('/:id/', function(req, res, next){
 
 	if(req.session.level!=0){
@@ -310,16 +307,15 @@ function addBusiness(business){
 	return new Promise(function(resolve, reject){
 
 		connection.query("INSERT INTO business SET ?", business, function(err, result){
-			//console.log(err, result)
 			if(err){
-				connection.end(function(err){console.log("connection end.")});
+                connection.end((err)=>{console.log(err)});
 				reject(err)
 			}else{
 				if(result.affectedRows==1){
-					connection.end(function(err){console.log("connection end..")});
+					connection.end((err)=>{console.log(err)});
 					resolve(result.insertId)
 				}else{
-					connection.end(function(err){console.log("connection end...")});
+                    connection.end((err)=>{console.log(err)});
 					reject("Error creando negocio")
 				}
 			}

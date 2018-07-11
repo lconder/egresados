@@ -9,16 +9,20 @@ let fcm = new FCM(serverKey);
 let queries = require('../utils/queries');
 let strings = require('../utils/strings');
 let errors = require('../utils/error');
+let moment = require('moment');
 let router = express.Router();
 
 router.post('/', function(req, res){
-	var data = {"error": 1};
+	var data = {error: 1};
 	let connection = mysql.createConnection(info_connection);
-	let date_expired = req.body.expired_date.split("/");
-	let date_created = req.body.created_at.split("/");
-	let de = new Date(date_expired[2],date_expired[1]-1,date_expired[0])
-	let dc = new Date(date_created[2],date_created[1]-1,date_created[0])
+	let date_expired = req.body.expired_date;
+	let date_created = req.body.created_at;
+	let de = new Date(formatDate(date_expired));
+	let dc = new Date(formatDate(date_created));
+	let today = new Date();
+	today.setHours(0,0,0,0);
 	let id_business = req.session.id_business;
+
 
 	let promo = {
 		name: req.body.name,
@@ -29,23 +33,25 @@ router.post('/', function(req, res){
 		business_id: id_business
 	};
 
-	getBussinessById(id_business)
-	.then(business => {
-		getPromosByBusiness(id_business)
-			.then(promos => {
-				business[0].promotions = promos;
-				sendPush(req.body.name, req.body.promo_description, business[0]);
-			})
-			.catch(err => console.error(err))
-	})
-	.catch(err => console.error(err));
+	let diff_days_created = moment(dc).diff(today, 'days');
 
-
-	if( (dc <= getToday()) && (getToday() <= de) ) {
-
-	} else {
-		console.log("NO Se envia notificación, promoción futura");
+	console.log(diff_days_created);
+	if(diff_days_created <= 0) {
+        console.log("Se envia notificación");
+        getBussinessById(id_business)
+            .then(business => {
+                getPromosByBusiness(id_business)
+                    .then(promos => {
+                        business[0].promotions = promos;
+                        sendPush(req.body.name, req.body.promo_description, business[0]);
+                    })
+                    .catch(err => console.error(err))
+            })
+            .catch(err => console.error(err));
+	}else{
+        console.log("NO Se envia notificación, promoción futura");
 	}
+
 
 
 	connection.query("INSERT INTO promotions SET ?", promo, function(err, result){
@@ -235,6 +241,11 @@ function getPromosByBusiness(id_business) {
 		});
 
     });
+}
+
+function formatDate(date){
+    let array_date = date.split('/');
+    return `${array_date[2]}/${array_date[1]}/${array_date[0]}`;
 }
 
 
