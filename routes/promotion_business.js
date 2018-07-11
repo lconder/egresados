@@ -157,7 +157,7 @@ router.get('/all/:id', function(req, res){
 
 
 function sendPush(name, description, business_promotions){
-	console.log(business_promotions);
+
 
 	let title = `Nueva promoción en ${business_promotions.name}`;
 	let body = `${name} | ${description}`;
@@ -171,6 +171,7 @@ function sendPush(name, description, business_promotions){
 			let tokens = rows.map( (row) => {
 				return row['token'];
 			});
+			
 
             let message = {
                 registration_ids: tokens,
@@ -190,21 +191,6 @@ function sendPush(name, description, business_promotions){
                 .catch(error => console.log(error))
 		}
  	});
-}
-
-function getToday(){
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth();
-	var yyyy = today.getFullYear();
-
-	if(dd<10)
-	    dd = '0'+dd
-
-	if(mm<10)
-	    mm = '0'+mm
-
-	return new Date()
 }
 
 function getBussinessById(id_business){
