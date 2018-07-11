@@ -62,3 +62,5 @@ public/templates/agreement.docx
 
 .idea
 /.idea
+
+package-lock.json
