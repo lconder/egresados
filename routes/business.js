@@ -346,7 +346,7 @@ function sendEmailtoAdmin(){
 	return new Promise(function(resolve, reject){
 		transporter.sendMail({
 			from: config.user_mail,
-			to: 'michael.sanchez@iberopuebla.mx',
+			to: config.email_admin,
 			subject: 'Nuevo establecimiento registrado',
 			text: 'Se ha ingresado un nuevo convenio ve a tu panel de control para poder activarlo',
 			attachments: [{
