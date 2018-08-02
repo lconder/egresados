@@ -7,7 +7,6 @@ var errors = require('../utils/error');
 var objects = require('../utils/objects');
 var router = express.Router();
 
-
 router.get('/:id', function(req, res, next){
 
 	var data = {"error": 1, "promotion":""};
@@ -57,7 +56,7 @@ router.post('/:id', function(req, res){
 	});
 });
 
-router.put('/:id', (req,res) => {
+router.put('/:id/', (req,res) => {
 
 	let id = req.params.id;
 	let branches = req.body.branches;
@@ -80,13 +79,13 @@ router.put('/:id', (req,res) => {
         }
 
 	});
-
 });
 
 
-router.put('/activate/', function(req, res, next){
+router.patch('/activate/', function(req, res, next){
 	var data = {"error":1};
 	console.log(req.body);
+	console.log('req.body');
 	var id = req.body.id;
 	var status = req.body.status;
 	var connection = mysql.createConnection(info_connection);

@@ -5,7 +5,7 @@ function makeQR(b){
 	qrcode.makeCode(b.id);
 }
 
-function deletePromotion(but){
+function deletePromotion(but) {
 	var status = but.name;
 	var id = but.id;
 	var object_post;
@@ -21,17 +21,18 @@ function deletePromotion(but){
 		};
 	}
 	$.ajax({
-		type: 'PUT',
+		type: 'PATCH',
 		url: '/promotion/activate',
 		data: JSON.stringify(object_post),
 		success: function(data) {
 			if(data.error==0 && data.updated==true){
-				swal({title:"Se ha modificado la promoción.", text:"Se ha actualizado el estado de esta promoción.",type:"success"}).then(
+				swal({title:"Se ha modificado la promoción.", text:"Se ha actualizado el estado de esta promoción.", type:"success"}).then(
 					function(result) {
 						location.reload();
 					});
+			}else{
+				swal('error');
 			}
-			//swal("Convenio no activado", "El usuario y password con el que se intenta acceder se encuentra actualmente desactivado.")
 		},
 		contentType: "application/json",
 		dataType: 'json'
