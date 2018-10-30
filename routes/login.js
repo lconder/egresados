@@ -3,6 +3,7 @@ let mysql = require('mysql');
 let request = require('request');
 let router = express.Router();
 let iconv  = require('iconv-lite');
+let utf8  = require('utf8');
 
 
 router.post('/', function(req, res, next){
@@ -280,12 +281,17 @@ function login_egresado(user, password){
 
 
 	password = iconv.decode(new Buffer(password), "ISO-8859-1");
+	
     console.log("Login consumiendo los servicios web de ibero con usuario: "+user+" y password: "+password);
     console.log(url+'/LoginEgresado?x='+user+'&y='+password+'&k='+key);
 
 	return new Promise(function(resolve, reject) {
 
-		request(url+'/LoginEgresado?x='+user+'&y='+password+'&k='+key, function(error, response, body){
+		let options = {
+			uri: url+'/LoginEgresado?x='+user+'&y='+password+'&k='+key
+		}
+
+		request(options, (error, response, body) => {
 
 			if(!error && response.statusCode == 200){
 

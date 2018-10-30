@@ -22,12 +22,23 @@ var transporter = nodemailer.createTransport({
 
 router.get('/', function(req, res, next) {
 
+	let page = req.query.page;
+	let offset = 0;
+	let limit = 5;
+
+	if(page) 
+		offset = page*limit;
+
+	console.log(offset)
+
 	var data = {
 		"error": 1,
 		"business":""
 	};
+
+	console.log(query.query_get_business_order_by_name + ' LIMIT 5 OFFSET ' + offset)
 	var connection = mysql.createConnection(info_connection);
-	connection.query(query.query_get_business_order_by_name, (err, rows, fields) => {
+	connection.query(query.query_get_business_order_by_name + ' LIMIT 5 OFFSET ' + offset, (err, rows, fields) => {
 		if(err)
 			res.json(data);
 		else{
@@ -38,7 +49,7 @@ router.get('/', function(req, res, next) {
 
 				var c=0;
 				var today = getToday();
-				async.each(business, function(item, cb){
+				async.each(business, function(item, cb) {
 					connection.query("SELECT * FROM promotions WHERE business_id=? AND ? BETWEEN created_at AND expired_at",[item.id, today], function(err, rows, fields){
 						if(err)
 							console.log(err);

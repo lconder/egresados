@@ -13,7 +13,7 @@ router.post('/address/', (req, res) => {
     let lng = req.body.lng;
     let url_maps = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${key_maps}`;
 
-    console.log(req.body);
+    console.log(url_maps);
 
     request(url_maps, (error, response, body) => {
         if (!error && response.statusCode==200) {
