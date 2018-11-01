@@ -31,7 +31,7 @@ router.post('/', function(req, res, next){
 
 							if(egresado.error==1){
 								registrar_egresado(data_general, data_laboral)
-								.then(registrado =>{
+								.then(registrado => {
 
 									res.json({
 										'error' : 0,
@@ -136,8 +136,8 @@ function registrar_egresado(student, student_job){
 		business_name: 		student_job.business_name,
 		business_type: 		student_job.business_type,
 		position: 			student_job.position,
-		month_start: 		array_date[1],
-		year_start: 		array_date[0]
+		month_start: 		(!array_date[1]) ? 0 : array_date[1],
+		year_start: 		(!array_date[0]) ? 0 : array_date[0]
 	};	
 	//console.log(post);
 	return new Promise(function(resolve, reject){

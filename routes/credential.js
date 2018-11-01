@@ -81,6 +81,9 @@ router.post('/img/:id_student', function(req, res) {
 
 });
 
+/**
+*
+*/
 router.put('/', function(req, res, next){
 	console.log("Edición de datos de un alumno");
 	console.log(req.body)
