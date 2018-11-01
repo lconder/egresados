@@ -58,11 +58,19 @@ router.post('/', function(req, res){
     });
 });
 
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
+
+    let page = req.query.page;
+    let offset = 0;
+    let limit = 10;
+
+    if(page)
+        offset = page*limit;
 
 	let data = {error: 1, business: []};
 	let connection = mysql.createConnection(info_connection);
-	connection.query(query.query_get_business_and_branchs, (err, rows) => {
+	console.log(query.query_get_business_and_branchs+ ' LIMIT 10 OFFSET ' + offset);
+	connection.query(query.query_get_business_and_branchs+ ' LIMIT 10 OFFSET ' + offset, (err, rows) => {
 
 		if(err){
 			connection.end( (err) => console.error(err));

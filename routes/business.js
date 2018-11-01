@@ -24,21 +24,18 @@ router.get('/', function(req, res, next) {
 
 	let page = req.query.page;
 	let offset = 0;
-	let limit = 5;
+	let limit = 10;
 
 	if(page) 
 		offset = page*limit;
 
-	console.log(offset)
-
-	var data = {
+	let data = {
 		"error": 1,
 		"business":""
 	};
 
-	console.log(query.query_get_business_order_by_name + ' LIMIT 5 OFFSET ' + offset)
 	var connection = mysql.createConnection(info_connection);
-	connection.query(query.query_get_business_order_by_name + ' LIMIT 5 OFFSET ' + offset, (err, rows, fields) => {
+	connection.query(query.query_get_business_order_by_name + ' LIMIT 10 OFFSET ' + offset, (err, rows, fields) => {
 		if(err)
 			res.json(data);
 		else{
