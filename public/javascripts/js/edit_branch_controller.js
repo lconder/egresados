@@ -6,7 +6,6 @@ let edit_branch = () => {
 
     let name = name_input.val();
     let address = address_input.val();
-
     let editData = {name, address, latitude, longitude};
 
     $.ajax({
@@ -59,7 +58,8 @@ var getAddressReverse = (lat, lng) => {
         success: (data) => {
             address_input.val(data.address);
         },
-        error: () => {
+        error: (err) => {
+            console.error(err);
             showError();
         },
         dataType: 'json',

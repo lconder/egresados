@@ -47,7 +47,6 @@ router.get('/all/:id', (req, res) => {
             connection.end((err) => console.error(err));
         else
             res.render('allBranch', {title: strings.ALL_BRANCHES, business: rows, levelUser: req.session.level});
-
     });
 });
 
