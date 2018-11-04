@@ -5,7 +5,7 @@ var async = require('async');
 var query = require('../utils/queries');
 
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
 	
 	var connection = mysql.createConnection(info_connection);
 	connection.query(query.query_get_categories, (err, rows, fields) => { 
@@ -19,7 +19,8 @@ router.get('/', (req, res, next) => {
 });
 
 
-router.get('/:id', function(req, res, next){
+router.get('/:id', (req, res) => {
+
 	console.log('Get categories by id_business_type');
 
 	let id_business_type = req.params.id;
@@ -36,14 +37,22 @@ router.get('/:id', function(req, res, next){
 
 
 
-router.get('/business/:id/', function(req, res, next) {
+router.get('/business/:id/', (req, res) => {
+
+    let page = req.query.page;
+    let offset = 0;
+    let limit = 10;
+
+    if(page)
+        offset = page*limit;
 	 
-	var data = {'error': 1, 'business':""};
-	var connection = mysql.createConnection(info_connection);
-	connection.query("SELECT * FROM business WHERE categorie=?", [req.params.id],function(err, rows, fields){
+	let data = {'error': 1, 'business':""};
+	let connection = mysql.createConnection(info_connection);
+
+	connection.query("SELECT * FROM business WHERE categorie=? LIMIT 10 OFFSET " + offset, [req.params.id], (err, rows, fields) => {
 		if(err)
 			res.json(data);
-		else{
+		else {
 			if(rows.length != 0)
 			{
 				data.error = 0;

@@ -5,11 +5,18 @@ var async = require('async');
 var query = require('../utils/queries');
 
 
-router.get('/:state/', function(req, res, next) {
-	console.log("Get All Business from state")
-	var data = {"error": 1,"business":""};
-	var connection = mysql.createConnection(info_connection);
-	connection.query(query.query_get_business_by_state_order_by_name, [req.params.state],function(err, rows, fields){
+router.get('/:state/', (req, res) => {
+
+    let page = req.query.page;
+    let offset = 0;
+    let limit = 10;
+
+    if(page)
+        offset = page*limit;
+
+	let data = {"error": 1,"business":""};
+	let connection = mysql.createConnection(info_connection);
+	connection.query(query.query_get_business_by_state_order_by_name+ ' LIMIT 10 OFFSET ' + offset, [req.params.state],function(err, rows, fields){
 		if(err)
 			res.json(data);
 		else{
